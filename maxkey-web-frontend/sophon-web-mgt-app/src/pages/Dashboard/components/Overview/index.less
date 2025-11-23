@@ -1,0 +1,45 @@
+.stat-card {
+  border-radius: 4px;
+  padding: 16px;
+  color: #fff;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+
+  &.bg-primary {
+    background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  }
+
+  &.bg-success {
+    background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);
+  }
+
+  &.bg-orange {
+    background: linear-gradient(135deg, #fa8c16 0%, #d46b08 100%);
+  }
+
+  &.bg-magenta {
+    background: linear-gradient(135deg, #eb2f96 0%, #c41d7f 100%);
+  }
+
+  .stat-card-content {
+    width: 100%;
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .stat-title {
+      font-size: 14px;
+      color: #fff;
+      margin: 8px 0 0 0;
+      white-space: nowrap;
+      opacity: 0.95;
+    }
+  }
+}
+

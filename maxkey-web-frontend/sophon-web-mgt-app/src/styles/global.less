@@ -1,0 +1,219 @@
+/* 全局样式 */
+@import 'antd/dist/reset.css';
+@import './theme.less';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 页面容器 */
+.page-container {
+  padding: 24px;
+  background: #fff;
+  min-height: calc(100vh - 112px);
+}
+
+/* ============================================
+ * Ant Design Pro 全局样式覆盖
+ * 根据主题密度自动调整
+ * ============================================ */
+
+// PageContainer 样式（使用CSS变量支持动态切换）
+.ant-pro-page-container-children-container {
+  padding-block-start: @page-container-padding-top !important;
+  padding-block-end: var(--page-container-padding-bottom, @page-container-padding-bottom) !important;
+  padding-inline: var(--page-container-padding-horizontal, @page-container-padding-horizontal) !important;
+}
+
+// PageHeader Breadcrumb 样式（使用CSS变量支持动态切换）
+.ant-pro-page-container {
+  .ant-pro-page-container-warp-page-header {
+    margin-bottom: var(--page-header-breadcrumb-margin-bottom, @page-header-breadcrumb-margin-bottom) !important;
+    
+    .ant-page-header-breadcrumb {
+      padding-block-start: var(--page-header-breadcrumb-padding-top, @page-header-breadcrumb-padding-top) !important;
+      padding-block-end: var(--page-header-breadcrumb-padding-bottom, @page-header-breadcrumb-padding-bottom) !important;
+      margin-bottom: 0 !important;
+      
+      .ant-breadcrumb {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 13px;
+        
+        .ant-breadcrumb-link {
+          padding: 0 4px;
+        }
+        
+        .ant-breadcrumb-separator {
+          margin: 0 4px;
+        }
+      }
+    }
+    
+    .ant-page-header-heading {
+      margin-bottom: var(--page-header-title-margin-bottom, @page-header-title-margin-bottom) !important;
+      margin-top: 0 !important;
+      
+      .ant-page-header-heading-title {
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+// ProCard 样式（使用CSS变量支持动态切换）
+.ant-pro-card {
+  margin-bottom: var(--card-margin-bottom, @card-margin-bottom) !important;
+  
+  .ant-pro-card-head {
+    padding: var(--card-head-padding, @card-head-padding) !important;
+    min-height: auto;
+  }
+  
+  .ant-pro-card-body {
+    padding: var(--card-body-padding, @card-body-padding) !important;
+  }
+}
+
+// QueryFilter 样式（覆盖默认24px padding）
+.ant-pro-query-filter {
+  padding: 8px 12px !important;
+  
+  .ant-pro-query-filter-container {
+    padding: 0 !important;
+  }
+}
+
+// ProTable 样式（使用CSS变量支持动态切换）
+.ant-pro-table {
+  // 搜索栏样式（覆盖默认24px padding）
+  .ant-pro-table-search {
+    margin-bottom: 4px !important;
+    padding: 8px 12px !important;
+    
+    .ant-pro-table-search-option {
+      margin-bottom: 0 !important;
+    }
+    
+    .ant-form {
+      margin-bottom: 0 !important;
+    }
+  }
+  
+  // 工具栏样式（覆盖默认padding）
+  .ant-pro-table-list-toolbar {
+    padding: 4px 12px !important;
+    margin-top: 0 !important;
+  }
+  
+  // 表格单元格样式（使用CSS变量支持动态切换）
+  .ant-table {
+    .ant-table-thead > tr > th {
+      padding: var(--table-cell-padding, @table-cell-padding) !important;
+    }
+    
+    .ant-table-tbody > tr > td {
+      padding: var(--table-cell-padding, @table-cell-padding) !important;
+    }
+  }
+}
+
+// Form 样式（使用CSS变量支持动态切换）
+.ant-pro-form {
+  .ant-form-item {
+    margin-bottom: var(--form-item-margin-bottom, @form-item-margin-bottom) !important;
+    
+    .ant-form-item-label {
+      padding-bottom: var(--form-label-padding-bottom, @form-label-padding-bottom) !important;
+    }
+  }
+}
+
+.ant-form-item {
+  margin-bottom: var(--form-item-margin-bottom, @form-item-margin-bottom) !important;
+  
+  .ant-form-item-label {
+    padding-bottom: var(--form-label-padding-bottom, @form-label-padding-bottom) !important;
+  }
+}
+
+// Modal 样式（使用CSS变量支持动态切换）
+.ant-modal {
+  .ant-modal-header {
+    padding: var(--modal-header-padding, @modal-header-padding) !important;
+  }
+  
+  .ant-modal-body {
+    padding: var(--modal-body-padding, @modal-body-padding) !important;
+  }
+  
+  .ant-modal-footer {
+    padding: var(--modal-footer-padding, @modal-footer-padding) !important;
+  }
+}
+
+// Tabs 样式（使用CSS变量支持动态切换）
+.ant-tabs {
+  .ant-tabs-tab {
+    padding: var(--tabs-tab-padding, @tabs-tab-padding) !important;
+  }
+  
+  .ant-tabs-content-holder {
+    padding: var(--tabs-content-padding, @tabs-content-padding) !important;
+  }
+}
+
+// Space 组件样式
+.ant-space {
+  gap: @space-size !important;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .ant-pro-page-container-children-container {
+    padding-block-end: calc(@page-container-padding-bottom / 2) !important;
+    padding-inline: calc(@page-container-padding-horizontal / 2) !important;
+  }
+  
+  .ant-pro-card {
+    .ant-pro-card-body {
+      padding: calc(@card-body-padding / 2) !important;
+    }
+  }
+}

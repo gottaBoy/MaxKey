@@ -1,0 +1,339 @@
+.user-list-page {
+  .ant-pro-page-container {
+    padding: 8px;
+  }
+
+  .ant-pro-card {
+    margin-bottom: 8px;
+  }
+
+  // 左侧组织树样式
+  .ant-pro-card-body {
+    padding: 8px;
+  }
+
+  // 组织树卡片样式
+  .organization-tree-card {
+    height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
+    
+    .ant-pro-card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+  }
+
+  // 组织树容器样式
+  .organization-tree-container {
+    flex: 1;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    min-height: 0;
+    max-height: 100%;
+    
+    // 自定义滚动条样式
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+
+      &:hover {
+        background: #555;
+      }
+    }
+  }
+
+  // Spin 容器也需要 flex 布局
+  .ant-spin-nested-loading {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    
+    .ant-spin-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+  }
+
+  .ant-tree {
+    font-size: 13px;
+    background: transparent;
+
+    .ant-tree-node-content-wrapper {
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      line-height: 24px;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &.ant-tree-node-selected {
+        background-color: #e6f7ff !important;
+        color: #1890ff;
+      }
+    }
+
+    .ant-tree-switcher {
+      line-height: 24px;
+      width: 20px;
+    }
+
+    .ant-tree-title {
+      line-height: 24px;
+    }
+  }
+
+  // 表格工具栏（使用CSS变量支持动态切换）
+  .ant-pro-table-list-toolbar {
+    padding: var(--table-toolbar-padding, 8px 12px) !important;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  // 表格样式
+  .ant-pro-table {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+
+    .ant-pro-table-list-toolbar {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .ant-table-wrapper {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    .ant-table {
+      font-size: 13px;
+      width: 100%;
+      max-width: 100%;
+      table-layout: auto;
+
+      .ant-table-container {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+
+      .ant-table-content {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      .ant-table-thead > tr > th {
+        background: #fafafa;
+        font-weight: 600;
+        // 使用CSS变量支持动态切换
+        padding: var(--table-cell-padding, 8px 12px) !important;
+        border-bottom: 1px solid #f0f0f0;
+        white-space: nowrap;
+      }
+
+      .ant-table-tbody > tr > td {
+        // 使用CSS变量支持动态切换
+        padding: var(--table-cell-padding, 8px 12px) !important;
+        border-bottom: 1px solid #f0f0f0;
+        word-break: break-word;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .ant-table-tbody > tr:hover > td {
+        background-color: #fafafa;
+      }
+
+      .ant-table-tbody > tr.ant-table-row-selected > td {
+        background-color: #e6f7ff;
+      }
+    }
+  }
+
+  // 操作按钮样式
+  .ant-btn-link {
+    padding: 0 4px;
+    height: auto;
+    line-height: 1.5;
+    font-size: 13px;
+  }
+
+  // 状态图标样式
+  .status-icon {
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  // 响应式布局
+  @media (max-width: 1200px) {
+    .ant-col {
+      margin-bottom: 8px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ant-pro-page-container {
+      padding: 4px;
+    }
+
+    .ant-pro-card-body {
+      padding: 8px;
+    }
+
+    .ant-col {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+// 全局样式优化（使用主题变量）
+.ant-pro-card {
+  .ant-pro-card-head {
+    // 使用全局主题变量，不再硬编码
+    border-bottom: 1px solid #f0f0f0;
+    min-height: 40px;
+
+    .ant-pro-card-head-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .ant-pro-card-extra {
+    .ant-space {
+      .ant-btn {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
+// 表格边框样式（类似 Angular 版本的 grid-border）
+.grid-border {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 8px;
+  background: #fff;
+  margin-bottom: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 6px;
+    margin-bottom: 6px;
+  }
+}
+
+// 模态框样式优化（使用全局主题变量，不再硬编码）
+.ant-modal {
+  .ant-modal-header {
+    // 使用全局主题变量，不再硬编码
+    border-bottom: 1px solid #f0f0f0;
+
+    .ant-modal-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+
+  .ant-modal-body {
+    // 使用全局主题变量，不再硬编码
+  }
+
+  .ant-modal-footer {
+    // 使用全局主题变量，不再硬编码
+    border-top: 1px solid #f0f0f0;
+  }
+}
+
+// Tabs 样式优化（使用全局主题变量，不再硬编码）
+.ant-tabs {
+  .ant-tabs-tab {
+    // 使用全局主题变量，不再硬编码
+    font-size: 13px;
+  }
+
+  .ant-tabs-content-holder {
+    // 使用全局主题变量，不再硬编码
+  }
+
+  .ant-tabs-content {
+    .ant-tabs-tabpane {
+      padding: 0;
+    }
+  }
+}
+
+// 表单样式优化（使用全局主题变量，不再硬编码）
+.ant-pro-form {
+  .ant-pro-form-group {
+    // 使用全局主题变量，不再硬编码
+  }
+
+  .ant-form-item {
+    // 使用全局主题变量，不再硬编码
+  }
+}
+
+// 紧凑的表单布局（使用全局主题变量）
+.ant-form-item {
+  // 使用全局主题变量，不再硬编码
+
+  .ant-form-item-label {
+    // 使用全局主题变量，不再硬编码
+
+    > label {
+      font-size: 13px;
+      height: 24px;
+      line-height: 24px;
+    }
+  }
+
+  .ant-form-item-control-input {
+    min-height: 28px;
+  }
+}
+
+// 搜索栏和工具栏样式已在 global.less 中统一设置
+
+// 响应式表单
+@media (max-width: 768px) {
+  .ant-form-item {
+    margin-bottom: 8px;
+  }
+
+  .ant-row {
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+
+    .ant-col {
+      padding-left: 8px !important;
+      padding-right: 8px !important;
+    }
+  }
+}

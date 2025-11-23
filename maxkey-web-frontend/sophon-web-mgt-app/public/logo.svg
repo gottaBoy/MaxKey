@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 外圆 -->
+  <circle cx="100" cy="100" r="90" fill="url(#gradient)" opacity="0.1"/>
+  
+  <!-- 主图形 - S 形状 -->
+  <path d="M 70 60 Q 50 60 50 80 Q 50 100 70 100 L 130 100 Q 150 100 150 120 Q 150 140 130 140 L 70 140" 
+        stroke="url(#gradient)" 
+        stroke-width="12" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- 装饰点 -->
+  <circle cx="70" cy="60" r="8" fill="url(#gradient)"/>
+  <circle cx="70" cy="140" r="8" fill="url(#gradient)"/>
+  
+  <!-- 内圆装饰 -->
+  <circle cx="100" cy="100" r="50" fill="none" stroke="url(#gradient)" stroke-width="2" opacity="0.3"/>
+</svg>

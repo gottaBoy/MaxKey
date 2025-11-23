@@ -1,0 +1,158 @@
+.organization-list {
+  .ant-pro-page-container {
+    padding: 0;
+  }
+
+  // 使用全局主题变量，不再硬编码 padding 和 margin
+
+  // 组织树卡片样式
+  .organization-tree-card {
+    height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
+    
+    .ant-pro-card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+  }
+
+  // 组织树容器样式
+  .organization-tree-container {
+    flex: 1;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    min-height: 0;
+    max-height: 100%;
+    
+    // 自定义滚动条样式
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+
+      &:hover {
+        background: #555;
+      }
+    }
+  }
+
+  // Spin 容器也需要 flex 布局
+  .ant-spin-nested-loading {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    
+    .ant-spin-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+  }
+
+  .ant-tree {
+    font-size: 14px;
+    background: transparent;
+
+    .ant-tree-node-content-wrapper {
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &.ant-tree-node-selected {
+        background-color: #e6f7ff !important;
+        color: #1890ff;
+      }
+    }
+
+    .ant-tree-switcher {
+      line-height: 32px;
+    }
+
+    .ant-tree-title {
+      line-height: 32px;
+    }
+  }
+
+  // 表格工具栏（使用CSS变量支持动态切换）
+  .ant-pro-table-list-toolbar {
+    padding: var(--table-toolbar-padding, 12px 16px) !important;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  // 表格样式
+  .ant-pro-table {
+    .ant-table {
+      font-size: 14px;
+
+      .ant-table-thead > tr > th {
+        background: #fafafa;
+        font-weight: 600;
+        // 使用CSS变量支持动态切换
+        padding: var(--table-cell-padding, 12px 16px) !important;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .ant-table-tbody > tr > td {
+        // 使用CSS变量支持动态切换
+        padding: var(--table-cell-padding, 12px 16px) !important;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .ant-table-tbody > tr:hover > td {
+        background-color: #fafafa;
+      }
+
+      .ant-table-tbody > tr.ant-table-row-selected > td {
+        background-color: #e6f7ff;
+      }
+    }
+  }
+
+  // 操作按钮样式
+  .ant-btn-link {
+    padding: 0 8px;
+    height: auto;
+    line-height: 1.5;
+  }
+
+  // 响应式布局
+  @media (max-width: 768px) {
+    .ant-col {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+// 搜索栏和工具栏样式已在 global.less 中统一设置
+
+// 表格边框样式（类似 Angular 版本的 grid-border，使用全局主题变量）
+.grid-border {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  // 使用全局主题变量，不再硬编码
+  background: #fff;
+  // 使用全局主题变量，不再硬编码
+
+  @media (max-width: 768px) {
+    // 使用全局主题变量，不再硬编码
+  }
+}

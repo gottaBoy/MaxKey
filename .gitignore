@@ -52,7 +52,17 @@ maxkey-web-frontend/maxkey-web-mgt-app/dist
 maxkey-web-frontend/maxkey-web-app/node_modules/
 maxkey-web-frontend/maxkey-web-app/.angular/
 maxkey-web-frontend/maxkey-web-app/yarn.lock
-maxkey-web-frontend/maxkey-web-app/dist
+
+maxkey-web-frontend/sophon-web-mgt-app/node_modules/
+maxkey-web-frontend/sophon-web-mgt-app/.angular
+maxkey-web-frontend/sophon-web-mgt-app/yarn.lock
+maxkey-web-frontend/sophon-web-mgt-app/dist
+
+maxkey-web-frontend/sophon-web-app/node_modules/
+maxkey-web-frontend/sophon-web-app/.angular/
+maxkey-web-frontend/sophon-web-app/yarn.lock
+maxkey-web-frontend/sophon-web-app/dist
+maxkey-web-frontend/sophon-web-app/dist
 
 **/out/*
 /.sonarlint

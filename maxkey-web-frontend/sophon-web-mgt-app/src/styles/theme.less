@@ -1,0 +1,137 @@
+/* 
+ * 主题密度配置
+ * 提供三种密度选项：宽松（loose）、中等（medium）、紧凑（compact）
+ * 通过修改 @density 变量来切换主题
+ * 
+ * 使用方法：
+ * 1. 修改下面的 @density 变量为 'loose'、'medium' 或 'compact'
+ * 2. 重新编译样式即可生效
+ */
+
+// ============================================
+// 主题密度选择
+// ============================================
+@density: compact; // loose | medium | compact
+
+// ============================================
+// 根据密度选择应用变量值
+// ============================================
+
+// PageContainer 变量
+@page-container-padding-top: 0;
+@page-container-padding-bottom: 8px;
+@page-container-padding-horizontal: 8px;
+
+// Card 变量
+@card-padding: 8px;
+@card-head-padding: 8px 12px;
+@card-body-padding: 8px;
+@card-margin-bottom: 8px;
+
+// Table 变量
+@table-cell-padding: 8px 12px;
+@table-toolbar-padding: 8px 12px;
+
+// Form 变量
+@form-item-margin-bottom: 8px;
+@form-label-padding-bottom: 4px;
+
+// Modal 变量
+@modal-header-padding: 8px 12px;
+@modal-body-padding: 12px;
+@modal-footer-padding: 8px 12px;
+
+// Tabs 变量
+@tabs-tab-padding: 8px 12px;
+@tabs-content-padding: 6px 0;
+
+// Space 变量
+@space-size: 8px;
+@row-gutter: 12px;
+
+// PageHeader 变量
+@page-header-breadcrumb-padding-top: 4px;
+@page-header-breadcrumb-padding-bottom: 4px;
+@page-header-breadcrumb-margin-bottom: 4px;
+@page-header-title-margin-bottom: 4px;
+
+// ============================================
+// 密度主题覆盖函数
+// ============================================
+.set-density(@d) when (@d = loose) {
+  @page-container-padding-top: 0;
+  @page-container-padding-bottom: 20px; // 比默认 24px 小
+  @page-container-padding-horizontal: 24px; // 比默认 40px 小
+  @card-padding: 16px; // 比默认 24px 小
+  @card-head-padding: 12px 16px; // 比默认 16px 24px 小
+  @card-body-padding: 16px; // 比默认 24px 小
+  @card-margin-bottom: 16px; // 比默认 24px 小
+  @table-cell-padding: 12px 16px; // 比默认 16px 小
+  @table-toolbar-padding: 12px 16px; // 比默认 16px 24px 小
+  @form-item-margin-bottom: 16px; // 比默认 24px 小
+  @form-label-padding-bottom: 6px; // 比默认 8px 小
+  @modal-header-padding: 12px 16px; // 比默认 16px 24px 小
+  @modal-body-padding: 16px; // 比默认 24px 小
+  @modal-footer-padding: 8px 12px; // 比默认 10px 16px 小
+  @tabs-tab-padding: 10px 14px; // 比默认 12px 16px 小
+  @tabs-content-padding: 16px 0; // 比默认 24px 0 小
+  @space-size: 12px; // 比默认 16px 小
+  @row-gutter: 16px; // 比默认 24px 小
+  @page-header-breadcrumb-padding-top: 12px; // 比默认 16px 小
+  @page-header-breadcrumb-padding-bottom: 12px; // 比默认 16px 小
+  @page-header-breadcrumb-margin-bottom: 8px; // 比默认 12px 小
+  @page-header-title-margin-bottom: 8px; // 比默认 12px 小
+}
+
+.set-density(@d) when (@d = medium) {
+  @page-container-padding-top: 0;
+  @page-container-padding-bottom: 16px;
+  @page-container-padding-horizontal: 24px;
+  @card-padding: 16px;
+  @card-head-padding: 12px 16px;
+  @card-body-padding: 16px;
+  @card-margin-bottom: 16px;
+  @table-cell-padding: 12px 16px;
+  @table-toolbar-padding: 12px 16px;
+  @form-item-margin-bottom: 16px;
+  @form-label-padding-bottom: 6px;
+  @modal-header-padding: 12px 16px;
+  @modal-body-padding: 16px;
+  @modal-footer-padding: 8px 12px;
+  @tabs-tab-padding: 10px 14px;
+  @tabs-content-padding: 16px 0;
+  @space-size: 12px;
+  @row-gutter: 16px;
+  @page-header-breadcrumb-padding-top: 8px;
+  @page-header-breadcrumb-padding-bottom: 8px;
+  @page-header-breadcrumb-margin-bottom: 6px;
+  @page-header-title-margin-bottom: 6px;
+}
+
+.set-density(@d) when (@d = compact) {
+  @page-container-padding-top: 0;
+  @page-container-padding-bottom: 8px;
+  @page-container-padding-horizontal: 8px;
+  @card-padding: 8px;
+  @card-head-padding: 8px 12px;
+  @card-body-padding: 8px;
+  @card-margin-bottom: 8px;
+  @table-cell-padding: 8px 12px;
+  @table-toolbar-padding: 8px 12px;
+  @form-item-margin-bottom: 8px;
+  @form-label-padding-bottom: 4px;
+  @modal-header-padding: 8px 12px;
+  @modal-body-padding: 12px;
+  @modal-footer-padding: 8px 12px;
+  @tabs-tab-padding: 8px 12px;
+  @tabs-content-padding: 6px 0;
+  @space-size: 8px;
+  @row-gutter: 12px;
+  @page-header-breadcrumb-padding-top: 4px;
+  @page-header-breadcrumb-padding-bottom: 4px;
+  @page-header-breadcrumb-margin-bottom: 4px;
+  @page-header-title-margin-bottom: 4px;
+}
+
+// 应用密度设置
+.set-density(@density);
