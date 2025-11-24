@@ -28,12 +28,12 @@ const AppsList: React.FC = () => {
     'OAuth_v2.1': 'blue',
     'OpenID_Connect_v1.0': 'cyan',
     'SAML_v2.0': 'green',
-    CAS: 'orange',
-    JWT: 'purple',
+    'CAS': 'orange',
+    'JWT': 'purple',
     'Form_Based': 'cyan',
     'Token_Based': 'magenta',
     'Extend_API': 'purple',
-    Basic: 'default',
+    'Basic': 'default',
   };
 
   // 表格列定义

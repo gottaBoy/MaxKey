@@ -208,10 +208,10 @@ const BasicLayout: React.FC = () => {
         <div className="logo">
           <img
             src="/logo.svg"
-            alt="Sophon SSO"
+            alt="ZERON SSO"
             style={{ height: collapsed ? 32 : 40 }}
           />
-          {!collapsed && <span className="logo-text">Sophon SSO</span>}
+          {!collapsed && <span className="logo-text">ZERON SSO</span>}
         </div>
         <Menu
           theme="dark"

@@ -53,7 +53,7 @@ const Login: React.FC = () => {
       setLoginConfig({
         inst: {
           id: '',
-          name: 'MaxKey',
+          name: 'ZERON',
           logo: '/logo.svg',
         },
         captcha: 'IMAGE', // 默认假设需要验证码，避免隐藏验证码输入框

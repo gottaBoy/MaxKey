@@ -1,0 +1,93 @@
+.basic-layout {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+
+  .ant-layout-sider {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    //  margin: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .logo-icon {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+  }
+
+  .ant-layout {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .header {
+    background: #fff;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    height: 64px;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+
+      .trigger {
+        font-size: 18px;
+        cursor: pointer;
+        transition: color 0.3s;
+
+        &:hover {
+          color: #1890ff;
+        }
+      }
+    }
+
+    .header-right {
+      .user-info {
+        padding: 0 12px;
+      }
+    }
+  }
+
+  .content {
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+    min-width: 0; // 确保内容区域可以收缩，防止溢出
+    
+    // 应用面板全屏显示
+    .app-panel {
+      margin: 0;
+      padding: 0;
+    }
+    
+    // 其他页面保持原有样式
+    > *:not(.app-panel) {
+      margin: 24px;
+      padding: 24px;
+      background: #fff;
+    }
+  }
+}
+

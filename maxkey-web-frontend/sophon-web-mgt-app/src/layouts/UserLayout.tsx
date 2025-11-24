@@ -9,7 +9,7 @@ const UserLayout: React.FC = () => {
         <div className="user-layout-top">
           <div className="user-layout-header">
             <img src="/logo.svg" alt="logo" className="logo" />
-            <span className="title">SOPHON SSO</span>
+            <span className="title">ZERON SSO</span>
           </div>
           <div className="user-layout-desc">
             ZERON单点登录与身份认证管理平台
@@ -32,7 +32,7 @@ const UserLayout: React.FC = () => {
           </a>
         </div>
         <div className="copyright">
-          Copyright © 2025 Sophon SSO
+          Copyright © 2025 ZERON SSO
         </div>
       </div>
     </div>

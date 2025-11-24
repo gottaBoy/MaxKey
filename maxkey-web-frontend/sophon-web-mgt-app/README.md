@@ -345,6 +345,199 @@ npm install
 
 MIT
 
+## 🐛 常见错误处理
+
+### "Clock moved backwards" 错误分析
+
+#### 错误信息
+```json
+{
+    "code": 2,
+    "message": "Clock moved backwards. Refusing to generate id",
+    "data": null
+}
+```
+
+#### 错误来源
+
+错误来自 `SnowFlakeId.java` 的 `nextId()` 方法。Snowflake 算法依赖系统时间戳生成唯一 ID。当检测到当前时间戳小于上次记录的时间戳时，会抛出此异常，以防止生成重复的 ID。
+
+#### 可能的原因
+
+1. **系统时钟被手动调整**
+   - 服务器管理员手动修改了系统时间
+   - 时间被向后调整（例如从 2024-01-02 调整到 2024-01-01）
+
+2. **NTP 时间同步问题**
+   - NTP 服务器时间不正确
+   - 网络延迟导致时间同步跳跃
+   - NTP 客户端配置错误
+
+3. **虚拟机/容器时间同步问题**
+   - Docker 容器时间与宿主机不同步
+   - 虚拟机暂停/恢复后时间不同步
+   - 容器重启后时间重置
+
+4. **服务器重启问题**
+   - 服务器重启后 BIOS 时间不正确
+   - 时区配置错误
+
+5. **多服务器时间不一致**
+   - 集群环境中不同服务器时间不同步
+   - 负载均衡导致请求在不同时间差的服务器间切换
+
+#### 解决方案
+
+##### 1. 检查系统时间同步
+
+```bash
+# 检查当前系统时间
+date
+
+# 检查 NTP 同步状态（Linux）
+timedatectl status
+ntpq -p
+
+# 检查 NTP 同步状态（Windows）
+w32tm /query /status
+```
+
+##### 2. 配置 NTP 时间同步
+
+**Linux:**
+```bash
+# 安装 NTP
+sudo apt-get install ntp  # Ubuntu/Debian
+sudo yum install ntp     # CentOS/RHEL
+
+# 启动 NTP 服务
+sudo systemctl start ntpd
+sudo systemctl enable ntpd
+
+# 或者使用 systemd-timesyncd
+sudo timedatectl set-ntp true
+```
+
+**Windows:**
+```powershell
+# 配置 Windows 时间服务
+w32tm /config /manualpeerlist:"pool.ntp.org" /syncfromflags:manual /reliable:YES /update
+w32tm /resync
+```
+
+##### 3. Docker 容器时间同步
+
+```yaml
+# docker-compose.yml
+services:
+  maxkey:
+    image: maxkey/maxkey
+    volumes:
+      - /etc/localtime:/etc/localtime:ro  # 同步宿主机时间
+    environment:
+      - TZ=Asia/Shanghai  # 设置时区
+```
+
+##### 4. 修改 Snowflake 实现（临时方案）
+
+如果需要容忍时钟回退，可以修改 `SnowFlakeId.java`：
+
+```java
+public synchronized long nextId() {
+    long currStmp = getNewstmp();
+    if (currStmp < lastStmp) {
+        // 方案1: 等待时钟追上
+        long offset = lastStmp - currStmp;
+        if (offset <= 5) {  // 允许5毫秒内的回退
+            try {
+                Thread.sleep(offset + 1);
+                currStmp = getNewstmp();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Interrupted during clock adjustment", e);
+            }
+        } else {
+            // 方案2: 记录警告并继续（不推荐，可能导致ID重复）
+            logger.warn("Clock moved backwards by {} ms, adjusting", offset);
+            lastStmp = currStmp;
+        }
+    }
+    // ... 原有逻辑
+}
+```
+
+**注意：** 修改算法可能导致 ID 重复，不推荐在生产环境使用。
+
+##### 5. 使用其他 ID 生成策略
+
+在 `application.properties` 中配置：
+
+```properties
+# 使用 UUID 而不是 Snowflake
+maxkey.id.strategy=UUID
+```
+
+##### 6. 监控和告警
+
+建议添加监控来检测时间同步问题：
+
+```bash
+# 监控脚本示例
+#!/bin/bash
+TIME_DIFF=$(ntpdate -q pool.ntp.org 2>&1 | grep "offset" | awk '{print $10}')
+if [ $(echo "$TIME_DIFF > 1.0" | bc) -eq 1 ]; then
+    echo "WARNING: Time offset is $TIME_DIFF seconds"
+    # 发送告警
+fi
+```
+
+#### 预防措施
+
+1. **定期检查时间同步**
+   - 设置定时任务检查 NTP 同步状态
+   - 监控系统时间偏移
+
+2. **使用可靠的时间源**
+   - 配置多个 NTP 服务器
+   - 使用本地 NTP 服务器（如果有）
+
+3. **容器环境**
+   - 确保容器时间与宿主机同步
+   - 使用 `--privileged` 模式（谨慎使用）
+
+4. **集群环境**
+   - 确保所有节点时间同步
+   - 使用统一的时间源
+
+#### 相关配置
+
+MaxKey 的 ID 生成器配置在 `ApplicationAutoConfiguration.java`：
+
+```java
+@Bean
+IdGenerator idGenerator(
+    @Value("${maxkey.id.strategy:SnowFlake}") String strategy,
+    @Value("${maxkey.id.datacenterId:0}") int datacenterId,
+    @Value("${maxkey.id.machineId:0}") int machineId) {
+    // ...
+}
+```
+
+可以在 `application.properties` 中配置：
+
+```properties
+# ID 生成策略: SnowFlake 或 UUID
+maxkey.id.strategy=SnowFlake
+# 数据中心 ID (0-31)
+maxkey.id.datacenterId=1
+# 机器 ID (0-31)
+maxkey.id.machineId=1
+```
+
+#### 总结
+
+这个错误是 Snowflake 算法的保护机制，用于防止在时钟回退时生成重复的 ID。**最佳解决方案是确保系统时间正确同步**，而不是修改算法逻辑。
+
 ## 🙏 致谢
 
 - [MaxKey](https://maxkey.top/) - 提供强大的 IAM 后端

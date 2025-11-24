@@ -1,0 +1,175 @@
+.app-panel {
+  height: 100vh;
+  width: 100%;
+  background: #0d1117;
+  overflow: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  h1, h2, p, div {
+    margin: 0;
+  }
+
+  .app-panel-navbar {
+    flex-shrink: 0;
+    height: 64px;
+    background: rgba(13, 17, 23, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    box-sizing: border-box;
+
+    .navbar-left {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+
+      .navbar-logo {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .logo-zeron {
+          font-size: 24px;
+          font-weight: bold;
+          color: #3ba0ff;
+          letter-spacing: 1px;
+        }
+
+        .logo-n {
+          font-size: 24px;
+          font-weight: bold;
+          color: #FFD700;
+          letter-spacing: 1px;
+        }
+      }
+    }
+
+    .navbar-right {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      box-sizing: border-box;
+      margin-left: auto;
+
+      .nav-button {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        height: 36px;
+        padding: 0 12px;
+        border-radius: 6px;
+        transition: all 0.3s;
+        color: #cbd5e1;
+        border-color: rgba(255, 255, 255, 0.08);
+
+        &:hover {
+          background: rgba(59, 160, 255, 0.1);
+          border-color: #3ba0ff;
+          color: #3ba0ff;
+        }
+      }
+
+      .console-button {
+        background: rgba(59, 160, 255, 0.1);
+        border: 1px solid rgba(59, 160, 255, 0.3);
+      }
+
+      .user-dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background: rgba(59, 160, 255, 0.1);
+        }
+      }
+    }
+  }
+
+}
+
+// 用户下拉菜单样式 - 全局样式，因为 Dropdown 是渲染在 body 下的
+.user-dropdown-menu {
+  .ant-dropdown-menu {
+    min-width: auto !important;
+    width: auto !important;
+    padding: 4px 0;
+  }
+  
+  .ant-dropdown-menu-item {
+    white-space: nowrap;
+    padding: 8px 16px;
+    min-width: auto;
+  }
+  
+  .ant-dropdown-menu-item-icon {
+    margin-right: 8px;
+  }
+}
+
+// 卡片hover动效增强
+.ant-card {
+  transition: all 0.3s ease;
+}
+
+.ant-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(59, 160, 255, 0.2),
+    0 0 40px rgba(59, 160, 255, 0.1) !important;
+  border-color: #1890ff !important;
+}
+
+// 响应式设计
+@media (max-width: 1200px) {
+  .app-panel {
+    .app-panel-navbar {
+      padding: 0 24px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .app-panel {
+    .app-panel-navbar {
+      padding: 0 16px;
+
+      .navbar-right {
+        gap: 8px;
+
+        .nav-button {
+          padding: 0 8px;
+          font-size: 12px;
+
+          span {
+            display: none;
+          }
+        }
+
+        .user-info {
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

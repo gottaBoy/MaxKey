@@ -1,0 +1,18 @@
+.sessions-container {
+  width: 100%;
+  min-width: 0; // 确保容器可以收缩
+  
+  .ant-card {
+    margin-bottom: 16px;
+    
+    .ant-table-wrapper {
+      // 表格会自动处理横向滚动，不需要强制 overflow-x
+    }
+    
+    .ant-table {
+      // 确保表格可以自适应宽度
+      table-layout: auto;
+    }
+  }
+}
+
