@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Card, Form, Input, Button, Radio, Checkbox, Alert, message, Space, Tooltip } from 'antd';
-import { UserOutlined, LockOutlined, QrcodeOutlined, SafetyCertificateOutlined, EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import { useState, useEffect, useRef } from 'react';
+import { Card, Form, Input, Button, Radio, Checkbox, Alert, message, Space, Tooltip, Spin } from 'antd';
+import { UserOutlined, LockOutlined, QrcodeOutlined, SafetyCertificateOutlined, EyeInvisibleOutlined, EyeOutlined, ReloadOutlined } from '@ant-design/icons';
 import authnService from '@/services/authn.service';
 import imageCaptchaService from '@/services/image-captcha.service';
+import qrCodeService from '@/services/qr-code.service';
 import './Login.less';
 
 interface SocialProvider {
@@ -23,10 +24,42 @@ const Login: React.FC = () => {
   const [socialProviders, setSocialProviders] = useState<SocialProvider[]>([]);
   const [state, setState] = useState('');
   const [configLoading, setConfigLoading] = useState(false);
+  
+  // 扫码登录相关状态
+  const [qrCodeImage, setQrCodeImage] = useState<string>('');
+  const [qrTicket, setQrTicket] = useState<string>('');
+  const [qrCodeLoading, setQrCodeLoading] = useState(false);
+  const [qrCodeExpired, setQrCodeExpired] = useState(false);
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     loadLoginConfig();
+    
+    // 清理函数：组件卸载时清除轮询
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = null;
+      }
+    };
   }, []);
+  
+  // 监听登录类型切换
+  useEffect(() => {
+    if (loginType === 'qrscan') {
+      // 切换到扫码登录时，获取二维码
+      getScanQrCode();
+    } else {
+      // 切换到账号登录时，清除轮询和二维码
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = null;
+      }
+      setQrCodeImage('');
+      setQrTicket('');
+      setQrCodeExpired(false);
+    }
+  }, [loginType]);
 
   const loadLoginConfig = async () => {
     // 避免重复加载
@@ -270,6 +303,134 @@ const Login: React.FC = () => {
     }
   };
 
+  /**
+   * 获取扫码登录二维码
+   */
+  const getScanQrCode = async () => {
+    try {
+      setQrCodeLoading(true);
+      setQrCodeExpired(false);
+      setError('');
+      
+      // 清除之前的轮询
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = null;
+      }
+      
+      const result = await qrCodeService.getLoginQrCode();
+      
+      if (result && result.rqCode && result.ticket) {
+        setQrCodeImage(result.rqCode);
+        setQrTicket(result.ticket);
+        // 开始轮询检查扫码状态
+        scanQrCodeLogin(result.ticket);
+      } else {
+        setError('获取二维码失败，请重试');
+        setQrCodeImage('');
+        setQrTicket('');
+      }
+    } catch (error: any) {
+      console.error('获取二维码失败:', error);
+      setError(error.message || '获取二维码失败，请重试');
+      setQrCodeImage('');
+      setQrTicket('');
+    } finally {
+      setQrCodeLoading(false);
+    }
+  };
+
+  /**
+   * 轮询检查扫码登录状态
+   */
+  const scanQrCodeLogin = (ticket: string) => {
+    // 清除之前的轮询
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+    }
+    
+    // 每5秒轮询一次
+    pollingIntervalRef.current = setInterval(async () => {
+      try {
+        // 使用最新的 state（从 state 变量获取）
+        const currentState = state;
+        const result = await qrCodeService.loginByQrCode({
+          authType: 'scancode',
+          code: ticket,
+          state: currentState,
+        });
+        
+        if (result && result.code === 0) {
+          // 扫码成功，停止轮询
+          if (pollingIntervalRef.current) {
+            clearInterval(pollingIntervalRef.current);
+            pollingIntervalRef.current = null;
+          }
+          
+          // 处理登录成功
+          handleQrCodeLoginSuccess(result);
+        } else if (result && result.code === 20004) {
+          // 二维码已过期
+          setQrCodeExpired(true);
+          if (pollingIntervalRef.current) {
+            clearInterval(pollingIntervalRef.current);
+            pollingIntervalRef.current = null;
+          }
+        } else if (result && result.code === 20005) {
+          // 需要重新获取配置（通常不会发生）
+          loadLoginConfig();
+        }
+        // 其他情况继续轮询
+      } catch (error: any) {
+        console.error('轮询扫码状态失败:', error);
+        // 轮询失败不影响，继续轮询
+      }
+    }, 5000); // 5秒轮询一次
+  };
+
+  /**
+   * 处理扫码登录成功
+   */
+  const handleQrCodeLoginSuccess = (authData: any) => {
+    // 保存认证信息
+    if (authData.ticket) {
+      localStorage.setItem('ticket', authData.ticket);
+    }
+    if (authData.token) {
+      localStorage.setItem('token', authData.token);
+    }
+    
+    // 用户信息
+    const userInfo = {
+      id: authData.id,
+      name: authData.name,
+      username: authData.username,
+      displayName: authData.displayName,
+      email: authData.email,
+      instId: authData.instId,
+      instName: authData.instName,
+      passwordSetType: authData.passwordSetType,
+      authorities: authData.authorities || [],
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    localStorage.setItem('authData', JSON.stringify(authData));
+    
+    message.success('扫码登录成功');
+    
+    // 检查是否需要二次认证
+    if (authData.twoFactor === '0') {
+      // 不需要二次认证，直接跳转
+      window.location.href = '/app-panel';
+    } else {
+      // 需要二次认证
+      localStorage.setItem('two_factor_data', JSON.stringify(authData));
+      message.info('需要进行二次认证');
+      setTimeout(() => {
+        window.location.href = '/config/mfa';
+      }, 500);
+    }
+  };
+
   const needCaptcha = captchaType && captchaType !== 'NONE' && captchaType !== undefined && captchaType !== '';
 
   return (
@@ -425,8 +586,78 @@ const Login: React.FC = () => {
         )}
 
         {loginType === 'qrscan' && (
-          <div style={{ textAlign: 'center', padding: '40px 0' }}>
-            <p>扫码登录功能待实现</p>
+          <div style={{ textAlign: 'center', padding: '20px 0' }}>
+            {qrCodeLoading ? (
+              <Spin size="large" tip="正在生成二维码..." />
+            ) : qrCodeExpired ? (
+              <div>
+                <Alert
+                  message="二维码已过期"
+                  description="二维码已过期，请点击刷新按钮重新获取"
+                  type="warning"
+                  showIcon
+                  style={{ marginBottom: 16 }}
+                />
+                <Button
+                  type="primary"
+                  icon={<ReloadOutlined />}
+                  onClick={getScanQrCode}
+                >
+                  刷新二维码
+                </Button>
+              </div>
+            ) : qrCodeImage ? (
+              <div>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    padding: '16px',
+                    background: '#fff',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    marginBottom: '16px',
+                  }}
+                >
+                  <img
+                    src={qrCodeImage.startsWith('data:') ? qrCodeImage : `data:image/png;base64,${qrCodeImage}`}
+                    alt="登录二维码"
+                    style={{
+                      width: '200px',
+                      height: '200px',
+                      display: 'block',
+                    }}
+                  />
+                </div>
+                <div style={{ marginTop: '16px', color: '#666', fontSize: '14px' }}>
+                  <p style={{ margin: '8px 0' }}>请使用手机APP扫描二维码登录</p>
+                  <Button
+                    type="link"
+                    icon={<ReloadOutlined />}
+                    onClick={getScanQrCode}
+                    style={{ padding: 0 }}
+                  >
+                    刷新二维码
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <Alert
+                  message="获取二维码失败"
+                  description="无法获取登录二维码，请点击按钮重试"
+                  type="error"
+                  showIcon
+                  style={{ marginBottom: 16 }}
+                />
+                <Button
+                  type="primary"
+                  icon={<ReloadOutlined />}
+                  onClick={getScanQrCode}
+                >
+                  重新获取
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
