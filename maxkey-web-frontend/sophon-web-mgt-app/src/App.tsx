@@ -10,7 +10,7 @@ import UserList from '@/pages/user/UserList';
 // 懒加载页面组件
 const OrganizationList = lazy(() => import('@/pages/organization/OrganizationList'));
 const GroupList = lazy(() => import('@/pages/group/GroupList'));
-const GroupMembersList = lazy(() => import('@/pages/group/GroupMembersList'));
+const GroupMembersList = lazy(() => import('@/pages/group-members/GroupMembersList'));
 const ApplicationList = lazy(() => import('@/pages/application/ApplicationList'));
 const AppsList = lazy(() => import('@/pages/permissions/AppsList'));
 const RoleList = lazy(() => import('@/pages/role/RoleList'));
@@ -18,6 +18,7 @@ const ResourcesList = lazy(() => import('@/pages/permissions/ResourcesList'));
 const PermissionAssignment = lazy(() => import('@/pages/permissions/PermissionAssignment'));
 const RoleMembersList = lazy(() => import('@/pages/permissions/RoleMembersList'));
 const OnlineSessionList = lazy(() => import('@/pages/session/OnlineSessionList'));
+const AccessControlList = lazy(() => import('@/pages/access/AccessControlList'));
 const LoginHistoryList = lazy(() => import('@/pages/audit/LoginHistoryList'));
 const AccessLogList = lazy(() => import('@/pages/audit/AccessLogList'));
 const SynchronizerLogList = lazy(() => import('@/pages/audit/SynchronizerLogList'));
@@ -28,6 +29,7 @@ const PasswordPolicyList = lazy(() => import('@/pages/config/PasswordPolicyList'
 const EmailSendersList = lazy(() => import('@/pages/config/EmailSendersList'));
 const SmsProviderList = lazy(() => import('@/pages/config/SmsProviderList'));
 const LdapContextList = lazy(() => import('@/pages/config/LdapContextList'));
+const AccountsList = lazy(() => import('@/pages/accounts/AccountsList'));
 const AccountsStrategyList = lazy(() => import('@/pages/config/AccountsStrategyList'));
 const SynchronizersList = lazy(() => import('@/pages/config/SynchronizersList'));
 const ConnectorsList = lazy(() => import('@/pages/config/ConnectorsList'));
@@ -47,7 +49,12 @@ const PageLoading = () => (
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <Suspense fallback={<PageLoading />}>
         <Routes>
           {/* 用户布局 - 登录页 */}
@@ -69,13 +76,7 @@ const App: React.FC = () => {
             </Route>
 
             {/* 应用管理 */}
-            <Route path="apps">
-              <Route index element={<ApplicationList />} />
-              <Route path="oauth20" element={<ApplicationList />} />
-              <Route path="saml20" element={<ApplicationList />} />
-              <Route path="cas" element={<ApplicationList />} />
-              <Route path="jwt" element={<ApplicationList />} />
-            </Route>
+            <Route path="apps" element={<ApplicationList />} />
 
             {/* 权限管理 */}
             <Route path="permissions">
@@ -93,6 +94,7 @@ const App: React.FC = () => {
 
             {/* 访问控制 */}
             <Route path="access">
+              <Route path="permissions" element={<AccessControlList />} />
               <Route path="sessions" element={<OnlineSessionList />} />
             </Route>
 
@@ -105,9 +107,13 @@ const App: React.FC = () => {
               <Route path="system-log" element={<SystemLogList />} />
             </Route>
 
+            {/* 账号管理 */}
+            <Route path="accounts" element={<AccountsList />} />
+
             {/* 配置管理 */}
             <Route path="config">
               <Route path="institutions" element={<InstitutionsList />} />
+              <Route path="accountsstrategy" element={<AccountsStrategyList />} />
               <Route path="passwordpolicy" element={<PasswordPolicyList />} />
               <Route path="emailsender" element={<EmailSendersList />} />
               <Route path="smsprovider" element={<SmsProviderList />} />
@@ -116,8 +122,6 @@ const App: React.FC = () => {
               <Route path="connectors" element={<ConnectorsList />} />
               <Route path="socialsproviders" element={<SocialsProviderList />} />
             </Route>
-            {/* 账号管理 */}
-            <Route path="accounts" element={<AccountsStrategyList />} />
           </Route>
 
           {/* 404 */}

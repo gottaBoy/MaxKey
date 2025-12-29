@@ -43,7 +43,7 @@ class PermissionsService {
    * 获取用户组权限
    */
   async getByGroup(groupId: string, appId?: string): Promise<Permission[]> {
-    return request.get(`${this.baseUrl}/getByParams`, {
+    return request.get(`${this.baseUrl}/permission/get`, {
       params: { groupId, appId },
     });
   }
@@ -77,7 +77,7 @@ class PermissionsService {
     appId: string;
     roleId: string;
   }): Promise<Permission[]> {
-    return request.get(`${this.baseUrl}/permissionRole/getByParams`, { params });
+    return request.get(`${this.baseUrl}/permissionRole/get`, { params });
   }
 }
 

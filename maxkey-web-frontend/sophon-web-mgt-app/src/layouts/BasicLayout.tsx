@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   MenuFoldOutlined,
@@ -23,6 +23,15 @@ const BasicLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+  // 根据当前路径自动打开对应的父菜单
+  useEffect(() => {
+    const currentParent = location.pathname.split('/').slice(0, 2).join('/');
+    if (currentParent && currentParent !== '/') {
+      setOpenKeys([currentParent]);
+    }
+  }, [location.pathname]);
 
   const menuItems: MenuProps['items'] = [
     {
@@ -57,28 +66,6 @@ const BasicLayout: React.FC = () => {
       key: '/apps',
       icon: <AppstoreOutlined />,
       label: '应用管理',
-      children: [
-        {
-          key: '/apps',
-          label: '全部应用',
-        },
-        {
-          key: '/apps/oauth20',
-          label: 'OAuth 2.0',
-        },
-        {
-          key: '/apps/saml20',
-          label: 'SAML 2.0',
-        },
-        {
-          key: '/apps/cas',
-          label: 'CAS',
-        },
-        {
-          key: '/apps/jwt',
-          label: 'JWT',
-        },
-      ],
     },
     {
       key: '/permissions/apps',
@@ -90,6 +77,10 @@ const BasicLayout: React.FC = () => {
       icon: <SafetyOutlined />,
       label: '访问控制',
       children: [
+        {
+          key: '/access/permissions',
+          label: '访问控制',
+        },
         {
           key: '/access/sessions',
           icon: <EyeOutlined />,
@@ -189,7 +180,27 @@ const BasicLayout: React.FC = () => {
   ];
 
   const handleMenuClick = ({ key }: { key: string }) => {
+    // 如果点击的是有子菜单的父菜单项，不进行导航（让子菜单展开/收起）
+    const menuItem = findMenuItemByKey(menuItems, key);
+    if (menuItem && menuItem.children && menuItem.children.length > 0) {
+      return;
+    }
     navigate(key);
+  };
+
+  // 辅助函数：根据 key 查找菜单项
+  const findMenuItemByKey = (items: MenuProps['items'], targetKey: string): any => {
+    if (!items) return null;
+    for (const item of items) {
+      if (item?.key === targetKey) {
+        return item;
+      }
+      if (item?.children) {
+        const found = findMenuItemByKey(item.children, targetKey);
+        if (found) return found;
+      }
+    }
+    return null;
   };
 
   const handleUserMenuClick = ({ key }: { key: string }) => {
@@ -217,7 +228,8 @@ const BasicLayout: React.FC = () => {
           theme="dark"
           mode="inline"
           selectedKeys={[location.pathname]}
-          defaultOpenKeys={[location.pathname.split('/').slice(0, 2).join('/')]}
+          openKeys={openKeys}
+          onOpenChange={setOpenKeys}
           items={menuItems}
           onClick={handleMenuClick}
         />

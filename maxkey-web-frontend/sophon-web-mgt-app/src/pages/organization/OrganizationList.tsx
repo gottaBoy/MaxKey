@@ -49,14 +49,13 @@ const OrganizationList: React.FC = () => {
   const [treeSelectData, setTreeSelectData] = useState<any[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [searchParams, setSearchParams] = useState<any>({});
-  const [refreshKey, setRefreshKey] = useState<number>(0); // 用于强制刷新
+  // rootNodeId 已移除，首次进入页面时 parentId 默认为空字符串
 
   // 加载组织树
   const loadOrgTree = async () => {
     setLoading(true);
     try {
       const result: any = await organizationsService.tree();
-      console.log('组织树API响应:', result);
       
       // 处理响应数据格式
       let treeDataArray: any[] = [];
@@ -69,8 +68,6 @@ const OrganizationList: React.FC = () => {
       else if (result && typeof result === 'object' && result.rootNode && result.nodes) {
         const rootNode = result.rootNode;
         const nodes = result.nodes || [];
-        console.log('根节点:', rootNode);
-        console.log('所有节点:', nodes);
         
         // 按照 Angular 版本的逻辑构建树
         const buildTree = (parentNode: any): any[] => {
@@ -124,7 +121,6 @@ const OrganizationList: React.FC = () => {
         }
         
         treeDataArray = [rootNodeData];
-        console.log('构建后的树形数据:', treeDataArray);
       }
       // 情况3: 包含 data 属性的对象
       else if (result && typeof result === 'object' && result.data) {
@@ -133,8 +129,6 @@ const OrganizationList: React.FC = () => {
         } else if (result.data.rootNode && result.data.nodes) {
           const rootNode = result.data.rootNode;
           const nodes = result.data.nodes || [];
-          console.log('根节点:', rootNode);
-          console.log('所有节点:', nodes);
           
           const buildTree = (parentNode: any): any[] => {
             const children: any[] = [];
@@ -183,7 +177,6 @@ const OrganizationList: React.FC = () => {
           }
           
           treeDataArray = [rootNodeData];
-          console.log('构建后的树形数据:', treeDataArray);
         }
       }
       // 情况4: 包含 records 属性的对象
@@ -200,25 +193,17 @@ const OrganizationList: React.FC = () => {
       setTreeData(nodes);
       setTreeSelectData(convertToTreeSelectData(treeDataArray));
       
-      // 递归收集所有有子节点的 key，用于展开所有节点
-      const collectAllKeys = (nodeList: DataNode[]): React.Key[] => {
-        const keys: React.Key[] = [];
-        nodeList.forEach((node: DataNode) => {
-          if (node.key) {
-            // 只有当节点有子节点时才添加到展开列表中
-            if (node.children && Array.isArray(node.children) && node.children.length > 0) {
-              keys.push(node.key);
-              keys.push(...collectAllKeys(node.children));
-            }
-          }
-        });
-        return keys;
-      };
+      // 首次进入页面时，parentId 默认为空字符串，不自动设置根节点 ID
       
-      if (nodes.length > 0) {
-        const allKeys = collectAllKeys(nodes);
-        setExpandedKeys(allKeys);
-      }
+      // 默认展开第一层节点
+      const firstLevelKeys: React.Key[] = [];
+      nodes.forEach((node) => {
+        if (node.key && node.children && node.children.length > 0) {
+          // 只展开第一层（根节点的直接子节点）
+          firstLevelKeys.push(node.key);
+        }
+      });
+      setExpandedKeys(firstLevelKeys);
     } catch (error: any) {
       console.error('加载组织树失败:', error);
       const errorMessage = error?.response?.data?.message || error?.message || '加载组织树失败';
@@ -235,7 +220,6 @@ const OrganizationList: React.FC = () => {
     }
     
     if (depth > 100) {
-      console.warn('树形结构深度超过限制');
       return [];
     }
     
@@ -244,7 +228,6 @@ const OrganizationList: React.FC = () => {
       const title = node.name || node.title || node.orgName || '';
       
       if (key && processedKeys.has(key)) {
-        console.warn(`检测到循环引用: ${key}`);
         return {
           key,
           title: `${title} (循环引用)`,
@@ -324,52 +307,24 @@ const OrganizationList: React.FC = () => {
 
   // 选择组织节点 - 更新父组织ID并刷新表格
   const handleSelectNode = (selectedKeys: React.Key[], info: any) => {
-    if (selectedKeys.length > 0) {
-      const nodeInfo = info?.node;
-      // 优先使用节点的原始数据中的 id，如果没有则使用 key
-      // 因为树节点的 key 可能和实际数据的 id 不一致
-      // 同时检查节点的原始数据（通过 info.node.props 或 info.node.dataRef）
-      const nodeData = nodeInfo?.dataRef || nodeInfo?.props?.dataRef || nodeInfo;
-      const orgId = String(nodeData?.id || nodeData?.key || nodeInfo?.key || selectedKeys[0]);
+    if (selectedKeys.length > 0 && info?.node) {
+      // 使用被点击节点自身的 id（info.node.key 是节点自身的 id）
+      const currentNodeId = String(info.node.key);
       
-      console.log('选择组织节点:', {
-        selectedKeys,
-        orgId,
-        nodeInfo: nodeInfo ? {
-          key: nodeInfo.key,
-          id: nodeData?.id,
-          code: nodeData?.code,
-          title: nodeInfo.title,
-          children: nodeInfo.children?.length || 0,
-          dataRef: nodeData,
-        } : null,
-      });
+      // 更新 state 和 ref，确保 loadData 能立即访问到最新值
+      setSelectedParentId(currentNodeId);
+      selectedParentIdRef.current = currentNodeId;
+      setSelectedOrgId(currentNodeId);
       
-      // 检查是否是同一个节点
-      const isSameNode = selectedParentIdRef.current === orgId;
-      
-      // 同时更新 state 和 ref，确保 loadData 能立即访问到最新值
-      setSelectedParentId(orgId);
-      selectedParentIdRef.current = orgId;
-      setSelectedOrgId(orgId);
-      
-      // 如果是同一个节点，通过刷新计数器强制刷新
-      if (isSameNode) {
-        console.log('点击同一个节点，强制刷新');
-        setRefreshKey(prev => prev + 1);
-      }
-      
-      // 立即刷新表格数据，使用 ref 中的最新值
-      // 使用 setTimeout 确保状态更新后再刷新
+      // 刷新表格数据
       setTimeout(() => {
         actionRef.current?.reload();
       }, 0);
     } else {
-      console.log('取消选择组织节点');
+      // 取消选择
       setSelectedParentId('');
       selectedParentIdRef.current = '';
       setSelectedOrgId(undefined);
-      setRefreshKey(prev => prev + 1); // 取消选择时也刷新
       actionRef.current?.reload();
     }
   };
@@ -377,21 +332,50 @@ const OrganizationList: React.FC = () => {
   // 创建组织
   const handleCreate = async (values: any) => {
     try {
+      // 如果选择了父节点，查找并设置 parentName 和 parentCode
+      let parentName = values.parentName;
+      let parentCode = values.parentCode;
+      
+      if (values.parentId && !parentName) {
+        const findNode = (nodes: any[], id: string): any => {
+          for (const node of nodes) {
+            if (node.value === id) return node;
+            if (node.children) {
+              const found = findNode(node.children, id);
+              if (found) return found;
+            }
+          }
+          return null;
+        };
+        const parentNode = findNode(treeSelectData, values.parentId);
+        if (parentNode) {
+          parentName = parentNode.title || '';
+          parentCode = parentNode.code || '';
+        }
+      }
+      
       // 处理状态字段
       const submitData = {
         ...values,
         status: values.status ? 1 : 0,
         type: values.type || 'department',
-        sortOrder: values.sortOrder || 11,
+        sortIndex: values.sortIndex || 11,
+        parentName,
+        parentCode,
       };
+      
       await organizationsService.addOrg(submitData);
       message.success('创建组织成功');
       setCreateModalVisible(false);
+      // 清空选中的组织ID，以便下次创建时重新选择
+      setSelectedOrgId(undefined);
       loadOrgTree();
       actionRef.current?.reload();
       return true;
-    } catch (error) {
-      message.error('创建组织失败');
+    } catch (error: any) {
+      console.error('创建组织失败:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || '创建组织失败';
+      message.error(errorMessage);
       return false;
     }
   };
@@ -400,11 +384,40 @@ const OrganizationList: React.FC = () => {
   const handleUpdate = async (values: any) => {
     if (!currentRecord) return false;
     try {
+      // 如果修改了父节点，查找并设置 parentName 和 parentCode
+      let parentName = values.parentName;
+      let parentCode = values.parentCode;
+      
+      if (values.parentId && values.parentId !== currentRecord.parentId) {
+        const findNode = (nodes: any[], id: string): any => {
+          for (const node of nodes) {
+            if (node.value === id) return node;
+            if (node.children) {
+              const found = findNode(node.children, id);
+              if (found) return found;
+            }
+          }
+          return null;
+        };
+        const parentNode = findNode(treeSelectData, values.parentId);
+        if (parentNode) {
+          parentName = parentNode.title || '';
+          parentCode = parentNode.code || '';
+        }
+      } else if (values.parentId === currentRecord.parentId) {
+        // 如果父节点没变，保持原有值
+        parentName = currentRecord.parentName;
+        parentCode = currentRecord.parentCode;
+      }
+      
       const submitData = {
         ...currentRecord,
         ...values,
         status: values.status ? 1 : 0,
+        parentName,
+        parentCode,
       };
+      
       await organizationsService.editOrg(submitData);
       message.success('更新组织成功');
       setEditModalVisible(false);
@@ -412,8 +425,10 @@ const OrganizationList: React.FC = () => {
       loadOrgTree();
       actionRef.current?.reload();
       return true;
-    } catch (error) {
-      message.error('更新组织失败');
+    } catch (error: any) {
+      console.error('更新组织失败:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || '更新组织失败';
+      message.error(errorMessage);
       return false;
     }
   };
@@ -499,7 +514,7 @@ const OrganizationList: React.FC = () => {
     },
     {
       title: '排序号',
-      dataIndex: 'sortOrder',
+      dataIndex: 'sortIndex',
       width: 100,
       sorter: true,
       search: false,
@@ -564,41 +579,47 @@ const OrganizationList: React.FC = () => {
   const loadData = async (params: any) => {
     try {
       // 使用 ref 中的最新值，确保获取到最新的 parentId
-      // 同时使用 refreshKey 来确保每次点击都会触发刷新
       const currentParentId = selectedParentIdRef.current || selectedParentId;
-      // 确保 parentId 是字符串类型（与树节点的 key 保持一致）
-      const parentIdStr = currentParentId ? String(currentParentId) : undefined;
+      // 确保 parentId 始终是字符串类型
+      // 首次进入页面时，parentId 默认为空字符串
+      // 点击树节点后，使用点击节点的 ID
+      const parentIdStr = currentParentId 
+        ? String(currentParentId) 
+        : ''; // 首次进入时默认为空字符串
       
+      // 转换分页参数：ProTable 使用 current，但 MaxKey API 使用 pageNumber
+      // 确保所有参数都保留，即使是空字符串（与 Angular 版本保持一致）
       const requestParams: any = {
-        ...params,
-        ...searchParams,
-        // 添加时间戳确保每次请求都是新的（用于强制刷新）
-        _t: Date.now(),
+        // 分页参数：从 ProTable 的 params 中获取，首次使用默认值，之后使用用户选择的值
+        pageNumber: params.current !== undefined && params.current !== null ? params.current : 1,
+        pageSize: params.pageSize !== undefined && params.pageSize !== null ? params.pageSize : 10,
+        // 注意：pageSizeOptions 是前端配置，不应该作为请求参数发送到后端
+        // 始终添加 parentId 参数，确保参数一致性（即使为空字符串）
+        parentId: parentIdStr || '',
+        // 搜索参数（即使为空也要传递）
+        orgName: params.orgName !== undefined ? params.orgName : (searchParams.orgName !== undefined ? searchParams.orgName : ''),
+        displayName: params.displayName !== undefined ? params.displayName : (searchParams.displayName !== undefined ? searchParams.displayName : ''),
+        // 日期参数（即使为空也要传递）
+        startDate: params.startDate !== undefined ? params.startDate : (searchParams.startDate !== undefined ? searchParams.startDate : ''),
+        endDate: params.endDate !== undefined ? params.endDate : (searchParams.endDate !== undefined ? searchParams.endDate : ''),
+        // 日期时间戳参数（即使没有日期也要有默认值）
+        startDatePicker: params.startDate 
+          ? new Date(params.startDate).getTime() 
+          : (params.startDatePicker !== undefined 
+            ? params.startDatePicker 
+            : (searchParams.startDatePicker !== undefined 
+              ? searchParams.startDatePicker 
+              : Date.now() - 30 * 24 * 60 * 60 * 1000)),
+        endDatePicker: params.endDate 
+          ? new Date(params.endDate).getTime() 
+          : (params.endDatePicker !== undefined 
+            ? params.endDatePicker 
+            : (searchParams.endDatePicker !== undefined 
+              ? searchParams.endDatePicker 
+              : Date.now())),
       };
       
-      // 只有当选择了节点时才添加 parentId 参数
-      // 默认不传 parentId 会返回所有数据（Angular 版本逻辑）
-      if (parentIdStr) {
-        requestParams.parentId = parentIdStr;
-      }
-      
-      // 移除空值参数（但保留 _t 时间戳和 parentId）
-      Object.keys(requestParams).forEach(key => {
-        if (key !== '_t' && key !== 'parentId' && (requestParams[key] === '' || requestParams[key] === null || requestParams[key] === undefined)) {
-          delete requestParams[key];
-        }
-      });
-      
-      console.log('=== 加载组织列表 ===');
-      console.log('当前选中的 parentId (ref):', selectedParentIdRef.current);
-      console.log('当前选中的 parentId (state):', selectedParentId);
-      console.log('使用的 parentId:', parentIdStr);
-      console.log('请求参数:', requestParams);
-      
       const result: any = await organizationsService.fetch(requestParams);
-      console.log('组织列表API原始响应:', JSON.stringify(result, null, 2));
-      console.log('响应类型:', typeof result);
-      console.log('响应是否为数组:', Array.isArray(result));
       
       // 处理响应数据格式 - 增强解析逻辑
       let records: Organization[] = [];
@@ -616,61 +637,42 @@ const OrganizationList: React.FC = () => {
         };
       }
       
-      // MaxKey 标准响应格式: { code: 0, data: { rows: [], records: number, total: number, page: number } }
+      // 处理响应数据格式
       if (result && typeof result === 'object') {
         // 情况1: result.data 是 PageResults 对象（包含 rows 和 records）
         if (result.data && typeof result.data === 'object') {
           if (Array.isArray(result.data.rows)) {
             records = result.data.rows;
             total = result.data.records || result.data.total || result.data.rows.length;
-            console.log('使用 result.data.rows，记录数:', records.length, '总数:', total);
           } else if (Array.isArray(result.data.records)) {
             records = result.data.records;
-            total = result.data.total || result.data.records.length;
-            console.log('使用 result.data.records，记录数:', records.length, '总数:', total);
+            total = result.total || result.data.records.length;
           } else if (Array.isArray(result.data)) {
             records = result.data;
-            total = result.data.length;
-            console.log('使用 result.data（数组），记录数:', records.length);
+            total = result.total || result.data.length;
           }
         }
-        // 情况2: result 直接是 PageResults 对象
+        // 情况2: result 直接是 PageResults 对象（包含 rows 和 records）
         else if (Array.isArray(result.rows)) {
           records = result.rows;
           total = result.records || result.total || result.rows.length;
-          console.log('使用 result.rows，记录数:', records.length, '总数:', total);
-        }
+        } 
         // 情况3: result.records 是数组
         else if (Array.isArray(result.records)) {
           records = result.records;
           total = result.total || result.records.length;
-          console.log('使用 result.records，记录数:', records.length, '总数:', total);
         }
         // 情况4: result 直接是数组
         else if (Array.isArray(result)) {
           records = result;
           total = result.length;
-          console.log('使用 result（数组），记录数:', records.length);
         }
       }
       
       // 确保 records 始终是数组
       if (!Array.isArray(records)) {
-        console.warn('组织列表数据格式不正确，返回空数组。原始数据:', result);
-        console.warn('原始数据类型:', typeof result);
-        console.warn('原始数据 keys:', result ? Object.keys(result) : 'null');
         records = [];
         total = 0;
-      }
-      
-      console.log('最终返回数据，记录数:', records.length, '总数:', total);
-      if (records.length > 0) {
-        console.log('第一条记录:', records[0]);
-      } else {
-        console.log('没有数据，可能原因：');
-        console.log('1. 该节点确实没有子组织');
-        console.log('2. API 返回的数据格式不正确');
-        console.log('3. parentId 参数不正确');
       }
       
       return {
@@ -679,10 +681,6 @@ const OrganizationList: React.FC = () => {
         total,
       };
     } catch (error: any) {
-      console.error('=== 加载组织列表失败 ===');
-      console.error('错误详情:', error);
-      console.error('错误响应:', error?.response);
-      console.error('错误数据:', error?.response?.data);
       const errorMessage = error?.response?.data?.message || error?.message || '加载组织列表失败';
       message.error(errorMessage);
       return {
@@ -697,7 +695,7 @@ const OrganizationList: React.FC = () => {
     <div className="organization-list">
     <PageContainer
       header={{
-        title: '组织管理',
+        // title: '组织管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -707,60 +705,77 @@ const OrganizationList: React.FC = () => {
         },
       }}
     >
-        <ProCard>
+    <ProCard>
       <Row gutter={16}>
         {/* 左侧组织树 */}
             <Col span={6}>
           <ProCard
-            title="组织树"
+            // title="组织树"
             extra={
               <Space>
                 <Button
                   type="primary"
-                      size="small"
+                  size="small"
                   icon={<PlusOutlined />}
-                  onClick={() => setCreateModalVisible(true)}
+                  onClick={() => {
+                    // 如果选择了树节点，创建时会自动设置父节点
+                    setCreateModalVisible(true);
+                  }}
                 >
                   新建
                 </Button>
-                    <Button size="small" icon={<ReloadOutlined />} onClick={loadOrgTree}>
+                {/* <Popconfirm
+                  title="确定要批量删除选中的组织吗？"
+                  onConfirm={handleBatchDelete}
+                  disabled={selectedRowKeys.length === 0}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  <Button
+                    type="primary"
+                    danger
+                    size="small"
+                    icon={<DeleteOutlined />}
+                    disabled={selectedRowKeys.length === 0}
+                  >
+                    批量删除
+                  </Button>
+                </Popconfirm> */}
+                <Button size="small" icon={<ReloadOutlined />} onClick={loadOrgTree}>
                   刷新
                 </Button>
               </Space>
             }
-                bodyStyle={{ 
-                  padding: '16px',
-                  overflow: 'hidden',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-                className="grid-border organization-tree-card"
+            bodyStyle={{ 
+              padding: '16px',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+            className="grid-border organization-tree-card"
           >
             <Spin spinning={loading}>
-                  <div className="organization-tree-container">
-              <Tree
-                      showLine={false}
-                      blockNode
-                expandedKeys={expandedKeys}
-                      onExpand={(keys) => {
-                        setExpandedKeys(keys as React.Key[]);
-                      }}
-                selectedKeys={selectedOrgId ? [selectedOrgId] : []}
-                onSelect={(selectedKeys, info) => {
-                  console.log('Tree onSelect 事件:', { selectedKeys, info });
-                  handleSelectNode(selectedKeys, info);
-                }}
-                treeData={treeData}
-              />
-                  </div>
+              <div className="organization-tree-container">
+                <Tree
+                  showLine={false}
+                  blockNode
+                  expandedKeys={expandedKeys}
+                  onExpand={(keys) => {
+                    setExpandedKeys(keys as React.Key[]);
+                  }}
+                  selectedKeys={selectedOrgId ? [selectedOrgId] : []}
+                  onSelect={handleSelectNode}
+                  treeData={treeData}
+                />
+              </div>
             </Spin>
           </ProCard>
         </Col>
 
             {/* 右侧组织列表 */}
-            <Col span={18}>
-              <div className="grid-border">
-                <ProTable<Organization>
+        <Col span={18}>
+          <div className="grid-border">
+            <ProTable<Organization>
               actionRef={actionRef}
               columns={columns}
               request={loadData}
@@ -779,7 +794,10 @@ const OrganizationList: React.FC = () => {
                   key="add"
                   type="primary"
                   icon={<PlusOutlined />}
-                  onClick={() => setCreateModalVisible(true)}
+                  onClick={() => {
+                    // 如果选择了树节点，创建时会自动设置父节点
+                    setCreateModalVisible(true);
+                  }}
                 >
                   新建组织
                 </Button>,
@@ -828,7 +846,7 @@ const OrganizationList: React.FC = () => {
               </div>
         </Col>
       </Row>
-        </ProCard>
+    </ProCard>
 
       {/* 创建组织表单 */}
       <ModalForm
@@ -844,8 +862,24 @@ const OrganizationList: React.FC = () => {
         }}
         initialValues={{
           type: 'department',
-          sortOrder: 11,
+          sortIndex: 11,
           status: true,
+          // 如果从树节点创建，自动设置父节点
+          parentId: selectedOrgId || undefined,
+          parentName: selectedOrgId ? (() => {
+            const findNode = (nodes: any[], id: string): any => {
+              for (const node of nodes) {
+                if (node.value === id) return node;
+                if (node.children) {
+                  const found = findNode(node.children, id);
+                  if (found) return found;
+                }
+              }
+              return null;
+            };
+            const parentNode = findNode(treeSelectData, selectedOrgId);
+            return parentNode?.title || '';
+          })() : undefined,
         }}
       >
         <Tabs
@@ -873,6 +907,16 @@ const OrganizationList: React.FC = () => {
           }}
         />
         <ProFormText
+          name="parentName"
+          label="上级组织名称"
+          hidden
+        />
+        <ProFormText
+          name="parentCode"
+          label="上级组织编码"
+          hidden
+        />
+        <ProFormText
           name="orgCode"
           label="组织编码"
           placeholder="请输入组织编码"
@@ -889,7 +933,7 @@ const OrganizationList: React.FC = () => {
           label="组织全称"
           placeholder="请输入组织全称"
         />
-                  <ProFormSelect
+        <ProFormSelect
           name="type"
           label="组织类型"
                     options={[
@@ -903,7 +947,7 @@ const OrganizationList: React.FC = () => {
                     rules={[{ required: true, message: '请选择组织类型' }]}
         />
         <ProFormDigit
-          name="sortOrder"
+          name="sortIndex"
           label="排序号"
                     min={0}
                     initialValue={11}
@@ -1059,6 +1103,16 @@ const OrganizationList: React.FC = () => {
           }}
         />
         <ProFormText
+          name="parentName"
+          label="上级组织名称"
+          hidden
+        />
+        <ProFormText
+          name="parentCode"
+          label="上级组织编码"
+          hidden
+        />
+        <ProFormText
           name="orgCode"
           label="组织编码"
           placeholder="请输入组织编码"
@@ -1089,7 +1143,7 @@ const OrganizationList: React.FC = () => {
                     rules={[{ required: true, message: '请选择组织类型' }]}
         />
         <ProFormDigit
-          name="sortOrder"
+          name="sortIndex"
           label="排序号"
                     min={0}
                     fieldProps={{ precision: 0 }}

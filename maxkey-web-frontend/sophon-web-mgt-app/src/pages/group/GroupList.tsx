@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   PageContainer,
   ProTable,
@@ -17,14 +18,17 @@ import {
   Modal,
   Transfer,
   Tag,
+  Dropdown,
+  MenuProps,
 } from 'antd';
-import type { DataNode } from 'antd/es/tree';
 import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   UserAddOutlined,
   SyncOutlined,
+  MoreOutlined,
+  KeyOutlined,
 } from '@ant-design/icons';
 import type { Group, GroupMember, UserInfo } from '@/types/entity';
 import groupsService from '@/services/groups.service';
@@ -34,6 +38,7 @@ import organizationsService from '@/services/organizations.service';
 import './GroupList.less';
 
 const GroupList: React.FC = () => {
+  const navigate = useNavigate();
   const actionRef = useRef<ActionType>();
   const createFormRef = useRef<any>();
   const editFormRef = useRef<any>();
@@ -45,6 +50,7 @@ const GroupList: React.FC = () => {
   const [memberTargetKeys, setMemberTargetKeys] = useState<string[]>([]);
   const [allUsers, setAllUsers] = useState<UserInfo[]>([]);
   const [orgTreeSelectData, setOrgTreeSelectData] = useState<any[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   // 表格列定义
   const columns: ProColumns<Group>[] = [
@@ -85,60 +91,91 @@ const GroupList: React.FC = () => {
     {
       title: '操作',
       valueType: 'option',
-      width: 220,
+      width: 280,
       fixed: 'right',
-      render: (_, record) => [
-        <Button
-          key="members"
-          type="link"
-          size="small"
-          icon={<UserAddOutlined />}
-          onClick={() => handleManageMembers(record)}
-        >
-          成员
-        </Button>,
-        record.dynamic === 1 && (
+      render: (_, record) => {
+        const menuItems: MenuProps['items'] = [
+          {
+            key: 'members',
+            label: '成员',
+            icon: <UserAddOutlined />,
+            onClick: () => handleManageMembers(record),
+          },
+          {
+            key: 'permissions',
+            label: '访问权限',
+            icon: <KeyOutlined />,
+            onClick: () => {
+              navigate(`/permissions/permissions?groupId=${record.id}&groupName=${encodeURIComponent(record.groupName || '')}`);
+            },
+          },
+        ];
+
+        // 如果是动态组，添加刷新选项
+        if (record.dynamic === 1) {
+          menuItems.push({
+            key: 'refresh',
+            label: '刷新',
+            icon: <SyncOutlined />,
+            onClick: () => handleRefreshDynamic(record),
+          });
+        }
+
+        // 添加删除选项（排除系统内置组，通过 groupCode 判断）
+        const systemGroupCodes = ['ROLE_ADMINISTRATORS', 'ROLE_ALL_USER', 'ROLE_MANAGERS'];
+        if (!systemGroupCodes.includes(record.groupCode || '')) {
+          menuItems.push({
+            key: 'delete',
+            label: '删除',
+            icon: <DeleteOutlined />,
+            danger: true,
+          });
+        }
+
+        return [
           <Button
-            key="refresh"
+            key="edit"
             type="link"
             size="small"
-            icon={<SyncOutlined />}
-            onClick={() => handleRefreshDynamic(record)}
+            icon={<EditOutlined />}
+            onClick={async () => {
+              try {
+                // 获取完整的用户组数据（包括 groupCode）
+                const fullGroupData = await groupsService.get(record.id!);
+                setCurrentGroup(fullGroupData);
+                setEditModalVisible(true);
+              } catch (error: any) {
+                console.error('获取用户组详情失败:', error);
+                message.error('获取用户组详情失败');
+              }
+            }}
           >
-            刷新
-          </Button>
-        ),
-        <Button
-          key="edit"
-          type="link"
-          size="small"
-          icon={<EditOutlined />}
-          onClick={async () => {
-            try {
-              // 获取完整的用户组数据（包括 groupCode）
-              const fullGroupData = await groupsService.get(record.id!);
-              setCurrentGroup(fullGroupData);
-              setEditModalVisible(true);
-            } catch (error: any) {
-              console.error('获取用户组详情失败:', error);
-              message.error('获取用户组详情失败');
-            }
-          }}
-        >
-          编辑
-        </Button>,
-        <Popconfirm
-          key="delete"
-          title="确定要删除此用户组吗？"
-          onConfirm={() => handleDelete(record.id!)}
-          okText="确定"
-          cancelText="取消"
-        >
-          <Button type="link" size="small" danger icon={<DeleteOutlined />}>
-            删除
-          </Button>
-        </Popconfirm>,
-      ],
+            编辑
+          </Button>,
+          <Dropdown
+            key="more"
+            menu={{
+              items: menuItems,
+              onClick: ({ key }) => {
+                if (key === 'delete') {
+                  Modal.confirm({
+                    title: '删除用户组',
+                    content: `确定要删除用户组 "${record.groupName}" 吗？`,
+                    okText: '确定',
+                    okType: 'danger',
+                    cancelText: '取消',
+                    onOk: () => handleDelete(record.id!),
+                  });
+                }
+              },
+            }}
+          >
+            <Button type="link" size="small" icon={<MoreOutlined />}>
+              更多
+            </Button>
+          </Dropdown>,
+        ];
+      },
     },
   ];
 
@@ -326,7 +363,7 @@ const GroupList: React.FC = () => {
       if (submitData.category === 'dynamic') {
         if (Array.isArray(submitData.orgIdsList)) {
           // 过滤空值并连接
-          submitData.orgIdsList = submitData.orgIdsList.filter(id => id && id.trim() !== '').join(',');
+          submitData.orgIdsList = submitData.orgIdsList.filter((id: string) => id && id.trim() !== '').join(',');
         } else if (!submitData.orgIdsList && currentGroup.orgIdsList) {
           submitData.orgIdsList = currentGroup.orgIdsList;
         }
@@ -355,8 +392,28 @@ const GroupList: React.FC = () => {
       await groupsService.delete(id);
       message.success('删除用户组成功');
       actionRef.current?.reload();
-    } catch (error) {
-      message.error('删除用户组失败');
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error?.message || '删除用户组失败';
+      message.error(errorMessage);
+    }
+  };
+
+  // 批量删除用户组
+  const handleBatchDelete = async () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning('请选择要删除的用户组');
+      return;
+    }
+    try {
+      // 将选中的 ID 数组转换为逗号分隔的字符串
+      const ids = selectedRowKeys.map(key => String(key)).join(',');
+      await groupsService.delete(ids);
+      message.success('批量删除成功');
+      setSelectedRowKeys([]);
+      actionRef.current?.reload();
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error?.message || '批量删除失败';
+      message.error(errorMessage);
     }
   };
 
@@ -523,7 +580,7 @@ const GroupList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '用户组管理',
+        // title: '用户组管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -548,6 +605,10 @@ const GroupList: React.FC = () => {
         }}
         dateFormatter="string"
         scroll={{ x: 'max-content' }}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: setSelectedRowKeys,
+        }}
         toolBarRender={() => [
           <Button
             key="create"
@@ -557,6 +618,24 @@ const GroupList: React.FC = () => {
           >
             新建用户组
           </Button>,
+          <Popconfirm
+            key="batchDelete"
+            title="确定要批量删除选中的用户组吗？"
+            onConfirm={handleBatchDelete}
+            okText="确定"
+            okType="danger"
+            cancelText="取消"
+            disabled={selectedRowKeys.length === 0}
+          >
+            <Button
+              type="primary"
+              danger
+              disabled={selectedRowKeys.length === 0}
+              icon={<DeleteOutlined />}
+            >
+              批量删除
+            </Button>
+          </Popconfirm>,
         ]}
       />
 

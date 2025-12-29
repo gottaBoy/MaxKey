@@ -40,6 +40,20 @@ class GroupMembersService {
     const idString = Array.isArray(ids) ? ids.join(',') : ids;
     return request.delete(`${this.baseUrl}/delete`, { params: { ids: idString } });
   }
+
+  /**
+   * 查询用户未加入的组（noMember接口）
+   */
+  async noMember(params: any): Promise<PageResponse<any>> {
+    return request.get(`${this.baseUrl}/noMember`, { params });
+  }
+
+  /**
+   * 为用户添加组（addMember2Groups接口）
+   */
+  async addMember2Groups(data: { username: string; groupId: string; groupName: string }): Promise<void> {
+    return request.post(`${this.baseUrl}/addMember2Groups`, data);
+  }
 }
 
 export default new GroupMembersService();

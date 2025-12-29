@@ -127,14 +127,15 @@
           align-items: center;
           justify-content: center;
           border-radius: 8px;
-          transition: all 0.3s;
+          transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
           background: rgba(59, 160, 255, 0.1);
           border: 1px solid rgba(59, 160, 255, 0.2);
 
           &:hover {
             background: rgba(59, 160, 255, 0.2);
             border-color: rgba(59, 160, 255, 0.5);
-            transform: scale(1.1);
+            // 移除 transform，避免内容晃动
+            // transform: scale(1.1);
             box-shadow: 0 0 15px rgba(59, 160, 255, 0.4);
           }
 
@@ -152,16 +153,17 @@
       background: linear-gradient(135deg, #3ba0ff 0%, #1890ff 100%);
       border: none;
       box-shadow: 0 4px 15px rgba(59, 160, 255, 0.4);
-      transition: all 0.3s;
+      transition: background 0.3s, box-shadow 0.3s;
 
       &:hover {
         background: linear-gradient(135deg, #1890ff 0%, #3ba0ff 100%);
         box-shadow: 0 6px 20px rgba(59, 160, 255, 0.6);
-        transform: translateY(-2px);
+        // 移除 transform，避免内容晃动
+        // transform: translateY(-2px);
       }
 
       &:active {
-        transform: translateY(0);
+        // transform: translateY(0);
       }
     }
 
@@ -169,7 +171,7 @@
     .ant-radio-group {
       .ant-radio-button-wrapper {
         border-radius: 8px;
-        transition: all 0.3s;
+        transition: border-color 0.3s, color 0.3s, background-color 0.3s;
 
         &:hover {
           border-color: #3ba0ff;

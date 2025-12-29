@@ -360,7 +360,11 @@ const Login: React.FC = () => {
           state: currentState,
         });
         
-        if (result && result.code === 0) {
+        console.log('轮询扫码状态响应:', result);
+        
+        // 响应拦截器已经提取了 data 部分，所以需要检查是否有登录成功的数据
+        // 成功的情况：result 包含 ticket、token 或 id 等登录信息
+        if (result && (result.ticket || result.token || result.id)) {
           // 扫码成功，停止轮询
           if (pollingIntervalRef.current) {
             clearInterval(pollingIntervalRef.current);
@@ -380,10 +384,18 @@ const Login: React.FC = () => {
           // 需要重新获取配置（通常不会发生）
           loadLoginConfig();
         }
-        // 其他情况继续轮询
+        // 其他情况继续轮询（等待扫码）
       } catch (error: any) {
         console.error('轮询扫码状态失败:', error);
-        // 轮询失败不影响，继续轮询
+        // 检查是否是二维码过期错误
+        if (error.response?.data?.code === 20004) {
+          setQrCodeExpired(true);
+          if (pollingIntervalRef.current) {
+            clearInterval(pollingIntervalRef.current);
+            pollingIntervalRef.current = null;
+          }
+        }
+        // 其他错误继续轮询
       }
     }, 5000); // 5秒轮询一次
   };

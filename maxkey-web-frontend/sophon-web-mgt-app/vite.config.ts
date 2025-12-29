@@ -15,7 +15,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/maxkey-mgt-api': {
-        target: 'http://localhost:80',
+        target: 'http://localhost:9528',
         changeOrigin: true,
       },
     },

@@ -15,6 +15,7 @@ import {
   Select,
   Tag,
   Space,
+  Input,
 } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 import {
@@ -22,7 +23,7 @@ import {
   FolderOutlined,
   FileOutlined,
 } from '@ant-design/icons';
-import type { Group, TreeNode, Application, Permission } from '@/types/entity';
+import type { Group, Application } from '@/types/entity';
 import permissionsService from '@/services/permissions.service';
 import resourcesService from '@/services/resources.service';
 import groupsService from '@/services/groups.service';
@@ -35,16 +36,21 @@ const PermissionAssignment: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [treeData, setTreeData] = useState<DataNode[]>([]);
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]);
+  const [halfCheckedKeys, setHalfCheckedKeys] = useState<React.Key[]>([]);
   const [selectedGroupId, setSelectedGroupId] = useState<string>();
+  const [selectedGroupRowKeys, setSelectedGroupRowKeys] = useState<React.Key[]>([]);
   const [appId, setAppId] = useState<string>('');
   const [appName, setAppName] = useState<string>('');
   const [appList, setAppList] = useState<Application[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+  const [groupSearchParams, setGroupSearchParams] = useState<any>({});
 
   // 从 URL 参数初始化
   useEffect(() => {
     const urlAppId = searchParams.get('appId');
     const urlAppName = searchParams.get('appName');
+    const urlGroupId = searchParams.get('groupId');
+    
     if (urlAppId) {
       setAppId(urlAppId);
       if (urlAppName) {
@@ -56,6 +62,13 @@ const PermissionAssignment: React.FC = () => {
       setAppId('');
       setAppName('');
     }
+    
+    // 如果 URL 中有 groupId，自动选中该用户组
+    if (urlGroupId) {
+      setSelectedGroupId(urlGroupId);
+      setSelectedGroupRowKeys([urlGroupId]);
+    }
+    
     loadAppList();
   }, [searchParams]);
 
@@ -128,14 +141,21 @@ const PermissionAssignment: React.FC = () => {
 
   // 加载用户组权限
   const loadGroupPermissions = async () => {
-    if (!selectedGroupId || !appId) return;
+    if (!selectedGroupId || !appId) {
+      setCheckedKeys([]);
+      setHalfCheckedKeys([]);
+      return;
+    }
     try {
       const permissions = await permissionsService.getByGroup(selectedGroupId, appId);
       const resourceIds = permissions.map((p) => p.resourceId).filter(Boolean) as string[];
       setCheckedKeys(resourceIds);
+      setHalfCheckedKeys([]); // 加载时清空半选中状态
     } catch (error: any) {
       console.error('加载用户组权限失败:', error);
       message.error('加载用户组权限失败');
+      setCheckedKeys([]);
+      setHalfCheckedKeys([]);
     }
   };
 
@@ -160,7 +180,6 @@ const PermissionAssignment: React.FC = () => {
       for (const node of flatNodes) {
         // 找到 parentKey 匹配的节点作为子节点
         if (node.key !== parentKey && node.parentKey === parentKey) {
-          const nodeType = node.attrs && node.attrs.type ? node.attrs.type : '';
           const childNode: DataNode = {
             key: String(node.key || node.id || ''),
             title: String(node.title || node.name || ''),
@@ -197,20 +216,34 @@ const PermissionAssignment: React.FC = () => {
     const app = appList.find((a) => a.id === value);
     setAppId(value);
     setAppName(app?.appName || '');
+    // 清空资源树的选中状态，但保留用户组选择（如果是从用户组列表跳转过来的）
     setCheckedKeys([]);
-    setSelectedGroupId(undefined);
+    setHalfCheckedKeys([]);
+    // 不清空 selectedGroupId，因为可能已经通过 URL 参数设置了
+    // setSelectedGroupId(undefined);
+    // setSelectedGroupRowKeys([]);
     loadResourceTree();
     actionRef.current?.reload();
   };
 
-  // 选择用户组
-  const handleGroupSelect = (record: Group) => {
-    setSelectedGroupId(record.id);
-    // 移除这里的 loadGroupPermissions 调用，由 useEffect 统一处理
-    // useEffect 会在 selectedGroupId 变化时自动调用 loadGroupPermissions
+  // 选择用户组（checkbox 单选逻辑，类似 Angular 的 onTableItemChecked）
+  const handleGroupSelect = (record: Group, checked: boolean) => {
+    // 先取消所有选择（类似 Angular 的 onTableAllChecked(false)）
+    setSelectedGroupRowKeys([]);
+    
+    if (checked) {
+      // 只选择当前项
+      setSelectedGroupRowKeys([record.id!]);
+      setSelectedGroupId(record.id);
+      // loadGroupPermissions 会由 useEffect 自动调用
+    } else {
+      setSelectedGroupId(undefined);
+      setCheckedKeys([]);
+      setHalfCheckedKeys([]);
+    }
   };
 
-  // 保存权限
+  // 保存权限（按照 Angular 版本的逻辑，包含选中节点、子节点和半选中节点）
   const handleSave = async () => {
     if (!selectedGroupId) {
       message.warning('请先选择用户组');
@@ -220,13 +253,18 @@ const PermissionAssignment: React.FC = () => {
       message.warning('请先选择应用');
       return;
     }
-    if (checkedKeys.length === 0) {
+    
+    // 收集所有需要保存的资源ID：选中节点 + 半选中节点
+    const allResourceIds = [...new Set([...checkedKeys, ...halfCheckedKeys])] as string[];
+    
+    if (allResourceIds.length === 0) {
       message.warning('请至少选择一个资源');
       return;
     }
+    
     try {
       // 构建资源ID字符串（逗号分隔）
-      const resourceId = (checkedKeys as string[]).join(',');
+      const resourceId = allResourceIds.join(',');
       
       // 更新用户组权限
       await permissionsService.updateGroupPermission({
@@ -294,7 +332,7 @@ const PermissionAssignment: React.FC = () => {
   const loadGroupData = async (params: any) => {
     try {
       const requestParams: any = {
-        groupName: params.groupName || '',
+        groupName: params.groupName || groupSearchParams.groupName || '',
         displayName: params.displayName || '',
         employeeNumber: params.employeeNumber || '',
         appId: appId || '',
@@ -336,7 +374,7 @@ const PermissionAssignment: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '权限分配',
+        // title: '权限分配',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -345,104 +383,143 @@ const PermissionAssignment: React.FC = () => {
           ],
         },
       }}
+      className="permission-assignment"
     >
-      <ProCard>
-        {/* 应用选择 */}
-        <Space style={{ marginBottom: 16 }}>
-          <span>应用：</span>
-          <Select
-            style={{ width: 300 }}
-            placeholder="请选择应用"
-            value={appId}
-            onChange={handleAppChange}
-            showSearch
-            filterOption={(input, option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
-            options={appList.map((app) => ({
-              label: app.appName,
-              value: app.id,
-            }))}
-          />
-        </Space>
+      {/* 搜索表单 */}
+      <ProCard bordered={false} style={{ marginBottom: 16 }}>
+        <Row gutter={[24, 16]}>
+          <Col xs={24} sm={24} md={10}>
+            <Space>
+              <span>应用名称：</span>
+              <Select
+                style={{ width: 200 }}
+                placeholder="请选择应用名称"
+                value={appId}
+                onChange={handleAppChange}
+                showSearch
+                allowClear
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={appList.map((app) => ({
+                  label: app.appName,
+                  value: app.id,
+                }))}
+              />
+            </Space>
+          </Col>
+          <Col xs={24} sm={24} md={10}>
+            <Space>
+              <span>用户组名称：</span>
+              <Input
+                style={{ width: 200 }}
+                placeholder="请输入用户组名称"
+                value={groupSearchParams.groupName || ''}
+                onChange={(e) => {
+                  setGroupSearchParams({ groupName: e.target.value });
+                }}
+                onPressEnter={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+            </Space>
+          </Col>
+          <Col xs={24} sm={24} md={4}>
+            <Button type="primary" onClick={() => actionRef.current?.reload()}>
+              查询
+            </Button>
+          </Col>
+        </Row>
+      </ProCard>
 
-        <Row gutter={16}>
+      <ProCard>
+        {/* 保存按钮工具栏 */}
+        <div className="table-list-toolbar">
+          <Button
+            type="primary"
+            icon={<SaveOutlined />}
+            onClick={handleSave}
+            disabled={!selectedGroupId || !appId}
+          >
+            保存权限
+          </Button>
+        </div>
+
+        <Row gutter={[24, 16]}>
           {/* 左侧：用户组列表 */}
-          <Col span={10}>
-            <ProCard title="用户组列表" size="small">
+          <Col xs={24} sm={24} md={10}>
+            <div className="grid-border">
               <ProTable<Group>
                 actionRef={actionRef}
                 columns={columns}
                 request={loadGroupData}
                 rowKey="id"
-                search={{
-                  labelWidth: 'auto',
-                  collapsed: false,
-                }}
+                search={false}
                 pagination={{
                   defaultPageSize: 10,
                   showSizeChanger: true,
                 }}
+                size="small"
+                bordered
                 rowSelection={{
-                  type: 'radio',
-                  selectedRowKeys: selectedGroupId ? [selectedGroupId] : [],
-                  onSelect: (record) => {
-                    handleGroupSelect(record);
+                  type: 'checkbox',
+                  selectedRowKeys: selectedGroupRowKeys,
+                  onChange: (keys, selectedRows) => {
+                    if (keys.length > 0) {
+                      // 只保留最后一个选中的（单选逻辑）
+                      const lastKey = keys[keys.length - 1];
+                      const lastRecord = selectedRows.find((r: Group) => r.id === lastKey);
+                      if (lastRecord) {
+                        handleGroupSelect(lastRecord, true);
+                      }
+                    } else {
+                      handleGroupSelect({} as Group, false);
+                    }
                   },
                 }}
               />
-            </ProCard>
+            </div>
           </Col>
 
           {/* 右侧：资源树 */}
-          <Col span={14}>
-            <ProCard
-              title="资源权限"
-              size="small"
-              extra={
-                <Button
-                  type="primary"
-                  icon={<SaveOutlined />}
-                  onClick={handleSave}
-                  disabled={!selectedGroupId || !appId}
-                >
-                  保存权限
-                </Button>
-              }
-            >
+          <Col xs={24} sm={24} md={14}>
+            <div className="grid-border">
               {appId ? (
                 loading ? (
                   <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
                     加载中...
                   </div>
                 ) : treeData.length > 0 ? (
-                  <>
-                    {/* 调试信息 - 生产环境可以移除 */}
-                    {process.env.NODE_ENV === 'development' && (
-                      <div style={{ marginBottom: 8, fontSize: 12, color: '#666' }}>
-                        调试: treeData长度={treeData.length}, expandedKeys={expandedKeys.length}, checkedKeys={checkedKeys.length}
-                      </div>
-                    )}
-                    <Tree
-                      checkable
-                      showLine
-                      blockNode
-                      treeData={treeData}
-                      expandedKeys={expandedKeys}
-                      onExpand={setExpandedKeys}
-                      checkedKeys={checkedKeys}
-                      onCheck={(checked) => {
-                        setCheckedKeys(checked as React.Key[]);
-                      }}
-                      icon={(props: any) => {
-                        return props.isLeaf ? (
-                          <FileOutlined />
-                        ) : (
-                          <FolderOutlined />
-                        );
-                      }}
-                    />
-                  </>
+                  <Tree
+                    checkable
+                    blockNode
+                    treeData={treeData}
+                    expandedKeys={expandedKeys}
+                    onExpand={setExpandedKeys}
+                    checkedKeys={{ checked: checkedKeys, halfChecked: halfCheckedKeys }}
+                    onCheck={(checked, info) => {
+                      setCheckedKeys(checked as React.Key[]);
+                      setHalfCheckedKeys(info.halfCheckedKeys || []);
+                    }}
+                    titleRender={(nodeData: any) => {
+                      const isLeaf = nodeData.isLeaf;
+                      return (
+                        <span className="custom-node">
+                          {isLeaf ? (
+                            <>
+                              <FileOutlined />
+                              <span className="file-name">{nodeData.title}</span>
+                            </>
+                          ) : (
+                            <>
+                              <FolderOutlined />
+                              <span className="folder-name">{nodeData.title}</span>
+                            </>
+                          )}
+                        </span>
+                      );
+                    }}
+                  />
                 ) : (
                   <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
                     <div>暂无资源数据</div>
@@ -456,7 +533,7 @@ const PermissionAssignment: React.FC = () => {
                   请先选择应用
                 </div>
               )}
-            </ProCard>
+            </div>
           </Col>
         </Row>
       </ProCard>

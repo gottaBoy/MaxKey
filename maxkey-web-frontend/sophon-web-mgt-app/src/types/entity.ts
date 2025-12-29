@@ -164,6 +164,7 @@ export interface Application extends BaseEntity {
   protocol: string; // CAS, OAUTH20, SAML20, JWT, FORMBASED, TOKENBASED
   category?: string;
   icon?: string;
+  iconBase64?: string; // base64 编码的图标
   loginUrl?: string;
   logoutUrl?: string;
   logoutType?: number;
@@ -267,6 +268,15 @@ export interface Role extends BaseEntity {
 
 // 角色成员
 export interface RoleMember extends BaseEntity {
+  roleId?: string;
+  roleName?: string;
+  userId?: string;
+  username?: string;
+  memberName?: string;
+  type?: string; // USER, USER-DYNAMIC, POST
+  gender?: number; // 1: 女, 其他: 男
+  jobTitle?: string;
+  department?: string;
   roleId: string;
   roleName?: string;
   userId: string;
@@ -354,6 +364,43 @@ export interface Institution extends BaseEntity {
   email?: string;
   division?: string;
   status: number;
+}
+
+// 账号管理
+export interface Accounts extends BaseEntity {
+  strategyId?: string;
+  strategyName?: string;
+  appId?: string;
+  appName?: string;
+  userId?: string;
+  username?: string;
+  displayName?: string;
+  relatedUsername?: string;
+  relatedPassword?: string;
+  createType?: string; // manual, automatic
+  status: number; // 0: 禁用, 1: 启用
+  employeeNumber?: string;
+}
+
+// 账号策略
+export interface AccountsStrategy extends BaseEntity {
+  name: string;
+  appId?: string;
+  appName?: string;
+  filters?: string;
+  orgIdsList?: string; // 组织ID列表（逗号分隔）
+  mapping?: string; // username, employeeNumber, windowsAccount, email, mobile, idCardNo
+  suffixes?: string;
+  createType?: string; // manual, automatic
+  status: number; // 0: 禁用, 1: 启用
+  displayName?: string;
+  protocol?: string;
+  startDate?: string;
+  endDate?: string;
+  startDatePicker?: number;
+  endDatePicker?: number;
+  appIconBase64?: string;
+  description?: string;
 }
 
 // 树节点

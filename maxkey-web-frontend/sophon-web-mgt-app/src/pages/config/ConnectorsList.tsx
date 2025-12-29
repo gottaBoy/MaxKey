@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { PageContainer, ProTable, ModalForm, ProFormText, ProFormSwitch } from '@ant-design/pro-components';
+import { PageContainer, ProTable, ModalForm, ProFormText, ProFormSwitch, ProForm, ProFormDependency } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { Button, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -11,7 +11,7 @@ const ConnectorsList: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<Connector | null>(null);
-  const [formRef] = ModalForm.useForm();
+  const [formRef] = ProForm.useForm();
 
   const columns: ProColumns<Connector>[] = [
     {
@@ -69,7 +69,6 @@ const ConnectorsList: React.FC = () => {
         connName: params.connName || '',
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
-        pageSizeOptions: [10, 20, 50],
       };
 
       const result: any = await connectorsService.fetch(requestParams);
@@ -113,6 +112,12 @@ const ConnectorsList: React.FC = () => {
   const handleAdd = () => {
     setCurrentRecord(null);
     formRef.resetFields();
+    formRef.setFieldsValue({
+      justInTime: false,
+      switch_justInTime: false,
+      status: 1,
+      switch_status: true,
+    });
     setCreateModalVisible(true);
   };
 
@@ -120,7 +125,13 @@ const ConnectorsList: React.FC = () => {
     try {
       const detail = await connectorsService.get(record.id!);
       setCurrentRecord(detail);
-      formRef.setFieldsValue(detail);
+      // 处理 switch_status 和 justInTime 字段
+      const formValues = {
+        ...detail,
+        switch_status: detail.status === 1,
+        switch_justInTime: detail.justInTime === 1,
+      };
+      formRef.setFieldsValue(formValues);
       setEditModalVisible(true);
     } catch (error: any) {
       message.error('获取详情失败');
@@ -153,17 +164,28 @@ const ConnectorsList: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: Connector) => {
+  const handleSubmit = async (values: any) => {
     try {
+      // 处理 switch_status 和 justInTime 字段
+      const submitData = {
+        ...values,
+        status: values.switch_status ? 1 : 0,
+        justInTime: values.switch_justInTime ? 1 : 0,
+        switch_status: undefined,
+        switch_justInTime: undefined,
+      };
+      
       if (currentRecord?.id) {
-        await connectorsService.update({ ...currentRecord, ...values });
+        await connectorsService.update({ ...currentRecord, ...submitData });
         message.success('更新成功');
       } else {
-        await connectorsService.create(values);
+        await connectorsService.create(submitData);
         message.success('创建成功');
       }
       setCreateModalVisible(false);
       setEditModalVisible(false);
+      formRef.resetFields();
+      setCurrentRecord(null);
       actionRef.current?.reload();
     } catch (error: any) {
       message.error(currentRecord?.id ? '更新失败' : '创建失败');
@@ -226,14 +248,39 @@ const ConnectorsList: React.FC = () => {
             setCreateModalVisible(false);
             setEditModalVisible(false);
             formRef.resetFields();
+            setCurrentRecord(null);
           }
         }}
         onFinish={handleSubmit}
         width={600}
+        initialValues={{
+          justInTime: false,
+          switch_justInTime: false,
+          status: 1,
+          switch_status: true,
+        }}
       >
+        <ProFormText name="id" label="ID" disabled={!!currentRecord?.id} />
         <ProFormText name="connName" label="连接器名称" rules={[{ required: true }]} />
-        <ProFormText name="displayName" label="显示名称" />
-        <ProFormSwitch name="justInTime" label="即时" />
+        <ProFormSwitch name="switch_justInTime" label="即时" />
+        <ProFormDependency name={['switch_justInTime']}>
+          {({ switch_justInTime }) => {
+            if (switch_justInTime) {
+              return null;
+            }
+            return (
+              <ProFormText
+                name="scheduler"
+                label="调度器"
+                placeholder="0 0 12 * * ?"
+              />
+            );
+          }}
+        </ProFormDependency>
+        <ProFormText name="providerUrl" label="提供者URL" rules={[{ required: true }]} />
+        <ProFormText name="principal" label="主体" rules={[{ required: true }]} />
+        <ProFormText.Password name="credentials" label="凭证" rules={[{ required: true }]} />
+        <ProFormSwitch name="switch_status" label="状态" />
       </ModalForm>
     </PageContainer>
   );

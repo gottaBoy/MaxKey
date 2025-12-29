@@ -8,22 +8,24 @@ const paramsSerializer = (params: any): string => {
   Object.keys(params).forEach((key) => {
     const value = params[key];
     
-    // 忽略 null、undefined 和空字符串
-    if (value === null || value === undefined || value === '') {
+    // 忽略 null 和 undefined，但保留空字符串（某些 API 需要空字符串参数）
+    if (value === null || value === undefined) {
       return;
     }
     
     // 处理数组：生成多个同名参数（与 Angular HttpParams 一致）
     if (Array.isArray(value)) {
       value.forEach((item) => {
-        if (item !== null && item !== undefined && item !== '') {
+        // 数组中的空值也保留（某些 API 需要）
+        if (item !== null && item !== undefined) {
           parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(item)}`);
         }
       });
     } else if (value instanceof Date) {
-      // 处理日期：转换为时间戳（秒）
-      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(Math.floor(value.getTime() / 1000))}`);
+      // 处理日期：转换为时间戳（毫秒）
+      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value.getTime())}`);
     } else {
+      // 保留空字符串参数
       parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     }
   });
@@ -63,10 +65,21 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (response: AxiosResponse) => {
     const res = response.data;
+    const url = response.config.url || '';
 
     // MaxKey的响应格式: { code: 0, message: '...', data: {...} }
     // code为0表示成功
+    // 特殊处理：某些 API（如 /access/access/appsInGroup 和 /access/access/appsNotInGroup）
+    // 即使 code 是 2，只要 data 存在，也应该返回数据
+    const isSpecialAccessAPI = url.includes('/access/access/appsInGroup') || 
+                                url.includes('/access/access/appsNotInGroup');
+    
     if (res.code !== undefined && res.code !== 0) {
+      // 对于特殊的访问控制 API，即使 code 是 2，只要 data 存在，也返回数据
+      if (isSpecialAccessAPI && res.data !== undefined && res.data !== null) {
+        return res.data;
+      }
+      
       // 创建错误对象，包含完整的响应信息
       const error = new Error(res.message || '请求失败') as any;
       error.response = {

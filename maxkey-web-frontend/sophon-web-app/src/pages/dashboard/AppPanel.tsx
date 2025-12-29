@@ -51,6 +51,8 @@ const links: { [key: string]: string } = {
   MapForge: 'http://localhost:4000/#map=17.00/21.69630/111.84556/338.5',
   FleetMatrix: 'http://localhost:5000',
   FusionHub: 'http://localhost:7002',
+  SimCraft: 'http://10.8.201.14:8080',
+  SentinelNet:'http://10.8.201.14:8080'
 };
 
 const AppPanel: React.FC = () => {
@@ -148,6 +150,10 @@ const AppPanel: React.FC = () => {
       window.open(links.FleetMatrix, '_blank');
     } else if (english === 'FusionHub' && links.FusionHub) {
       window.open(links.FusionHub, '_blank');
+    } else if (english === 'SimCraft' && links.SimCraft) {
+      window.open(links.SimCraft, '_blank');
+    } else if (english === 'SentinelNet' && links.SentinelNet) {
+      window.open(links.SentinelNet, '_blank');
     }
   };
 
@@ -249,7 +255,6 @@ const AppPanel: React.FC = () => {
                     textAlign: 'left',
                     borderRadius: '12px',
                     boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2), 0 0 12px rgba(59, 160, 255, 0.1)',
-                    transition: 'all 0.3s',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-start',

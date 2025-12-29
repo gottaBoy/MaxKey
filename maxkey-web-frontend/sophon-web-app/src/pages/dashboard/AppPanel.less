@@ -72,7 +72,7 @@
         height: 36px;
         padding: 0 12px;
         border-radius: 6px;
-        transition: all 0.3s;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         color: #cbd5e1;
         border-color: rgba(255, 255, 255, 0.08);
 
@@ -95,7 +95,7 @@
         padding: 4px;
         border-radius: 6px;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: background-color 0.3s;
 
         &:hover {
           background: rgba(59, 160, 255, 0.1);
@@ -125,18 +125,19 @@
   }
 }
 
-// 卡片hover动效增强
-.ant-card {
-  transition: all 0.3s ease;
-}
+// 卡片hover动效增强 - 保留颜色和阴影变化，移除位移和缩放
+// .ant-card {
+//   transition: box-shadow 0.3s ease, border-color 0.3s ease;
+// }
 
-.ant-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2),
-    0 0 20px rgba(59, 160, 255, 0.2),
-    0 0 40px rgba(59, 160, 255, 0.1) !important;
-  border-color: #1890ff !important;
-}
+// .ant-card:hover {
+//   // 移除 transform，避免内容晃动
+//   // transform: translateY(-8px) scale(1.02);
+//   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2),
+//     0 0 20px rgba(59, 160, 255, 0.2),
+//     0 0 40px rgba(59, 160, 255, 0.1) !important;
+//   border-color: #1890ff !important;
+// }
 
 // 响应式设计
 @media (max-width: 1200px) {

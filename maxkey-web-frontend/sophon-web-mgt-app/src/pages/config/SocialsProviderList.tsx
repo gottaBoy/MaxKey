@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { PageContainer, ProTable, ModalForm, ProFormText, ProFormDigit, ProFormSwitch } from '@ant-design/pro-components';
+import { PageContainer, ProTable, ModalForm, ProFormText, ProFormDigit, ProFormSwitch, ProFormRadio, ProForm } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { Button, Popconfirm, message, Image } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -11,7 +11,7 @@ const SocialsProviderList: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<SocialsProvider | null>(null);
-  const [formRef] = ModalForm.useForm();
+  const [formRef] = ProForm.useForm();
 
   const columns: ProColumns<SocialsProvider>[] = [
     {
@@ -97,7 +97,6 @@ const SocialsProviderList: React.FC = () => {
         providerName: params.providerName || '',
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
-        pageSizeOptions: [10, 20, 50],
       };
 
       const result: any = await socialsProviderService.fetch(requestParams);
@@ -148,7 +147,12 @@ const SocialsProviderList: React.FC = () => {
     try {
       const detail = await socialsProviderService.get(record.id!);
       setCurrentRecord(detail);
-      formRef.setFieldsValue(detail);
+      // 处理 switch_status 字段
+      const formValues = {
+        ...detail,
+        switch_status: detail.status === 1,
+      };
+      formRef.setFieldsValue(formValues);
       setEditModalVisible(true);
     } catch (error: any) {
       message.error('获取详情失败');
@@ -181,13 +185,20 @@ const SocialsProviderList: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: SocialsProvider) => {
+  const handleSubmit = async (values: any) => {
     try {
+      // 处理 switch_status 字段
+      const submitData = {
+        ...values,
+        status: values.switch_status ? 1 : 0,
+        switch_status: undefined,
+      };
+      
       if (currentRecord?.id) {
-        await socialsProviderService.update({ ...currentRecord, ...values });
+        await socialsProviderService.update({ ...currentRecord, ...submitData });
         message.success('更新成功');
       } else {
-        await socialsProviderService.create(values);
+        await socialsProviderService.create(submitData);
         message.success('创建成功');
       }
       setCreateModalVisible(false);
@@ -258,14 +269,39 @@ const SocialsProviderList: React.FC = () => {
         }}
         onFinish={handleSubmit}
         width={600}
+        initialValues={{
+          display: 'false',
+          scanCode: 'false',
+          status: 1,
+          sortIndex: 0,
+        }}
       >
-        <ProFormText name="provider" label="提供者" />
+        <ProFormText name="id" label="ID" disabled={!!currentRecord?.id} />
+        <ProFormText name="icon" label="图标" rules={[{ required: true }]} />
+        <ProFormText name="provider" label="提供者" rules={[{ required: true }]} />
         <ProFormText name="providerName" label="提供者名称" rules={[{ required: true }]} />
-        <ProFormText name="displayName" label="显示名称" />
-        <ProFormText name="icon" label="图标" />
-        <ProFormDigit name="sortIndex" label="排序" />
-        <ProFormSwitch name="display" label="显示" />
-        <ProFormSwitch name="scanCode" label="扫码" />
+        <ProFormText name="clientId" label="客户端ID" rules={[{ required: true }]} />
+        <ProFormText.Password name="clientSecret" label="客户端密钥" rules={[{ required: true }]} />
+        <ProFormText name="agentId" label="代理ID" />
+        <ProFormRadio.Group
+          name="scanCode"
+          label="扫码"
+          rules={[{ required: true }]}
+          options={[
+            { label: '否', value: 'false' },
+            { label: '是', value: 'true' },
+          ]}
+        />
+        <ProFormRadio.Group
+          name="display"
+          label="显示"
+          options={[
+            { label: '否', value: 'false' },
+            { label: '是', value: 'true' },
+          ]}
+        />
+        <ProFormDigit name="sortIndex" label="排序" rules={[{ required: true }]} min={0} />
+        <ProFormSwitch name="switch_status" label="状态" />
       </ModalForm>
     </PageContainer>
   );

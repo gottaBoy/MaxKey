@@ -23,6 +23,7 @@ import {
   Col,
   Select,
   Tag,
+  Input,
 } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 import {
@@ -51,6 +52,7 @@ const ResourcesList: React.FC = () => {
   const [currentRecord, setCurrentRecord] = useState<Resource>();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [treeSelectData, setTreeSelectData] = useState<any[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   // 加载应用列表
   const loadAppList = async () => {
@@ -303,6 +305,7 @@ const ResourcesList: React.FC = () => {
     try {
       await resourcesService.delete(id);
       message.success('删除资源成功');
+      setSelectedRowKeys([]);
       loadResourceTree();
       actionRef.current?.reload();
       if (selectedResourceId === id) {
@@ -315,9 +318,14 @@ const ResourcesList: React.FC = () => {
 
   // 批量删除
   const handleBatchDelete = async (ids: string[]) => {
+    if (ids.length === 0) {
+      message.warning('请选择要删除的资源');
+      return;
+    }
     try {
       await Promise.all(ids.map((id) => resourcesService.delete(id)));
       message.success('批量删除成功');
+      setSelectedRowKeys([]);
       loadResourceTree();
       actionRef.current?.reload();
     } catch (error) {
@@ -508,17 +516,14 @@ const ResourcesList: React.FC = () => {
         },
       }}
     >
-      <ProCard>
-        <Row gutter={16}>
-          {/* 左侧：应用选择和资源树 */}
-          <Col span={6}>
-            <ProCard
-              title="应用选择"
-              size="small"
-              style={{ marginBottom: 16 }}
-            >
+      {/* 搜索表单 */}
+      <ProCard bordered={false} style={{ marginBottom: 16 }}>
+        <Row gutter={[24, 16]}>
+          <Col xs={24} sm={24} md={10}>
+            <Space>
+              <span>应用名称：</span>
               <Select
-                style={{ width: '100%' }}
+                style={{ width: 200 }}
                 placeholder="请选择应用"
                 value={appId}
                 onChange={handleAppChange}
@@ -531,16 +536,82 @@ const ResourcesList: React.FC = () => {
                   value: app.id,
                 }))}
               />
-            </ProCard>
+            </Space>
+          </Col>
+          <Col xs={24} sm={24} md={10}>
+            <Space>
+              <span>资源名称：</span>
+              <Input
+                style={{ width: 200 }}
+                placeholder="请输入资源名称"
+                onPressEnter={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+            </Space>
+          </Col>
+          <Col xs={24} sm={24} md={4}>
+            <Button type="primary" onClick={() => actionRef.current?.reload()}>
+              查询
+            </Button>
+          </Col>
+        </Row>
+      </ProCard>
+
+      <ProCard>
+        {/* 工具栏 */}
+        <div className="table-list-toolbar" style={{ marginBottom: 16 }}>
+          <Space>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                if (!appId) {
+                  message.warning('请先选择应用');
+                  return;
+                }
+                setCreateModalVisible(true);
+              }}
+            >
+              新建资源
+            </Button>
+            <Popconfirm
+              title="确定要批量删除选中的资源吗？"
+              onConfirm={() => {
+                handleBatchDelete(selectedRowKeys as string[]);
+              }}
+              okText="确定"
+              okType="danger"
+              cancelText="取消"
+              disabled={selectedRowKeys.length === 0}
+            >
+              <Button
+                danger
+                disabled={selectedRowKeys.length === 0}
+                icon={<DeleteOutlined />}
+              >
+                批量删除
+              </Button>
+            </Popconfirm>
+          </Space>
+        </div>
+
+        <Row gutter={[16, 16]}>
+          {/* 左侧：资源树 */}
+          <Col xs={24} sm={24} md={6} lg={6} xl={6}>
             {appId && (
-              <ProCard title="资源树" size="small">
+              <ProCard
+                title="资源树"
+                className="grid-border"
+                bodyStyle={{ padding: '12px' }}
+              >
                 {loading ? (
                   <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
                     加载中...
                   </div>
                 ) : treeData.length > 0 ? (
                   <Tree
-                    showLine
+                    showLine={false}
                     blockNode
                     treeData={treeData}
                     expandedKeys={expandedKeys}
@@ -562,59 +633,40 @@ const ResourcesList: React.FC = () => {
                 )}
               </ProCard>
             )}
+            {!appId && (
+              <ProCard
+                title="资源树"
+                className="grid-border"
+                bodyStyle={{ padding: '12px' }}
+              >
+                <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
+                  请先选择应用
+                </div>
+              </ProCard>
+            )}
           </Col>
 
           {/* 右侧：资源列表 */}
-          <Col span={18}>
+          <Col xs={24} sm={24} md={18} lg={18} xl={18}>
             <ProTable<Resource>
               actionRef={actionRef}
               columns={columns}
               request={loadData}
               rowKey="id"
-              search={{
-                labelWidth: 'auto',
-                collapsed: false,
-              }}
-              toolBarRender={() => [
-                <Button
-                  key="add"
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => {
-                    if (!appId) {
-                      message.warning('请先选择应用');
-                      return;
-                    }
-                    setCreateModalVisible(true);
-                  }}
-                >
-                  新建资源
-                </Button>,
-              ]}
-              rowSelection={{
-                onChange: () => {
-                  // 可以在这里处理批量操作
-                },
-              }}
-              tableAlertRender={({ selectedRowKeys, onCleanSelected }) => (
-                <Space size={16}>
-                  <span>
-                    已选择 {selectedRowKeys.length} 项
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        handleBatchDelete(selectedRowKeys as string[]);
-                        onCleanSelected();
-                      }}
-                    >
-                      批量删除
-                    </Button>
-                  </span>
-                </Space>
-              )}
+              search={false}
               pagination={{
                 defaultPageSize: 10,
                 showSizeChanger: true,
+                showQuickJumper: true,
+              }}
+              size="small"
+              bordered
+              scroll={{ x: 'max-content' }}
+              rowSelection={{
+                selectedRowKeys,
+                onChange: (keys) => {
+                  setSelectedRowKeys(keys);
+                },
               }}
             />
           </Col>

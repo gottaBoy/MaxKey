@@ -4,8 +4,6 @@ import {
   PageContainer,
   ProCard,
   ProTable,
-  ModalForm,
-  ProFormText,
 } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import {
@@ -18,6 +16,7 @@ import {
   Space,
   Modal,
   Transfer,
+  Input,
 } from 'antd';
 import {
   PlusOutlined,
@@ -27,7 +26,6 @@ import {
 import type { Role, RoleMember, UserInfo } from '@/types/entity';
 import rolesService from '@/services/roles.service';
 import roleMembersService from '@/services/role-members.service';
-import usersService from '@/services/user';
 import './RoleMembersList.less';
 
 const RoleMembersList: React.FC = () => {
@@ -36,6 +34,7 @@ const RoleMembersList: React.FC = () => {
   const rightActionRef = useRef<ActionType>();
   const [selectedRoleId, setSelectedRoleId] = useState<string>('');
   const [selectedRoleName, setSelectedRoleName] = useState<string>('');
+  const [selectedRoleRowKeys, setSelectedRoleRowKeys] = useState<React.Key[]>([]);
   const [memberName, setMemberName] = useState<string>('');
   const [appId, setAppId] = useState<string>('');
   const [addMemberModalVisible, setAddMemberModalVisible] = useState(false);
@@ -45,6 +44,8 @@ const RoleMembersList: React.FC = () => {
   const [allUsers, setAllUsers] = useState<UserInfo[]>([]);
   const [allRoles, setAllRoles] = useState<Role[]>([]);
   const [selectedUser, setSelectedUser] = useState<string>('');
+  const [leftRoleName, setLeftRoleName] = useState<string>('');
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   // 从 URL 参数初始化
   useEffect(() => {
@@ -75,12 +76,14 @@ const RoleMembersList: React.FC = () => {
       dataIndex: 'id',
       width: 200,
       ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '角色名称',
       dataIndex: 'roleName',
       width: 200,
       ellipsis: true,
+      hideInSearch: true,
     },
   ];
 
@@ -163,11 +166,17 @@ const RoleMembersList: React.FC = () => {
     try {
       const requestParams: any = {
         appId: appId || '',
-        roleName: params.roleName || '',
+        roleName: leftRoleName || params.roleName || '',
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
-        pageSizeOptions: [10, 20, 50],
       };
+
+      // 移除空值参数
+      Object.keys(requestParams).forEach(key => {
+        if (requestParams[key] === '' || requestParams[key] === null || requestParams[key] === undefined) {
+          delete requestParams[key];
+        }
+      });
 
       const result = await rolesService.fetch(requestParams);
       
@@ -204,8 +213,14 @@ const RoleMembersList: React.FC = () => {
         memberName: params.memberName || memberName || '',
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
-        pageSizeOptions: [10, 20, 50],
       };
+
+      // 移除空值参数
+      Object.keys(requestParams).forEach(key => {
+        if (requestParams[key] === '' || requestParams[key] === null || requestParams[key] === undefined) {
+          delete requestParams[key];
+        }
+      });
 
       const result = await roleMembersService.member(requestParams);
       
@@ -227,11 +242,21 @@ const RoleMembersList: React.FC = () => {
     }
   };
 
-  // 选择左侧角色
-  const handleSelectRole = (record: Role) => {
-    setSelectedRoleId(record.id!);
-    setSelectedRoleName(record.roleName);
-    rightActionRef.current?.reload();
+  // 选择左侧角色（checkbox 单选逻辑，类似 Angular 的 onLeftTableItemChecked）
+  const handleSelectRole = (record: Role, checked: boolean) => {
+    // 先取消所有选择（类似 Angular 的 onTableAllChecked(false)）
+    setSelectedRoleRowKeys([]);
+    
+    if (checked) {
+      // 只选择当前项
+      setSelectedRoleRowKeys([record.id!]);
+      setSelectedRoleId(record.id!);
+      setSelectedRoleName(record.roleName || '');
+      rightActionRef.current?.reload();
+    } else {
+      setSelectedRoleId('');
+      setSelectedRoleName('');
+    }
   };
 
   // 删除成员
@@ -239,6 +264,7 @@ const RoleMembersList: React.FC = () => {
     try {
       await roleMembersService.delete([id]);
       message.success('删除成员成功');
+      setSelectedRowKeys([]);
       rightActionRef.current?.reload();
     } catch (error) {
       message.error('删除成员失败');
@@ -247,9 +273,14 @@ const RoleMembersList: React.FC = () => {
 
   // 批量删除成员
   const handleBatchDeleteMembers = async (ids: string[]) => {
+    if (ids.length === 0) {
+      message.warning('请选择要删除的成员');
+      return;
+    }
     try {
       await roleMembersService.delete(ids);
       message.success('批量删除成功');
+      setSelectedRowKeys([]);
       rightActionRef.current?.reload();
     } catch (error) {
       message.error('批量删除失败');
@@ -269,7 +300,6 @@ const RoleMembersList: React.FC = () => {
         roleId: selectedRoleId,
         pageNumber: 1,
         pageSize: 1000,
-        pageSizeOptions: [1000],
       });
       const data = (result as any).rows || (result as any).records || [];
       setAllUsers(data);
@@ -290,10 +320,6 @@ const RoleMembersList: React.FC = () => {
     }
     setMemberLoading(true);
     try {
-      const selectedUsers = allUsers.filter((u) => memberTargetKeys.includes(u.id!));
-      const userIds = selectedUsers.map((u) => u.id!).join(',');
-      const userNames = selectedUsers.map((u) => u.username || '').join(',');
-      
       await roleMembersService.add({
         roleId: selectedRoleId,
         userIds: memberTargetKeys,
@@ -301,6 +327,7 @@ const RoleMembersList: React.FC = () => {
       
       message.success('添加成员成功');
       setAddMemberModalVisible(false);
+      setMemberTargetKeys([]);
       rightActionRef.current?.reload();
     } catch (error) {
       message.error('添加成员失败');
@@ -323,7 +350,6 @@ const RoleMembersList: React.FC = () => {
         appId: appId || '',
         pageNumber: 1,
         pageSize: 1000,
-        pageSizeOptions: [1000],
       });
       const data = (result as any).rows || (result as any).records || [];
       setAllRoles(data);
@@ -356,6 +382,7 @@ const RoleMembersList: React.FC = () => {
       
       message.success('添加角色成功');
       setAddRoleModalVisible(false);
+      setMemberTargetKeys([]);
       rightActionRef.current?.reload();
     } catch (error) {
       message.error('添加角色失败');
@@ -367,7 +394,6 @@ const RoleMembersList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '角色成员管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -378,100 +404,194 @@ const RoleMembersList: React.FC = () => {
       }}
     >
       <ProCard>
-        <Row gutter={16}>
+        <Row gutter={[16, 16]}>
           {/* 左侧：角色列表 */}
-          <Col span={8}>
-            <ProCard title="角色列表" size="small">
-              <ProTable<Role>
-                actionRef={leftActionRef}
-                columns={leftColumns}
-                request={loadLeftRoles}
-                rowKey="id"
-                search={{
-                  labelWidth: 'auto',
-                  collapsed: false,
-                }}
-                pagination={{
-                  defaultPageSize: 10,
-                  showSizeChanger: true,
-                }}
-                rowSelection={{
-                  type: 'radio',
-                  selectedRowKeys: selectedRoleId ? [selectedRoleId] : [],
-                  onSelect: (record) => {
-                    handleSelectRole(record);
-                  },
-                }}
-              />
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+            <ProCard
+              title="角色列表"
+              className="grid-border"
+              bodyStyle={{ padding: '12px' }}
+            >
+              <Space direction="vertical" style={{ width: '100%' }} size="middle">
+                {/* 搜索表单 */}
+                <Space.Compact style={{ width: '100%' }}>
+                  <Input
+                    placeholder="角色名称"
+                    value={leftRoleName}
+                    onChange={(e) => {
+                      setLeftRoleName(e.target.value);
+                    }}
+                    onPressEnter={() => {
+                      leftActionRef.current?.reload();
+                    }}
+                    style={{ flex: 1 }}
+                  />
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      leftActionRef.current?.reload();
+                    }}
+                  >
+                    查询
+                  </Button>
+                </Space.Compact>
+                <ProTable<Role>
+                  actionRef={leftActionRef}
+                  columns={leftColumns}
+                  request={loadLeftRoles}
+                  rowKey="id"
+                  search={false}
+                  pagination={{
+                    defaultPageSize: 10,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                  }}
+                  size="small"
+                  bordered
+                  scroll={{ x: 'max-content' }}
+                  rowSelection={{
+                    type: 'checkbox',
+                    selectedRowKeys: selectedRoleRowKeys,
+                    onChange: (keys, selectedRows) => {
+                      if (keys.length > 0) {
+                        // 只保留最后一个选中的（单选逻辑）
+                        const lastKey = keys[keys.length - 1];
+                        const lastRecord = selectedRows.find((r: Role) => r.id === lastKey);
+                        if (lastRecord) {
+                          handleSelectRole(lastRecord, true);
+                        }
+                      } else {
+                        handleSelectRole({} as Role, false);
+                      }
+                    },
+                  }}
+                />
+              </Space>
             </ProCard>
           </Col>
 
           {/* 右侧：成员列表 */}
-          <Col span={16}>
+          <Col xs={24} sm={24} md={16} lg={16} xl={16}>
             <ProCard
-              title={`成员列表 - ${selectedRoleName || '请选择角色'}`}
-              size="small"
-              extra={
-                <Space>
-                  {selectedRoleId && (
-                    <Button
-                      type="primary"
-                      icon={<UserAddOutlined />}
-                      onClick={handleAddMemberFromRole}
-                    >
-                      添加成员
-                    </Button>
-                  )}
-                  {selectedUser && (
-                    <Button
-                      type="primary"
-                      icon={<PlusOutlined />}
-                      onClick={handleAddRoleFromUser}
-                    >
-                      添加角色
-                    </Button>
-                  )}
-                </Space>
-              }
+              className="grid-border"
+              bodyStyle={{ padding: '12px' }}
             >
-              <ProTable<RoleMember>
-                actionRef={rightActionRef}
-                columns={rightColumns}
-                request={loadRightMembers}
-                rowKey="id"
-                search={{
-                  labelWidth: 'auto',
-                  collapsed: false,
-                  defaultFormData: {
-                    memberName: memberName,
-                  },
-                }}
-                pagination={{
-                  defaultPageSize: 10,
-                  showSizeChanger: true,
-                }}
-                rowSelection={{
-                  onChange: (selectedRowKeys) => {
-                    // Can handle selected keys here if needed
-                  },
-                }}
-                tableAlertRender={({ selectedRowKeys, onCleanSelected }) => (
-                  <Space size={16}>
-                    <span>
-                      已选择 {selectedRowKeys.length} 项
-                      <Button
-                        type="link"
-                        onClick={() => {
-                          handleBatchDeleteMembers(selectedRowKeys as string[]);
-                          onCleanSelected();
+              <Space direction="vertical" style={{ width: '100%' }} size="middle">
+                {/* 搜索表单 */}
+                <Row gutter={[8, 8]}>
+                  <Col xs={24} sm={12} md={8}>
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <span style={{ fontSize: '13px' }}>角色名称</span>
+                      <Input
+                        value={selectedRoleName}
+                        readOnly
+                        disabled
+                        placeholder="角色名称"
+                      />
+                    </Space>
+                  </Col>
+                  <Col xs={24} sm={12} md={8}>
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <span style={{ fontSize: '13px' }}>成员名称</span>
+                      <Input
+                        placeholder="成员名称"
+                        value={memberName}
+                        onChange={(e) => {
+                          setMemberName(e.target.value);
                         }}
+                        onPressEnter={() => {
+                          rightActionRef.current?.reload();
+                        }}
+                      />
+                    </Space>
+                  </Col>
+                  <Col xs={24} sm={24} md={8}>
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <span style={{ fontSize: '13px', opacity: 0 }}>操作</span>
+                      <Space>
+                        <Button
+                          type="primary"
+                          onClick={() => {
+                            rightActionRef.current?.reload();
+                          }}
+                        >
+                          查询
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setMemberName('');
+                            rightActionRef.current?.reload();
+                          }}
+                        >
+                          重置
+                        </Button>
+                      </Space>
+                    </Space>
+                  </Col>
+                </Row>
+                {/* 工具栏 */}
+                <div className="table-list-toolbar">
+                  <Space>
+                    {selectedRoleId && (
+                      <Button
+                        type="primary"
+                        icon={<UserAddOutlined />}
+                        onClick={handleAddMemberFromRole}
+                      >
+                        添加成员
+                      </Button>
+                    )}
+                    {selectedUser && (
+                      <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={handleAddRoleFromUser}
+                      >
+                        添加角色
+                      </Button>
+                    )}
+                    <Popconfirm
+                      title="确定要批量删除选中的成员吗？"
+                      onConfirm={() => {
+                        handleBatchDeleteMembers(selectedRowKeys as string[]);
+                      }}
+                      okText="确定"
+                      okType="danger"
+                      cancelText="取消"
+                      disabled={selectedRowKeys.length === 0}
+                    >
+                      <Button
+                        danger
+                        disabled={selectedRowKeys.length === 0}
+                        icon={<DeleteOutlined />}
                       >
                         批量删除
                       </Button>
-                    </span>
+                    </Popconfirm>
                   </Space>
-                )}
-              />
+                </div>
+                <ProTable<RoleMember>
+                  actionRef={rightActionRef}
+                  columns={rightColumns}
+                  request={loadRightMembers}
+                  rowKey="id"
+                  search={false}
+                  pagination={{
+                    defaultPageSize: 10,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                  }}
+                  size="small"
+                  bordered
+                  scroll={{ x: 'max-content' }}
+                  rowSelection={{
+                    selectedRowKeys,
+                    onChange: (keys) => {
+                      setSelectedRowKeys(keys);
+                    },
+                  }}
+                />
+              </Space>
             </ProCard>
           </Col>
         </Row>
@@ -543,4 +663,3 @@ const RoleMembersList: React.FC = () => {
 };
 
 export default RoleMembersList;
-

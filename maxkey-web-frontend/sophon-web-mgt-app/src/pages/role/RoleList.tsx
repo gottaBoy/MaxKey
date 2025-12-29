@@ -8,6 +8,7 @@ import {
   ProFormTextArea,
   ProFormRadio,
   ProFormTreeSelect,
+  ProFormDependency,
 } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import {
@@ -57,6 +58,7 @@ const RoleList: React.FC = () => {
   const [memberTargetKeys, setMemberTargetKeys] = useState<string[]>([]);
   const [allUsers, setAllUsers] = useState<UserInfo[]>([]);
   const [checkedResourceKeys, setCheckedResourceKeys] = useState<React.Key[]>([]);
+  const [halfCheckedResourceKeys, setHalfCheckedResourceKeys] = useState<React.Key[]>([]);
   const [resourceTreeData, setResourceTreeData] = useState<DataNode[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [orgTreeSelectData, setOrgTreeSelectData] = useState<any[]>([]);
@@ -83,30 +85,78 @@ const RoleList: React.FC = () => {
   // 加载资源树（用于权限管理）
   const loadResourceTreeForPermission = async (appId: string) => {
     try {
-      const result: any = await resourcesService.tree({ appId, appName: selectedAppName });
-      // 处理返回结果：Angular 版本返回 { code: 0, data: TreeNode[] }
-      let nodes: TreeNode[] = [];
-      if (result && result.data && Array.isArray(result.data)) {
-        nodes = result.data;
-      } else if (Array.isArray(result)) {
-        nodes = result;
-      } else if (result && result.data && result.data.rows && Array.isArray(result.data.rows)) {
-        nodes = result.data.rows;
+      const params = { appId, appName: selectedAppName || '' };
+      const result: any = await resourcesService.tree(params);
+      
+      // API 返回格式: { rootNode: {...}, nodeCount: number, nodes: [...] }
+      // 响应拦截器已经提取了 data 部分，所以 result 应该是 { rootNode, nodeCount, nodes }
+      if (!result || !result.rootNode) {
+        console.warn('loadResourceTreeForPermission: result 中没有 rootNode', result);
+        setResourceTreeData([]);
+        return;
       }
       
-      const convertToTreeData = (treeNodes: TreeNode[]): DataNode[] => {
-        return treeNodes.map((node) => ({
-          key: node.id,
-          title: node.name,
-          isLeaf: node.isLeaf,
-          children: node.children ? convertToTreeData(node.children) : [],
-        }));
+      const rootNode = result.rootNode;
+      const flatNodes = result.nodes || [];
+      
+      // 按照 Angular TreeNodes.buildTree 的逻辑构建树
+      const buildTreeFromFlatNodes = (rootNode: any, flatNodes: any[]): DataNode[] => {
+        if (!rootNode) {
+          return [];
+        }
+        
+        // 转换根节点
+        const rootDataNode: DataNode = {
+          key: String(rootNode.key || rootNode.id || ''),
+          title: String(rootNode.title || rootNode.name || ''),
+          isLeaf: rootNode.isLeaf !== undefined ? rootNode.isLeaf : false,
+          children: [],
+        };
+        
+        // 递归构建子树
+        const buildChildren = (parentNode: DataNode, parentKey: string) => {
+          const children: DataNode[] = [];
+          
+          for (const node of flatNodes) {
+            // 找到 parentKey 匹配的节点作为子节点
+            if (node.key !== parentKey && node.parentKey === parentKey) {
+              const childNode: DataNode = {
+                key: String(node.key || node.id || ''),
+                title: String(node.title || node.name || ''),
+                isLeaf: node.isLeaf !== undefined ? node.isLeaf : true,
+                children: [],
+              };
+              
+              // 递归构建子节点的子节点
+              buildChildren(childNode, String(node.key || node.id || ''));
+              
+              // 如果有子节点，则不是叶子节点
+              if (childNode.children && childNode.children.length > 0) {
+                childNode.isLeaf = false;
+              }
+              
+              children.push(childNode);
+              parentNode.isLeaf = false; // 有子节点，父节点不是叶子
+            }
+          }
+          
+          if (children.length > 0) {
+            parentNode.children = children;
+          }
+        };
+        
+        // 从根节点开始构建
+        buildChildren(rootDataNode, String(rootNode.key || rootNode.id || ''));
+        
+        return [rootDataNode];
       };
-      const treeData = convertToTreeData(nodes);
+      
+      const treeData = buildTreeFromFlatNodes(rootNode, flatNodes);
       setResourceTreeData(treeData);
     } catch (error: any) {
       console.error('加载资源树失败:', error);
       console.error('错误详情:', error?.response?.data || error?.response);
+      message.error('加载资源树失败');
     }
   };
 
@@ -129,26 +179,67 @@ const RoleList: React.FC = () => {
   const loadOrgTree = async () => {
     try {
       const result: any = await organizationsService.tree();
-      // 处理返回结果：可能是直接数组，也可能是包装在 data 中
-      let nodes: TreeNode[] = [];
-      if (Array.isArray(result)) {
-        nodes = result;
-      } else if (result && Array.isArray(result.data)) {
-        nodes = result.data;
-      } else if (result && result.data && Array.isArray(result.data.rows)) {
-        nodes = result.data.rows;
+      // 处理不同的响应格式
+      let nodes: any[] = [];
+      
+      if (result && typeof result === 'object') {
+        if (result.data && typeof result.data === 'object') {
+          if (result.data.nodes && Array.isArray(result.data.nodes)) {
+            nodes = result.data.nodes;
+          } else if (Array.isArray(result.data)) {
+            nodes = result.data;
+          } else if (result.data.rows && Array.isArray(result.data.rows)) {
+            nodes = result.data.rows;
+          }
+        } else if (Array.isArray(result.nodes)) {
+          nodes = result.nodes;
+        } else if (Array.isArray(result.rows)) {
+          nodes = result.rows;
+        } else if (Array.isArray(result)) {
+          nodes = result;
+        }
       }
       
-      const convertToTreeSelectData = (treeNodes: TreeNode[]): any[] => {
-        return treeNodes.map((node) => ({
-          value: node.id,
-          title: node.name,
-          children: node.children ? convertToTreeSelectData(node.children) : [],
-        }));
+      // 转换为 TreeSelect 数据格式
+      const convertToTreeSelectData = (nodeList: any[], processedKeys: Set<string> = new Set(), depth: number = 0): any[] => {
+        if (!nodeList || !Array.isArray(nodeList) || depth > 100) {
+          return [];
+        }
+        
+        return nodeList.map((node) => {
+          const value = node.id || node.key || node.orgId || '';
+          const title = node.name || node.title || node.orgName || '';
+          
+          if (value && processedKeys.has(value)) {
+            return { value, title: `${title} (循环引用)`, children: [] };
+          }
+          
+          if (value) {
+            processedKeys.add(value);
+          }
+          
+          const children = node.children && Array.isArray(node.children) && node.children.length > 0
+            ? convertToTreeSelectData(node.children, processedKeys, depth + 1)
+            : [];
+          
+          if (value) {
+            processedKeys.delete(value);
+          }
+          
+          const result: any = { value, title };
+          // 即使 children 为空数组，也要保留 children 字段，确保树结构正确
+          result.children = children;
+          
+          return result;
+        });
       };
-      setOrgTreeSelectData(convertToTreeSelectData(nodes));
+      
+      const treeSelectData = convertToTreeSelectData(nodes);
+      console.log('组织树数据:', treeSelectData);
+      setOrgTreeSelectData(treeSelectData);
     } catch (error: any) {
       console.error('加载组织树失败:', error);
+      message.error('加载组织树失败');
     }
   };
 
@@ -224,13 +315,17 @@ const RoleList: React.FC = () => {
                 setPermissionModalVisible(true);
                 setPermissionLoading(true);
                 try {
-                  // 加载角色当前权限
+                  // 先加载资源树
+                  await loadResourceTreeForPermission(selectedAppId);
+                  
+                  // 然后加载角色当前权限
                   const permissions = await permissionsService.getByRolePermission({
                     roleId: record.id!,
                     appId: selectedAppId,
                   });
                   const resourceIds = permissions.map((p: Permission) => p.resourceId).filter(Boolean) as string[];
                   setCheckedResourceKeys(resourceIds);
+                  setHalfCheckedResourceKeys([]);
                 } catch (error: any) {
                   console.error('加载权限信息失败:', error);
                   message.error('加载权限信息失败');
@@ -243,7 +338,7 @@ const RoleList: React.FC = () => {
               }
             }}
           >
-            权限
+            访问权限
           </Button>,
           record.category === 'dynamic' && (
             <Button
@@ -263,6 +358,10 @@ const RoleList: React.FC = () => {
             icon={<EditOutlined />}
             onClick={async () => {
               try {
+                // 确保组织树数据已加载
+                if (orgTreeSelectData.length === 0) {
+                  await loadOrgTree();
+                }
                 // 获取完整的角色数据
                 const fullRoleData = await rolesService.get(record.id!);
                 setCurrentRole(fullRoleData);
@@ -557,6 +656,7 @@ const RoleList: React.FC = () => {
       });
       const resourceIds = permissions.map((p: Permission) => p.resourceId).filter(Boolean) as string[];
       setCheckedResourceKeys(resourceIds);
+      setHalfCheckedResourceKeys([]);
     } catch (error: any) {
       console.error('加载权限信息失败:', error);
       message.error('加载权限信息失败');
@@ -565,7 +665,7 @@ const RoleList: React.FC = () => {
     }
   };
 
-  // 保存角色权限
+  // 保存角色权限（按照 Angular 版本的逻辑）
   const handleSavePermissions = async () => {
     if (!currentRole || !selectedAppId) {
       message.warning('请先选择应用');
@@ -574,50 +674,56 @@ const RoleList: React.FC = () => {
 
     setPermissionLoading(true);
     try {
-      // 收集所有勾选的节点（包括子节点和半选节点）
-      // 注意：Ant Design Tree 的 checkedKeys 已经包含了所有勾选的节点
-      // 但我们需要手动收集子节点和半选节点
-      const collectAllResourceIds = (nodes: DataNode[], checkedKeys: React.Key[]): string[] => {
-        const resourceIds: string[] = [];
-        const checkedSet = new Set(checkedKeys.map(k => String(k)));
-        
-        const traverse = (node: DataNode) => {
+      // 按照 Angular 版本的逻辑收集资源ID：
+      // 1. 所有选中的节点（checkedKeys）及其所有子节点
+      // 2. 所有半选中的节点（halfCheckedKeys）
+      const resourceIds: string[] = [];
+      const checkedSet = new Set(checkedResourceKeys.map((k: React.Key) => String(k)));
+      
+      // 收集选中节点及其所有子节点
+      const collectCheckedNodes = (nodes: DataNode[]) => {
+        nodes.forEach(node => {
           const nodeKey = String(node.key);
-          // 如果节点被勾选，添加它和所有子节点
           if (checkedSet.has(nodeKey)) {
+            // 添加当前节点
             resourceIds.push(nodeKey);
-            // 递归添加所有子节点
-            if (node.children) {
-              const addChildren = (children: DataNode[]) => {
+            // 添加所有子节点（Angular 版本会添加所有子节点）
+            if (node.children && node.children.length > 0) {
+              const addAllChildren = (children: DataNode[]) => {
                 children.forEach(child => {
                   resourceIds.push(String(child.key));
-                  if (child.children) {
-                    addChildren(child.children);
+                  if (child.children && child.children.length > 0) {
+                    addAllChildren(child.children);
                   }
                 });
               };
-              addChildren(node.children);
+              addAllChildren(node.children);
             }
           }
           // 继续遍历子节点
-          if (node.children) {
-            node.children.forEach(traverse);
+          if (node.children && node.children.length > 0) {
+            collectCheckedNodes(node.children);
           }
-        };
-        
-        nodes.forEach(traverse);
-        return [...new Set(resourceIds)]; // 去重
+        });
       };
-
-      const allResourceIds = collectAllResourceIds(resourceTreeData, checkedResourceKeys);
       
-      if (allResourceIds.length === 0) {
+      collectCheckedNodes(resourceTreeData);
+      
+      // 添加所有半选中的节点
+      halfCheckedResourceKeys.forEach((key: React.Key) => {
+        resourceIds.push(String(key));
+      });
+      
+      // 去重
+      const uniqueResourceIds = [...new Set(resourceIds)];
+      
+      if (uniqueResourceIds.length === 0) {
         message.warning('请至少选择一个资源');
         return;
       }
 
       // 构建资源ID字符串（逗号分隔）
-      const resourceId = allResourceIds.join(',');
+      const resourceId = uniqueResourceIds.join(',');
 
       // 更新角色权限
       await permissionsService.updateRolePermission({
@@ -658,7 +764,7 @@ const RoleList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '角色管理',
+        // title: '角色管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -794,67 +900,43 @@ const RoleList: React.FC = () => {
             { label: '应用角色', value: 'app', disabled: true },
           ]}
         />
-        <ProFormTreeSelect
-          name="orgIdsList"
-          label="组织范围"
-          fieldProps={{
-            treeData: orgTreeSelectData,
-            multiple: true,
-            treeCheckable: true,
-            showCheckedStrategy: 'SHOW_PARENT',
-            placeholder: '请选择组织范围（动态角色）',
-            allowClear: true,
-          }}
-          dependencies={['category']}
-          shouldUpdate={(prevValues: any, currentValues: any) => {
-            return prevValues.category !== currentValues.category;
-          }}
-          noStyle
-        >
-          {({ category }: any) => {
+        <ProFormDependency name={['category']}>
+          {({ category }) => {
             if (category === 'dynamic') {
               return (
-                <ProFormTreeSelect
-                  name="orgIdsList"
-                  label="组织范围"
-                  fieldProps={{
-                    treeData: orgTreeSelectData,
-                    multiple: true,
-                    treeCheckable: true,
-                    showCheckedStrategy: 'SHOW_PARENT',
-                    placeholder: '请选择组织范围',
-                    allowClear: true,
-                  }}
-                />
+                <>
+                  <ProFormTreeSelect
+                    name="orgIdsList"
+                    label="组织范围"
+                    placeholder="请选择组织范围"
+                    fieldProps={{
+                      treeData: orgTreeSelectData,
+                      multiple: true,
+                      treeCheckable: true,
+                      checkStrictly: true,
+                      showCheckedStrategy: 'SHOW_PARENT',
+                      treeDefaultExpandAll: false,
+                      maxTagCount: 3,
+                      style: { width: '100%' },
+                      allowClear: true,
+                      showSearch: true,
+                      treeNodeFilterProp: 'title',
+                      virtual: false,
+                      dropdownStyle: { maxHeight: '400px', overflow: 'auto' },
+                    }}
+                  />
+                  <ProFormTextArea
+                    name="filters"
+                    label="过滤条件"
+                    placeholder="请输入过滤条件（如：USERTYPE='EMPLOYEE'）"
+                    fieldProps={{ rows: 3 }}
+                  />
+                </>
               );
             }
             return null;
           }}
-        </ProFormTreeSelect>
-        <ProFormTextArea
-          name="filters"
-          label="过滤条件"
-          placeholder="请输入过滤条件（动态角色，如：USERTYPE='EMPLOYEE'）"
-          dependencies={['category']}
-          shouldUpdate={(prevValues: any, currentValues: any) => {
-            return prevValues.category !== currentValues.category;
-          }}
-          noStyle
-        >
-          {({ category }: any) => {
-            if (category === 'dynamic') {
-              return (
-                <ProFormTextArea
-                  name="filters"
-                  label="过滤条件"
-                  placeholder="请输入过滤条件（如：USERTYPE='EMPLOYEE'）"
-                  fieldProps={{ rows: 3 }}
-                />
-              );
-            }
-            return null;
-          }}
-        </ProFormTextArea>
+        </ProFormDependency>
         <ProFormTextArea
           name="description"
           label="描述"
@@ -879,6 +961,8 @@ const RoleList: React.FC = () => {
         initialValues={{
           ...currentRole,
           category: currentRole?.category || 'static',
+          appId: currentRole?.appId || selectedAppId || '',
+          appName: currentRole?.appName || selectedAppName || '',
           orgIdsList: currentRole?.orgIdsList && currentRole.orgIdsList.trim() 
             ? currentRole.orgIdsList.split(',').filter(id => id && id.trim() !== '') 
             : [],
@@ -887,6 +971,11 @@ const RoleList: React.FC = () => {
           destroyOnClose: true,
         }}
       >
+        <ProFormText
+          name="appName"
+          label="应用名称"
+          disabled
+        />
         <ProFormText
           name="roleCode"
           label="角色编码"
@@ -909,67 +998,43 @@ const RoleList: React.FC = () => {
             { label: '应用角色', value: 'app', disabled: true },
           ]}
         />
-        <ProFormTreeSelect
-          name="orgIdsList"
-          label="组织范围"
-          fieldProps={{
-            treeData: orgTreeSelectData,
-            multiple: true,
-            treeCheckable: true,
-            showCheckedStrategy: 'SHOW_PARENT',
-            placeholder: '请选择组织范围（动态角色）',
-            allowClear: true,
-          }}
-          dependencies={['category']}
-          shouldUpdate={(prevValues: any, currentValues: any) => {
-            return prevValues.category !== currentValues.category;
-          }}
-          noStyle
-        >
-          {({ category }: any) => {
+        <ProFormDependency name={['category']}>
+          {({ category }) => {
             if (category === 'dynamic') {
               return (
-                <ProFormTreeSelect
-                  name="orgIdsList"
-                  label="组织范围"
-                  fieldProps={{
-                    treeData: orgTreeSelectData,
-                    multiple: true,
-                    treeCheckable: true,
-                    showCheckedStrategy: 'SHOW_PARENT',
-                    placeholder: '请选择组织范围',
-                    allowClear: true,
-                  }}
-                />
+                <>
+                  <ProFormTreeSelect
+                    name="orgIdsList"
+                    label="组织范围"
+                    placeholder="请选择组织范围"
+                    fieldProps={{
+                      treeData: orgTreeSelectData,
+                      multiple: true,
+                      treeCheckable: true,
+                      checkStrictly: true,
+                      showCheckedStrategy: 'SHOW_PARENT',
+                      treeDefaultExpandAll: false,
+                      maxTagCount: 3,
+                      style: { width: '100%' },
+                      allowClear: true,
+                      showSearch: true,
+                      treeNodeFilterProp: 'title',
+                      virtual: false,
+                      dropdownStyle: { maxHeight: '400px', overflow: 'auto' },
+                    }}
+                  />
+                  <ProFormTextArea
+                    name="filters"
+                    label="过滤条件"
+                    placeholder="请输入过滤条件（如：USERTYPE='EMPLOYEE'）"
+                    fieldProps={{ rows: 3 }}
+                  />
+                </>
               );
             }
             return null;
           }}
-        </ProFormTreeSelect>
-        <ProFormTextArea
-          name="filters"
-          label="过滤条件"
-          placeholder="请输入过滤条件（动态角色，如：USERTYPE='EMPLOYEE'）"
-          dependencies={['category']}
-          shouldUpdate={(prevValues: any, currentValues: any) => {
-            return prevValues.category !== currentValues.category;
-          }}
-          noStyle
-        >
-          {({ category }: any) => {
-            if (category === 'dynamic') {
-              return (
-                <ProFormTextArea
-                  name="filters"
-                  label="过滤条件"
-                  placeholder="请输入过滤条件（如：USERTYPE='EMPLOYEE'）"
-                  fieldProps={{ rows: 3 }}
-                />
-              );
-            }
-            return null;
-          }}
-        </ProFormTextArea>
+        </ProFormDependency>
         <ProFormTextArea
           name="description"
           label="描述"
@@ -1016,30 +1081,36 @@ const RoleList: React.FC = () => {
         onCancel={() => {
           setPermissionModalVisible(false);
           setCurrentRole(undefined);
-          setSelectedAppId('');
-          setSelectedAppName('');
+          // 不清空 selectedAppId 和 selectedAppName，因为它们可能来自 URL 参数
+          // 如果是从选择应用对话框选择的，下次点击时应该保留
         }}
         onOk={handleSavePermissions}
         width={800}
         confirmLoading={permissionLoading}
       >
         {selectedAppId ? (
-          <Tree
-            checkable
-            showLine
-            blockNode
-            defaultExpandAll
-            checkedKeys={checkedResourceKeys}
-            onCheck={(keys: React.Key[] | { checked: React.Key[]; halfChecked: React.Key[] }) => {
-              // 处理半选状态
-              if (Array.isArray(keys)) {
-                setCheckedResourceKeys(keys);
-              } else {
-                setCheckedResourceKeys(keys.checked || []);
-              }
-            }}
-            treeData={resourceTreeData}
-          />
+          permissionLoading ? (
+            <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
+              加载中...
+            </div>
+          ) : resourceTreeData.length > 0 ? (
+            <Tree
+              checkable
+              showLine
+              blockNode
+              defaultExpandAll
+              checkedKeys={{ checked: checkedResourceKeys, halfChecked: halfCheckedResourceKeys }}
+              onCheck={(checked, info) => {
+                setCheckedResourceKeys(checked as React.Key[]);
+                setHalfCheckedResourceKeys(info.halfCheckedKeys || []);
+              }}
+              treeData={resourceTreeData}
+            />
+          ) : (
+            <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
+              暂无资源数据
+            </div>
+          )
         ) : (
           <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
             请先选择应用

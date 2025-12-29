@@ -1,7 +1,7 @@
 {
   "name": "sophon-web-app",
   "version": "1.0.0",
-  "description": "Sophon SSO User Portal - React Version based on MaxKey API",
+  "description": "ZeronEdge User Portal - React Version based on MaxKey API",
   "private": true,
   "type": "module",
   "scripts": {

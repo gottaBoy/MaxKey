@@ -43,22 +43,26 @@ export class BaseService<T> {
    * 更新
    */
   async update(data: Partial<T>): Promise<T> {
-    return request.post(`${this.baseUrl}/update`, data);
+    return request.put(`${this.baseUrl}/update`, data);
   }
 
   /**
    * 删除
    */
   async delete(id: string): Promise<void> {
-    return request.delete(`${this.baseUrl}/delete/${id}`);
+    return request.delete(`${this.baseUrl}/delete`, {
+      params: { ids: id },
+    });
   }
 
   /**
    * 批量删除
    */
   async batchDelete(ids: string[]): Promise<void> {
-    return request.delete(`${this.baseUrl}/batchDelete`, {
-      data: { ids },
+    // 将数组转换为逗号分隔的字符串，与 Angular 版本的 set2String 行为一致
+    const idsString = ids.join(',');
+    return request.delete(`${this.baseUrl}/delete`, {
+      params: { ids: idsString },
     });
   }
 

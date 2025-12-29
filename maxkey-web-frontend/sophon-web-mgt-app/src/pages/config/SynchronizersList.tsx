@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { PageContainer, ProTable, ModalForm, ProFormText } from '@ant-design/pro-components';
+import { PageContainer, ProTable, ModalForm, ProFormText, ProFormSwitch, ProForm, ProFormSelect, ProFormTextArea, ProFormDependency, ProFormDigit } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { Button, Popconfirm, message, Space } from 'antd';
+import { Button, Popconfirm, message } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SyncOutlined } from '@ant-design/icons';
 import synchronizersService, { Synchronizer } from '@/services/synchronizers.service';
 
@@ -11,7 +11,7 @@ const SynchronizersList: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<Synchronizer | null>(null);
-  const [formRef] = ModalForm.useForm();
+  const [formRef] = ProForm.useForm();
 
   const columns: ProColumns<Synchronizer>[] = [
     {
@@ -77,7 +77,6 @@ const SynchronizersList: React.FC = () => {
         name: params.name || '',
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
-        pageSizeOptions: [10, 20, 50],
       };
 
       const result: any = await synchronizersService.fetch(requestParams);
@@ -121,6 +120,12 @@ const SynchronizersList: React.FC = () => {
   const handleAdd = () => {
     setCurrentRecord(null);
     formRef.resetFields();
+    formRef.setFieldsValue({
+      status: 1,
+      switch_status: true,
+      sslSwitch: '0',
+      switch_sslSwitch: false,
+    });
     setCreateModalVisible(true);
   };
 
@@ -128,7 +133,13 @@ const SynchronizersList: React.FC = () => {
     try {
       const detail = await synchronizersService.get(record.id!);
       setCurrentRecord(detail);
-      formRef.setFieldsValue(detail);
+      // 处理 switch_status 和 switch_sslSwitch 字段
+      const formValues = {
+        ...detail,
+        switch_status: detail.status === 1,
+        switch_sslSwitch: detail.sslSwitch === '1' || detail.sslSwitch === 1 || detail.sslSwitch === true,
+      };
+      formRef.setFieldsValue(formValues);
       setEditModalVisible(true);
     } catch (error: any) {
       message.error('获取详情失败');
@@ -170,17 +181,28 @@ const SynchronizersList: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: Synchronizer) => {
+  const handleSubmit = async (values: any) => {
     try {
+      // 处理 switch_status 和 switch_sslSwitch 字段
+      const submitData = {
+        ...values,
+        status: values.switch_status ? 1 : 0,
+        sslSwitch: values.switch_sslSwitch ? '1' : '0',
+        switch_status: undefined,
+        switch_sslSwitch: undefined,
+      };
+      
       if (currentRecord?.id) {
-        await synchronizersService.update({ ...currentRecord, ...values });
+        await synchronizersService.update({ ...currentRecord, ...submitData });
         message.success('更新成功');
       } else {
-        await synchronizersService.create(values);
+        await synchronizersService.create(submitData);
         message.success('创建成功');
       }
       setCreateModalVisible(false);
       setEditModalVisible(false);
+      formRef.resetFields();
+      setCurrentRecord(null);
       actionRef.current?.reload();
     } catch (error: any) {
       message.error(currentRecord?.id ? '更新失败' : '创建失败');
@@ -243,14 +265,112 @@ const SynchronizersList: React.FC = () => {
             setCreateModalVisible(false);
             setEditModalVisible(false);
             formRef.resetFields();
+            setCurrentRecord(null);
           }
         }}
         onFinish={handleSubmit}
-        width={600}
+        width={800}
+        initialValues={{
+          status: 1,
+          switch_status: true,
+          sslSwitch: '0',
+          switch_sslSwitch: false,
+        }}
       >
         <ProFormText name="name" label="名称" rules={[{ required: true }]} />
-        <ProFormText name="displayName" label="显示名称" />
-        <ProFormText name="scheduler" label="调度器" />
+        <ProFormSelect
+          name="sourceType"
+          label="源类型"
+          rules={[{ required: true }]}
+          options={[
+            { label: 'SCIM v2.0', value: 'SCIMV20' },
+            { label: 'API', value: 'API' },
+            { label: 'MSAD', value: 'MSAD' },
+            { label: 'LDAP', value: 'LDAP' },
+            { label: 'DATABASE', value: 'DB' },
+          ]}
+          disabled={!!currentRecord?.id}
+        />
+        <ProFormText name="service" label="服务" rules={[{ required: true }]} />
+        <ProFormText name="scheduler" label="调度器" placeholder="0 0 12 * * ?" />
+        
+        {/* DB 类型字段 */}
+        <ProFormDependency name={['sourceType']}>
+          {({ sourceType }) => {
+            if (sourceType !== 'DB') {
+              return null;
+            }
+            return (
+              <>
+                <ProFormText name="driverClass" label="驱动类" rules={[{ required: true }]} />
+                <ProFormText name="providerUrl" label="提供者URL" rules={[{ required: true }]} />
+                <ProFormText name="principal" label="主体" rules={[{ required: true }]} />
+                <ProFormText.Password name="credentials" label="凭证" rules={[{ required: true }]} />
+                <ProFormTextArea name="userFilters" label="用户过滤器" fieldProps={{ rows: 3 }} />
+                <ProFormTextArea name="orgFilters" label="组织过滤器" fieldProps={{ rows: 3 }} />
+                <ProFormDigit name="syncStartTime" label="同步开始时间" addonAfter="天" />
+              </>
+            );
+          }}
+        </ProFormDependency>
+        
+        {/* LDAP 或 MSAD 类型字段 */}
+        <ProFormDependency name={['sourceType']}>
+          {({ sourceType }) => {
+            if (sourceType !== 'LDAP' && sourceType !== 'MSAD') {
+              return null;
+            }
+            return (
+              <>
+                <ProFormText name="providerUrl" label="提供者URL" rules={[{ required: true }]} />
+                <ProFormText name="principal" label="主体" rules={[{ required: true }]} />
+                <ProFormText.Password name="credentials" label="凭证" rules={[{ required: true }]} />
+                <ProFormText name="userBasedn" label="用户基础DN" rules={[{ required: true }]} />
+                <ProFormText name="userFilters" label="用户过滤器" />
+                {sourceType === 'LDAP' && (
+                  <>
+                    <ProFormText name="orgBasedn" label="组织基础DN" rules={[{ required: true }]} />
+                    <ProFormText name="orgFilters" label="组织过滤器" />
+                  </>
+                )}
+                {sourceType === 'MSAD' && (
+                  <ProFormText name="msadDomain" label="MSAD域" rules={[{ required: true }]} />
+                )}
+                <ProFormSwitch name="switch_sslSwitch" label="SSL开关" />
+                <ProFormDependency name={['switch_sslSwitch']}>
+                  {({ switch_sslSwitch }) => {
+                    if (!switch_sslSwitch) {
+                      return null;
+                    }
+                    return (
+                      <>
+                        <ProFormText name="trustStore" label="信任存储" />
+                        <ProFormText.Password name="trustStorePassword" label="信任存储密码" />
+                      </>
+                    );
+                  }}
+                </ProFormDependency>
+              </>
+            );
+          }}
+        </ProFormDependency>
+        
+        {/* API 类型字段 */}
+        <ProFormDependency name={['sourceType']}>
+          {({ sourceType }) => {
+            if (sourceType !== 'API') {
+              return null;
+            }
+            return (
+              <ProFormDigit name="syncStartTime" label="同步开始时间" addonAfter="天" />
+            );
+          }}
+        </ProFormDependency>
+        
+        {/* 通用字段 */}
+        <ProFormText name="resumeTime" label="恢复时间" />
+        <ProFormText name="suspendTime" label="暂停时间" />
+        <ProFormSwitch name="switch_status" label="状态" />
       </ModalForm>
     </PageContainer>
   );

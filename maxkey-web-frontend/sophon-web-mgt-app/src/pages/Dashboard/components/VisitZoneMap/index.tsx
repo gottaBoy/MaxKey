@@ -11,7 +11,8 @@ let worldJson: any = null;
 try {
   worldJson = require('./world.json');
 } catch (e) {
-  console.warn('world.json 文件不存在，世界地图将使用占位符');
+  // world.json 文件不存在时，使用 ECharts 内置的 geo 配置
+  // 不显示警告，因为这是可选功能
 }
 
 export default () => {

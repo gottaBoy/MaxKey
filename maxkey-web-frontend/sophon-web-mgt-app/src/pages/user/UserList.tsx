@@ -8,9 +8,9 @@ import {
   ProFormTreeSelect,
   ProFormSelect,
   ProFormRadio,
-  ProFormSwitch,
   ProFormDigit,
   ProFormDatePicker,
+  ProFormDependency,
 } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import {
@@ -21,7 +21,6 @@ import {
   Tree,
   Row,
   Col,
-  Tag,
   Tabs,
   Spin,
   Dropdown,
@@ -38,7 +37,6 @@ import {
   ReloadOutlined,
   MoreOutlined,
   LockOutlined,
-  UnlockOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   WarningOutlined,
@@ -198,23 +196,15 @@ const UserList: React.FC = () => {
       setTreeData(nodes);
       setTreeSelectData(convertToTreeSelectData(treeDataArray));
       
-      const collectAllKeys = (nodeList: DataNode[]): React.Key[] => {
-        const keys: React.Key[] = [];
-        nodeList.forEach((node: DataNode) => {
-          if (node.key) {
-            if (node.children && Array.isArray(node.children) && node.children.length > 0) {
-              keys.push(node.key);
-              keys.push(...collectAllKeys(node.children));
-            }
-          }
-        });
-        return keys;
-      };
-      
-      if (nodes.length > 0) {
-        const allKeys = collectAllKeys(nodes);
-        setExpandedKeys(allKeys);
-      }
+      // 默认展开第一层节点（只展开根节点的直接子节点）
+      const firstLevelKeys: React.Key[] = [];
+      nodes.forEach((node) => {
+        if (node.key && node.children && node.children.length > 0) {
+          // 只展开第一层（根节点的直接子节点）
+          firstLevelKeys.push(node.key);
+        }
+      });
+      setExpandedKeys(firstLevelKeys);
     } catch (error: any) {
       console.error('加载组织树失败:', error);
       const errorMessage = error?.response?.data?.message || error?.message || '加载组织树失败';
@@ -325,20 +315,21 @@ const UserList: React.FC = () => {
   };
 
   // 选择组织节点 - 更新部门ID并刷新表格
-  const handleSelectNode = (selectedKeys: React.Key[]) => {
-    if (selectedKeys.length > 0) {
-      const orgId = String(selectedKeys[0]); // 确保转换为字符串
-      console.log('选择组织节点，ID:', orgId);
-      setSelectedDepartmentId(orgId);
-      setSelectedOrgId(orgId);
-      // 重置搜索参数，只保留部门ID
+  const handleSelectNode = (_selectedKeys: React.Key[], info: any) => {
+    // info.node 是被点击的节点，info.node.key 是节点自身的 id
+    if (info?.node) {
+      const currentNodeId = String(info.node.key);
+      // 更新部门ID和组织ID
+      setSelectedDepartmentId(currentNodeId);
+      setSelectedOrgId(currentNodeId);
+      // 重置搜索参数
       setSearchParams({});
-      // 立即刷新表格数据
+      // 刷新表格数据
       setTimeout(() => {
         actionRef.current?.reload();
       }, 0);
     } else {
-      console.log('取消选择组织节点');
+      // 取消选择
       setSelectedDepartmentId('');
       setSelectedOrgId(undefined);
       setSearchParams({});
@@ -481,7 +472,17 @@ const UserList: React.FC = () => {
         label: '基本信息',
         children: (
           <>
+            <ProFormText name="id" hidden />
+            <ProFormText name="pictureId" hidden />
             <Row gutter={[8, 4]}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <ProFormText
+                  name="displayName"
+                  label="显示名称"
+                  placeholder="请输入显示名称"
+                  rules={[{ required: true, message: '请输入显示名称' }]}
+                />
+              </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="username"
@@ -489,14 +490,6 @@ const UserList: React.FC = () => {
                   placeholder="请输入用户名"
                   disabled={isEdit}
                   rules={[{ required: true, message: '请输入用户名' }]}
-                />
-              </Col>
-              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <ProFormText
-                  name="displayName"
-                  label="显示名称"
-                  placeholder="请输入显示名称"
-                  rules={[{ required: true, message: '请输入显示名称' }]}
                 />
               </Col>
             </Row>
@@ -552,34 +545,6 @@ const UserList: React.FC = () => {
                 </Col>
               </Row>
             )}
-            {isEdit && (
-              <Row gutter={[8, 4]}>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <ProFormTreeSelect
-                    name="departmentId"
-                    label="所属部门"
-                    placeholder="请选择所属部门"
-                    request={async () => {
-                      if (Array.isArray(treeSelectData)) {
-                        return treeSelectData;
-                      }
-                      return [];
-                    }}
-                    fieldProps={{
-                      showSearch: true,
-                      treeNodeFilterProp: 'title',
-                    }}
-                  />
-                </Col>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <ProFormText
-                    name="employeeNumber"
-                    label="员工编号"
-                    placeholder="请输入员工编号"
-                  />
-                </Col>
-              </Row>
-            )}
             <Row gutter={[8, 4]}>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormRadio.Group
@@ -611,42 +576,25 @@ const UserList: React.FC = () => {
                       </div>
                     )}
                   </Upload>
-                  <ProFormText name="pictureId" hidden />
                 </div>
               </Col>
             </Row>
-            {!isEdit && (
-              <Row gutter={[8, 4]}>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <ProFormText
-                    name="employeeNumber"
-                    label="员工编号"
-                    placeholder="请输入员工编号"
-                  />
-                </Col>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <ProFormText
-                    name="windowsAccount"
-                    label="Windows账户"
-                    placeholder="请输入Windows账户"
-                  />
-                </Col>
-              </Row>
-            )}
-            {isEdit && (
-              <Row gutter={[8, 4]}>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <ProFormText
-                    name="windowsAccount"
-                    label="Windows账户"
-                    placeholder="请输入Windows账户"
-                  />
-                </Col>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  {/* 占位，保持两列布局 */}
-                </Col>
-              </Row>
-            )}
+            <Row gutter={[8, 4]}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <ProFormText
+                  name="employeeNumber"
+                  label="员工编号"
+                  placeholder="请输入员工编号"
+                />
+              </Col>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <ProFormText
+                  name="windowsAccount"
+                  label="Windows账户"
+                  placeholder="请输入Windows账户"
+                />
+              </Col>
+            </Row>
             <Row gutter={[8, 4]}>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
@@ -719,6 +667,7 @@ const UserList: React.FC = () => {
                     { label: '未激活', value: 2 },
                     { label: '禁用', value: 4 },
                     { label: '锁定', value: 5 },
+                    { label: '已删除', value: 9 },
                   ]}
                 />
               </Col>
@@ -895,6 +844,65 @@ const UserList: React.FC = () => {
                   label="部门"
                   placeholder="请输入部门"
                 />
+              </Col>
+            </Row>
+            <Row gutter={[8, 4]}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <ProFormText
+                  name="departmentId"
+                  label="部门ID"
+                  placeholder="部门ID"
+                  fieldProps={{
+                    readOnly: true,
+                    disabled: true,
+                  }}
+                />
+              </Col>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <ProFormDependency name={['departmentId']}>
+                  {({ departmentId }) => {
+                    // 当选择部门时，自动设置 department 字段
+                    if (departmentId && treeSelectData.length > 0) {
+                      const findNode = (nodes: any[], id: string): any => {
+                        for (const node of nodes) {
+                          if (node.value === id) return node;
+                          if (node.children) {
+                            const found = findNode(node.children, id);
+                            if (found) return found;
+                          }
+                        }
+                        return null;
+                      };
+                      const selectedNode = findNode(treeSelectData, departmentId);
+                      if (selectedNode) {
+                        // 使用 setTimeout 确保表单已更新
+                        setTimeout(() => {
+                          const formRef = isEdit ? editFormRef.current : createFormRef.current;
+                          if (formRef) {
+                            formRef.setFieldValue('department', selectedNode.title || '');
+                          }
+                        }, 0);
+                      }
+                    }
+                    return (
+                      <ProFormTreeSelect
+                        name="departmentId"
+                        label="所属部门"
+                        placeholder="请选择所属部门"
+                        request={async () => {
+                          if (Array.isArray(treeSelectData)) {
+                            return treeSelectData;
+                          }
+                          return [];
+                        }}
+                        fieldProps={{
+                          showSearch: true,
+                          treeNodeFilterProp: 'title',
+                        }}
+                      />
+                    );
+                  }}
+                </ProFormDependency>
               </Col>
             </Row>
             <Row gutter={[8, 4]}>
@@ -1395,18 +1403,6 @@ const UserList: React.FC = () => {
     }
   };
 
-  // 搜索
-  const handleSearch = (values: any) => {
-    setSearchParams(values);
-    actionRef.current?.reload();
-  };
-
-  // 重置
-  const handleReset = () => {
-    setSearchParams({});
-    actionRef.current?.reload();
-  };
-
   // 创建用户
   const handleCreate = async (values: any) => {
     try {
@@ -1489,25 +1485,6 @@ const UserList: React.FC = () => {
     }
   };
 
-  // 生成随机密码
-  const handleGeneratePassword = async () => {
-    try {
-      const password = await userService.generatePassword();
-      // 设置到表单中
-      const form = document.querySelector('form');
-      if (form) {
-        const passwordInput = form.querySelector('input[name="newPassword"]') as HTMLInputElement;
-        const confirmInput = form.querySelector('input[name="confirmPassword"]') as HTMLInputElement;
-        if (passwordInput) passwordInput.value = password;
-        if (confirmInput) confirmInput.value = password;
-      }
-      message.success('密码已生成');
-    } catch (error: any) {
-      const errorMessage = error?.response?.data?.message || error?.message || '生成密码失败';
-      message.error(errorMessage);
-    }
-  };
-
   // 重置密码
   const handlePasswordReset = async (values: any) => {
     if (!currentRecord) return false;
@@ -1566,7 +1543,7 @@ const UserList: React.FC = () => {
             {/* 左侧组织树 */}
             <Col xs={24} sm={24} md={8} lg={6} xl={6}>
               <ProCard
-                title="组织树"
+                // title="组织树"
                 extra={
                   <Space>
                     <Button size="small" icon={<ReloadOutlined />} onClick={loadOrgTree}>
@@ -1592,7 +1569,17 @@ const UserList: React.FC = () => {
                         setExpandedKeys(keys as React.Key[]);
                       }}
                       selectedKeys={selectedOrgId ? [selectedOrgId] : []}
-                      onSelect={handleSelectNode}
+                      onSelect={(selectedKeys, info) => {
+                        // info.node 是被点击的节点，info.node.key 是节点自身的 id
+                        if (info?.node) {
+                          const currentNodeId = String(info.node.key);
+                          handleSelectNode([currentNodeId], info);
+                        } else if (selectedKeys.length > 0) {
+                          handleSelectNode(selectedKeys, info);
+                        } else {
+                          handleSelectNode([], info);
+                        }
+                      }}
                       treeData={treeData}
                     />
                   </div>

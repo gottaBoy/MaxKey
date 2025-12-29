@@ -1,4 +1,4 @@
-# Sophon SSO - React 管理控制台
+# ZeronEdge - React 管理控制台
 
 基于 MaxKey 的现代化 IAM 管理控制台，采用 React + TypeScript + Ant Design Pro 构建，100% 复刻 MaxKey Angular 版本功能。
 
@@ -339,7 +339,7 @@ npm install
 
 ## 👥 团队
 
-**Sophon SSO Team**
+**ZeronEdge Team**
 
 ## 📄 许可证
 

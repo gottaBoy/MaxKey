@@ -17,10 +17,12 @@ import {
 } from '@ant-design/icons';
 import type { Application } from '@/types/entity';
 import appsService from '@/services/apps.service';
+import { getAppIconUrl } from '@/utils/iconGenerator';
 
 const AppsList: React.FC = () => {
   const navigate = useNavigate();
   const actionRef = useRef<ActionType>();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   // 协议标签颜色映射
   const protocolColors: Record<string, string> = {
@@ -41,17 +43,22 @@ const AppsList: React.FC = () => {
     {
       title: '应用图标',
       dataIndex: 'icon',
-      width: 80,
+      width: 120,
       hideInSearch: true,
-      render: (_, record) => (
-        <Image
-          src={record.iconBase64 || appsService.getIconUrl(record.id!)}
-          alt={record.appName}
-          width={30}
-          height={30}
-          fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
-        />
-      ),
+      render: (_, record) => {
+        // 优先使用 iconBase64，否则根据应用名称生成
+        const iconUrl = getAppIconUrl(record.appName || '', record.iconBase64, record.id);
+        return (
+          <Image
+            src={iconUrl}
+            alt={record.appName || ''}
+            width={30}
+            height={30}
+            fallback={getAppIconUrl(record.appName || '')}
+            preview={false}
+          />
+        );
+      },
     },
     {
       title: 'ID',
@@ -59,6 +66,7 @@ const AppsList: React.FC = () => {
       width: 120,
       hideInSearch: true,
       ellipsis: true,
+      hidden: true,
     },
     {
       title: '应用名称',
@@ -214,12 +222,12 @@ const AppsList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '应用管理',
+        // title: '权限管理',
         breadcrumb: {
           items: [
             { title: '首页' },
             { title: '权限管理' },
-            { title: '应用管理' },
+            { title: '权限管理' },
           ],
         },
       }}
@@ -238,6 +246,24 @@ const AppsList: React.FC = () => {
           showSizeChanger: true,
         }}
         scroll={{ x: 'max-content' }}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: setSelectedRowKeys,
+        }}
+        tableAlertRender={({ selectedRowKeys, onCleanSelected }) => (
+          <span>
+            已选择 {selectedRowKeys.length} 项
+            <Button
+              type="link"
+              onClick={() => {
+                // 可以在这里添加批量操作逻辑
+                onCleanSelected();
+              }}
+            >
+              清空选择
+            </Button>
+          </span>
+        )}
       />
     </PageContainer>
   );
