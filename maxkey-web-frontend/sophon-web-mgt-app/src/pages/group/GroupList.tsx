@@ -20,6 +20,7 @@ import {
   Tag,
   Dropdown,
   MenuProps,
+  TreeSelect,
 } from 'antd';
 import {
   PlusOutlined,
@@ -50,6 +51,7 @@ const GroupList: React.FC = () => {
   const [memberTargetKeys, setMemberTargetKeys] = useState<string[]>([]);
   const [allUsers, setAllUsers] = useState<UserInfo[]>([]);
   const [orgTreeSelectData, setOrgTreeSelectData] = useState<any[]>([]);
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   // 表格列定义
@@ -182,7 +184,7 @@ const GroupList: React.FC = () => {
   // 加载用户组列表
   const loadGroups = async (params: any) => {
     try {
-      // MaxKey API 使用 pageNumber 而不是 current
+      // API 使用 pageNumber 而不是 current
       const requestParams: any = {
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
@@ -251,28 +253,107 @@ const GroupList: React.FC = () => {
     const loadOrgTree = async () => {
       try {
         const result: any = await organizationsService.tree({});
-        let nodes: any[] = [];
+        console.log('组织树API响应:', result);
         
-        // 处理不同的响应格式
-        if (result && typeof result === 'object') {
-          if (result.data && typeof result.data === 'object') {
-            if (result.data.nodes && Array.isArray(result.data.nodes)) {
-              nodes = result.data.nodes;
-            } else if (Array.isArray(result.data)) {
-              nodes = result.data;
+        let treeDataArray: any[] = [];
+        
+        // 复制自 UserList.tsx 的处理逻辑，支持多层级构建
+        if (Array.isArray(result)) {
+          treeDataArray = result;
+        } else if (result && typeof result === 'object' && result.rootNode && result.nodes) {
+          const rootNode = result.rootNode;
+          const nodes = result.nodes || [];
+          
+          const buildTree = (parentNode: any): any[] => {
+            const children: any[] = [];
+            for (const node of nodes) {
+              const parentKey = node.parentKey || node.parentId || node.parent_id;
+              const nodeKey = node.key || node.id;
+              if (nodeKey && nodeKey !== parentNode.key && parentKey === parentNode.key) {
+                const childNode: any = {
+                  id: nodeKey,
+                  name: node.title || node.name,
+                  key: nodeKey,
+                  title: node.title || node.name,
+                  isLeaf: true,
+                };
+                const grandChildren = buildTree(childNode);
+                if (grandChildren.length > 0) {
+                  childNode.children = grandChildren;
+                  childNode.isLeaf = false;
+                  parentNode.isLeaf = false;
+                }
+                children.push(childNode);
+              }
             }
-          } else if (Array.isArray(result.nodes)) {
-            nodes = result.nodes;
-          } else if (Array.isArray(result)) {
-            nodes = result;
+            return children;
+          };
+          
+          const rootNodeData: any = {
+            id: rootNode.key,
+            name: rootNode.title,
+            key: rootNode.key,
+            title: rootNode.title,
+            isLeaf: false,
+          };
+          
+          const children = buildTree(rootNodeData);
+          if (children.length > 0) {
+            rootNodeData.children = children;
           }
+          treeDataArray = [rootNodeData];
+        } else if (result && typeof result === 'object' && result.data) {
+           if (Array.isArray(result.data)) {
+             treeDataArray = result.data;
+           } else if (result.data.rootNode && result.data.nodes) {
+             const rootNode = result.data.rootNode;
+             const nodes = result.data.nodes || [];
+             
+             const buildTree = (parentNode: any): any[] => {
+                const children: any[] = [];
+                for (const node of nodes) {
+                  const parentKey = node.parentKey || node.parentId || node.parent_id;
+                  const nodeKey = node.key || node.id;
+                  if (nodeKey && nodeKey !== parentNode.key && parentKey === parentNode.key) {
+                    const childNode: any = {
+                      id: nodeKey,
+                      name: node.title || node.name,
+                      key: nodeKey,
+                      title: node.title || node.name,
+                      isLeaf: true,
+                    };
+                    const grandChildren = buildTree(childNode);
+                    if (grandChildren.length > 0) {
+                      childNode.children = grandChildren;
+                      childNode.isLeaf = false;
+                      parentNode.isLeaf = false;
+                    }
+                    children.push(childNode);
+                  }
+                }
+                return children;
+             };
+
+             const rootNodeData: any = {
+                id: rootNode.key,
+                name: rootNode.title,
+                key: rootNode.key,
+                title: rootNode.title,
+                isLeaf: false,
+             };
+             const children = buildTree(rootNodeData);
+             if (children.length > 0) {
+                rootNodeData.children = children;
+             }
+             treeDataArray = [rootNodeData];
+           }
+        } else if (result && typeof result === 'object' && Array.isArray(result.records)) {
+          treeDataArray = result.records;
         }
-        
+
         // 转换为 TreeSelect 数据格式
         const convertToTreeSelectData = (nodeList: any[], processedKeys: Set<string> = new Set(), depth: number = 0): any[] => {
-          if (!nodeList || !Array.isArray(nodeList) || depth > 100) {
-            return [];
-          }
+          if (!nodeList || !Array.isArray(nodeList) || depth > 100) return [];
           
           return nodeList.map((node) => {
             const value = node.id || node.key || node.orgId || '';
@@ -302,8 +383,17 @@ const GroupList: React.FC = () => {
           });
         };
         
-        const treeSelectData = convertToTreeSelectData(nodes);
+        const treeSelectData = convertToTreeSelectData(treeDataArray);
         setOrgTreeSelectData(treeSelectData);
+        
+        // 默认展开第一层节点
+        const firstLevelKeys: React.Key[] = [];
+        treeSelectData.forEach((node) => {
+          if (node.value && node.children && node.children.length > 0) {
+            firstLevelKeys.push(node.value);
+          }
+        });
+        setExpandedKeys(firstLevelKeys);
       } catch (error: any) {
         console.error('加载组织树失败:', error);
       }
@@ -324,7 +414,12 @@ const GroupList: React.FC = () => {
       // 如果是动态组，处理 orgIdsList
       if (submitData.category === 'dynamic') {
         if (Array.isArray(submitData.orgIdsList)) {
-          submitData.orgIdsList = submitData.orgIdsList.join(',');
+          // 如果使用了 treeCheckStrictly，返回的是 {label, value} 对象数组
+          // 需要提取 value 并组合成字符串
+          const ids = submitData.orgIdsList.map((item: any) => 
+            typeof item === 'object' && item.value ? item.value : item
+          );
+          submitData.orgIdsList = ids.join(',');
         }
       } else {
         // 静态组不需要 orgIdsList
@@ -362,8 +457,11 @@ const GroupList: React.FC = () => {
       // 如果是动态组，处理 orgIdsList
       if (submitData.category === 'dynamic') {
         if (Array.isArray(submitData.orgIdsList)) {
-          // 过滤空值并连接
-          submitData.orgIdsList = submitData.orgIdsList.filter((id: string) => id && id.trim() !== '').join(',');
+          // 过滤空值并连接，处理 labelInValue 的情况
+          const ids = submitData.orgIdsList.map((item: any) => 
+            typeof item === 'object' && item.value ? item.value : item
+          );
+          submitData.orgIdsList = ids.filter((id: string) => id && id.trim() !== '').join(',');
         } else if (!submitData.orgIdsList && currentGroup.orgIdsList) {
           submitData.orgIdsList = currentGroup.orgIdsList;
         }
@@ -682,14 +780,15 @@ const GroupList: React.FC = () => {
                 <>
                   <ProFormTreeSelect
                     name="orgIdsList"
-                    label="组织范围"
-                    placeholder="请选择组织范围"
+                    label="组织列表"
+                    placeholder="请选择组织列表"
                     fieldProps={{
                       treeData: orgTreeSelectData,
                       multiple: true,
                       treeCheckable: true,
-                      showCheckedStrategy: 'SHOW_PARENT',
-                      treeDefaultExpandAll: true,
+                      treeCheckStrictly: true,
+                      showCheckedStrategy: TreeSelect.SHOW_ALL,
+                      treeDefaultExpandedKeys: expandedKeys as any,
                       maxTagCount: 3,
                       style: { width: '100%' },
                     }}
@@ -761,14 +860,15 @@ const GroupList: React.FC = () => {
                 <>
                   <ProFormTreeSelect
                     name="orgIdsList"
-                    label="组织范围"
-                    placeholder="请选择组织范围"
+                    label="组织列表"
+                    placeholder="请选择组织列表"
                     fieldProps={{
                       treeData: orgTreeSelectData,
                       multiple: true,
                       treeCheckable: true,
-                      showCheckedStrategy: 'SHOW_PARENT',
-                      treeDefaultExpandAll: true,
+                      treeCheckStrictly: true,
+                      showCheckedStrategy: TreeSelect.SHOW_ALL,
+                      treeDefaultExpandedKeys: expandedKeys as any,
                       maxTagCount: 3,
                       style: { width: '100%' },
                     }}

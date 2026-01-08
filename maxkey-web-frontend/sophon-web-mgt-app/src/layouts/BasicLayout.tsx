@@ -25,14 +25,6 @@ const BasicLayout: React.FC = () => {
   const location = useLocation();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
 
-  // 根据当前路径自动打开对应的父菜单
-  useEffect(() => {
-    const currentParent = location.pathname.split('/').slice(0, 2).join('/');
-    if (currentParent && currentParent !== '/') {
-      setOpenKeys([currentParent]);
-    }
-  }, [location.pathname]);
-
   const menuItems: MenuProps['items'] = [
     {
       key: '/dashboard',
@@ -159,6 +151,42 @@ const BasicLayout: React.FC = () => {
       ],
     },
   ];
+
+  // 根据当前路径自动打开对应的父菜单
+  useEffect(() => {
+    const pathname = location.pathname;
+    
+    const findOpenKeys = (items: MenuProps['items']): string[] => {
+      if (!items) return [];
+      for (const item of items) {
+        const itemKey = item?.key as string;
+        // 如果当前项有子菜单
+        if ((item as any).children) {
+          // 检查子菜单是否包含当前路径
+          const hasMatch = (item as any).children.some((child: any) => 
+            child.key === pathname || pathname.startsWith(child.key + '/')
+          );
+          
+          if (hasMatch) {
+            return [itemKey];
+          }
+          
+          // 递归查找深层
+          const found = findOpenKeys((item as any).children);
+          if (found.length > 0) {
+            return [itemKey, ...found];
+          }
+        }
+      }
+      return [];
+    };
+    
+    // 如果找到了对应的父菜单，则设置打开
+    const newOpenKeys = findOpenKeys(menuItems);
+    if (newOpenKeys.length > 0) {
+      setOpenKeys(newOpenKeys);
+    }
+  }, [location.pathname]);
 
   const userMenuItems: MenuProps['items'] = [
     {

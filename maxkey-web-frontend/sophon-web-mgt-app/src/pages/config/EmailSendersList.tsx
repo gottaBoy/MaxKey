@@ -41,7 +41,7 @@ const EmailSendersList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '电子邮箱',
+        // title: '电子邮箱',
         breadcrumb: {
           items: [
             { title: '首页' },

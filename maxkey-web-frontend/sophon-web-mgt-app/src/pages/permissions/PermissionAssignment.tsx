@@ -386,13 +386,12 @@ const PermissionAssignment: React.FC = () => {
       className="permission-assignment"
     >
       {/* 搜索表单 */}
-      <ProCard bordered={false} style={{ marginBottom: 16 }}>
-        <Row gutter={[24, 16]}>
-          <Col xs={24} sm={24} md={10}>
-            <Space>
+      <ProCard bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '16px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span>应用名称：</span>
               <Select
-                style={{ width: 200 }}
+                style={{ width: 220 }}
                 placeholder="请选择应用名称"
                 value={appId}
                 onChange={handleAppChange}
@@ -406,13 +405,11 @@ const PermissionAssignment: React.FC = () => {
                   value: app.id,
                 }))}
               />
-            </Space>
-          </Col>
-          <Col xs={24} sm={24} md={10}>
-            <Space>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span>用户组名称：</span>
               <Input
-                style={{ width: 200 }}
+                style={{ width: 220 }}
                 placeholder="请输入用户组名称"
                 value={groupSearchParams.groupName || ''}
                 onChange={(e) => {
@@ -422,14 +419,11 @@ const PermissionAssignment: React.FC = () => {
                   actionRef.current?.reload();
                 }}
               />
-            </Space>
-          </Col>
-          <Col xs={24} sm={24} md={4}>
-            <Button type="primary" onClick={() => actionRef.current?.reload()}>
+          </div>
+          <Button type="primary" onClick={() => actionRef.current?.reload()}>
               查询
-            </Button>
-          </Col>
-        </Row>
+          </Button>
+        </div>
       </ProCard>
 
       <ProCard>

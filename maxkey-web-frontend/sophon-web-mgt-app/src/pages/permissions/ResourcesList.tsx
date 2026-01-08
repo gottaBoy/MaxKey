@@ -24,6 +24,7 @@ import {
   Select,
   Tag,
   Input,
+  Spin,
 } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 import {
@@ -32,6 +33,7 @@ import {
   DeleteOutlined,
   FolderOutlined,
   FileOutlined,
+  ReloadOutlined,
 } from '@ant-design/icons';
 import type { Resource, Application } from '@/types/entity';
 import resourcesService from '@/services/resources.service';
@@ -232,6 +234,20 @@ const ResourcesList: React.FC = () => {
     return [rootDataNode];
   };
 
+  // 查找节点名称
+  const findNodeTitle = (nodes: DataNode[], key: string): string => {
+    for (const node of nodes) {
+      if (node.key === key) {
+        return node.title as string;
+      }
+      if (node.children) {
+        const title = findNodeTitle(node.children, key);
+        if (title) return title;
+      }
+    }
+    return '';
+  };
+
   // 选择资源节点
   const handleSelectNode = (selectedKeys: React.Key[]) => {
     if (selectedKeys.length > 0) {
@@ -263,7 +279,6 @@ const ResourcesList: React.FC = () => {
         ...values,
         appId,
         appName,
-        parentId: selectedResourceId || undefined,
       });
       message.success('创建资源成功');
       setCreateModalVisible(false);
@@ -438,6 +453,10 @@ const ResourcesList: React.FC = () => {
             try {
               // 获取完整的资源数据
               const fullResourceData = await resourcesService.get(record.id);
+              // 如果没有 parentName，尝试从树中查找
+              if (!fullResourceData.parentName && fullResourceData.parentId) {
+                fullResourceData.parentName = findNodeTitle(treeData, fullResourceData.parentId);
+              }
               setCurrentRecord(fullResourceData);
               setEditModalVisible(true);
             } catch (error: any) {
@@ -506,7 +525,7 @@ const ResourcesList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '资源管理',
+        // title: '资源管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -517,13 +536,12 @@ const ResourcesList: React.FC = () => {
       }}
     >
       {/* 搜索表单 */}
-      <ProCard bordered={false} style={{ marginBottom: 16 }}>
-        <Row gutter={[24, 16]}>
-          <Col xs={24} sm={24} md={10}>
-            <Space>
+      <ProCard bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '16px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span>应用名称：</span>
               <Select
-                style={{ width: 200 }}
+                style={{ width: 220 }}
                 placeholder="请选择应用"
                 value={appId}
                 onChange={handleAppChange}
@@ -536,78 +554,55 @@ const ResourcesList: React.FC = () => {
                   value: app.id,
                 }))}
               />
-            </Space>
-          </Col>
-          <Col xs={24} sm={24} md={10}>
-            <Space>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span>资源名称：</span>
               <Input
-                style={{ width: 200 }}
+                style={{ width: 220 }}
                 placeholder="请输入资源名称"
                 onPressEnter={() => {
                   actionRef.current?.reload();
                 }}
               />
-            </Space>
-          </Col>
-          <Col xs={24} sm={24} md={4}>
-            <Button type="primary" onClick={() => actionRef.current?.reload()}>
+          </div>
+          <Button type="primary" onClick={() => actionRef.current?.reload()}>
               查询
-            </Button>
-          </Col>
-        </Row>
+          </Button>
+        </div>
       </ProCard>
 
       <ProCard>
-        {/* 工具栏 */}
-        <div className="table-list-toolbar" style={{ marginBottom: 16 }}>
-          <Space>
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => {
-                if (!appId) {
-                  message.warning('请先选择应用');
-                  return;
-                }
-                setCreateModalVisible(true);
-              }}
-            >
-              新建资源
-            </Button>
-            <Popconfirm
-              title="确定要批量删除选中的资源吗？"
-              onConfirm={() => {
-                handleBatchDelete(selectedRowKeys as string[]);
-              }}
-              okText="确定"
-              okType="danger"
-              cancelText="取消"
-              disabled={selectedRowKeys.length === 0}
-            >
-              <Button
-                danger
-                disabled={selectedRowKeys.length === 0}
-                icon={<DeleteOutlined />}
-              >
-                批量删除
-              </Button>
-            </Popconfirm>
-          </Space>
-        </div>
-
-        <Row gutter={[16, 16]}>
+        <Row gutter={16}>
           {/* 左侧：资源树 */}
-          <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-            {appId && (
-              <ProCard
-                title="资源树"
-                className="grid-border"
-                bodyStyle={{ padding: '12px' }}
-              >
-                {loading ? (
+          <Col span={6}>
+            <ProCard
+              // title="资源树"
+              className="grid-border"
+              bodyStyle={{ 
+                padding: '16px',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+              colSpan={6}
+              // extra={
+              //   appId && (
+              //     <Button 
+              //       size="small" 
+              //       icon={<ReloadOutlined />} 
+              //       onClick={() => {
+              //         loadResourceTree();
+              //       }}
+              //     >
+              //       刷新
+              //     </Button>
+              //   )
+              // }
+            >
+              {appId ? (
+                loading ? (
                   <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-                    加载中...
+                    <Spin />
                   </div>
                 ) : treeData.length > 0 ? (
                   <Tree
@@ -625,50 +620,81 @@ const ResourcesList: React.FC = () => {
                         <FolderOutlined />
                       );
                     }}
+                    height={600}
                   />
                 ) : (
                   <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
                     暂无资源数据
                   </div>
-                )}
-              </ProCard>
-            )}
-            {!appId && (
-              <ProCard
-                title="资源树"
-                className="grid-border"
-                bodyStyle={{ padding: '12px' }}
-              >
+                )
+              ) : (
                 <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
                   请先选择应用
                 </div>
-              </ProCard>
-            )}
+              )}
+            </ProCard>
           </Col>
 
           {/* 右侧：资源列表 */}
-          <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-            <ProTable<Resource>
-              actionRef={actionRef}
-              columns={columns}
-              request={loadData}
-              rowKey="id"
-              search={false}
-              pagination={{
-                defaultPageSize: 10,
-                showSizeChanger: true,
-                showQuickJumper: true,
-              }}
-              size="small"
-              bordered
-              scroll={{ x: 'max-content' }}
-              rowSelection={{
-                selectedRowKeys,
-                onChange: (keys) => {
-                  setSelectedRowKeys(keys);
-                },
-              }}
-            />
+          <Col span={18}>
+            <div className="grid-border">
+              <ProTable<Resource>
+                actionRef={actionRef}
+                columns={columns}
+                request={loadData}
+                rowKey="id"
+                search={false}
+                toolBarRender={() => [
+                  <Button
+                    key="add"
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={() => {
+                      if (!appId) {
+                        message.warning('请先选择应用');
+                        return;
+                      }
+                      setCreateModalVisible(true);
+                    }}
+                  >
+                    新建
+                  </Button>,
+                  <Popconfirm
+                    key="batchDelete"
+                    title="确定要批量删除选中的资源吗？"
+                    onConfirm={() => {
+                      handleBatchDelete(selectedRowKeys as string[]);
+                    }}
+                    okText="确定"
+                    okType="danger"
+                    cancelText="取消"
+                    disabled={selectedRowKeys.length === 0}
+                  >
+                    <Button
+                      danger
+                      disabled={selectedRowKeys.length === 0}
+                      icon={<DeleteOutlined />}
+                    >
+                      批量删除
+                    </Button>
+                  </Popconfirm>,
+                ]}
+                pagination={{
+                  defaultPageSize: 10,
+                  showSizeChanger: true,
+                  showQuickJumper: true,
+                }}
+                size="small"
+                bordered
+                scroll={{ x: 'max-content' }}
+                rowSelection={{
+                  selectedRowKeys,
+                  onChange: (keys) => {
+                    setSelectedRowKeys(keys);
+                  },
+                }}
+              />
+            </div>
           </Col>
         </Row>
       </ProCard>
@@ -686,9 +712,8 @@ const ResourcesList: React.FC = () => {
         onFinish={handleCreate}
         width={600}
         initialValues={{
-          appId,
-          appName,
           parentId: selectedResourceId,
+          parentName: selectedResourceId ? findNodeTitle(treeData, selectedResourceId) : '',
           resourceType: 'MENU',
           status: 1,
           sortIndex: 0,
@@ -698,9 +723,9 @@ const ResourcesList: React.FC = () => {
         }}
       >
         <ProFormText
-          name="appName"
-          label="应用名称"
-          disabled
+          name="id"
+          label="资源编码"
+          placeholder="请输入资源编码"
         />
         <ProFormText
           name="resourceName"
@@ -723,22 +748,20 @@ const ResourcesList: React.FC = () => {
           ]}
           rules={[{ required: true, message: '请选择资源类型' }]}
         />
-        <ProFormTreeSelect
+        <ProFormText
           name="parentId"
-          label="上级资源"
-          fieldProps={{
-            treeData: treeSelectData,
-            placeholder: '请选择上级资源',
-            allowClear: true,
-            onChange: () => {
-              // 可以在这里设置 parentName
-            },
-          }}
+          label="父级编码"
+          placeholder="请输入父级编码"
+        />
+        <ProFormText
+          name="parentName"
+          label="父级名称"
+          placeholder="请输入父级名称"
         />
         <ProFormText
           name="resourceUrl"
-          label="资源URL"
-          placeholder="请输入资源URL"
+          label="资源地址"
+          placeholder="请输入资源地址"
         />
         <ProFormText
           name="permission"
@@ -747,8 +770,8 @@ const ResourcesList: React.FC = () => {
         />
         <ProFormText
           name="resourceAction"
-          label="资源操作"
-          placeholder="请输入资源操作"
+          label="触发动作"
+          placeholder="请输入触发动作"
         />
         <ProFormText
           name="resourceStyle"
@@ -762,7 +785,7 @@ const ResourcesList: React.FC = () => {
         />
         <ProFormDigit
           name="sortIndex"
-          label="排序号"
+          label="排序"
           min={0}
           initialValue={0}
         />
@@ -774,12 +797,6 @@ const ResourcesList: React.FC = () => {
             { label: '启用', value: 1 },
             { label: '禁用', value: 0 },
           ]}
-        />
-        <ProFormTextArea
-          name="description"
-          label="描述"
-          placeholder="请输入描述信息"
-          fieldProps={{ rows: 3 }}
         />
       </ModalForm>
 
@@ -806,8 +823,9 @@ const ResourcesList: React.FC = () => {
         }}
       >
         <ProFormText
-          name="appName"
-          label="应用名称"
+          name="id"
+          label="资源编码"
+          placeholder="请输入资源编码"
           disabled
         />
         <ProFormText
@@ -831,19 +849,20 @@ const ResourcesList: React.FC = () => {
           ]}
           rules={[{ required: true, message: '请选择资源类型' }]}
         />
-        <ProFormTreeSelect
+        <ProFormText
           name="parentId"
-          label="上级资源"
-          fieldProps={{
-            treeData: treeSelectData,
-            placeholder: '请选择上级资源',
-            allowClear: true,
-          }}
+          label="父级编码"
+          placeholder="请输入父级编码"
+        />
+        <ProFormText
+          name="parentName"
+          label="父级名称"
+          placeholder="请输入父级名称"
         />
         <ProFormText
           name="resourceUrl"
-          label="资源URL"
-          placeholder="请输入资源URL"
+          label="资源地址"
+          placeholder="请输入资源地址"
         />
         <ProFormText
           name="permission"
@@ -852,8 +871,8 @@ const ResourcesList: React.FC = () => {
         />
         <ProFormText
           name="resourceAction"
-          label="资源操作"
-          placeholder="请输入资源操作"
+          label="触发动作"
+          placeholder="请输入触发动作"
         />
         <ProFormText
           name="resourceStyle"
@@ -867,7 +886,7 @@ const ResourcesList: React.FC = () => {
         />
         <ProFormDigit
           name="sortIndex"
-          label="排序号"
+          label="排序"
           min={0}
         />
         <ProFormRadio.Group
@@ -877,12 +896,6 @@ const ResourcesList: React.FC = () => {
             { label: '启用', value: 1 },
             { label: '禁用', value: 0 },
           ]}
-        />
-        <ProFormTextArea
-          name="description"
-          label="描述"
-          placeholder="请输入描述信息"
-          fieldProps={{ rows: 3 }}
         />
       </ModalForm>
     </PageContainer>

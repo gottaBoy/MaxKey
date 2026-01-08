@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { PageContainer, ProTable, ModalForm, ProFormText, ProFormSwitch, ProForm, ProFormDependency } from '@ant-design/pro-components';
+import { PageContainer, ProTable, ModalForm, ProFormText, ProFormSwitch, ProForm, ProFormDependency, ProCard } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { Button, Popconfirm, message } from 'antd';
+import { Button, Popconfirm, message, Input, Space } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import connectorsService, { Connector } from '@/services/connectors.service';
 
@@ -12,6 +12,7 @@ const ConnectorsList: React.FC = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<Connector | null>(null);
   const [formRef] = ProForm.useForm();
+  const [searchParams, setSearchParams] = useState<any>({});
 
   const columns: ProColumns<Connector>[] = [
     {
@@ -66,7 +67,7 @@ const ConnectorsList: React.FC = () => {
   const loadData = async (params: any) => {
     try {
       const requestParams: any = {
-        connName: params.connName || '',
+        connName: searchParams.connName || params.connName || '',
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
       };
@@ -195,7 +196,7 @@ const ConnectorsList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '连接器管理',
+        // title: '连接器管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -205,14 +206,40 @@ const ConnectorsList: React.FC = () => {
         },
       }}
     >
+      <ProCard bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '16px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>连接器名称：</span>
+            <Input
+              style={{ width: 220 }}
+              placeholder="请输入连接器名称"
+              value={searchParams.connName || ''}
+              onChange={(e) => setSearchParams({ ...searchParams, connName: e.target.value })}
+              onPressEnter={() => actionRef.current?.reload()}
+            />
+          </div>
+          
+          <Space>
+            <Button type="primary" onClick={() => actionRef.current?.reload()}>
+              查询
+            </Button>
+            <Button onClick={() => {
+              setSearchParams({});
+              // 确保 reload 在状态更新后执行
+              setTimeout(() => actionRef.current?.reload(), 0);
+            }}>
+              重置
+            </Button>
+          </Space>
+        </div>
+      </ProCard>
+
       <ProTable<Connector>
         columns={columns}
         actionRef={actionRef}
         request={loadData}
         rowKey="id"
-        search={{
-          labelWidth: 'auto',
-        }}
+        search={false}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,

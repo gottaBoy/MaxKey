@@ -41,7 +41,7 @@ const SmsProviderList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '短信服务',
+        // title: '短信服务',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -75,6 +75,7 @@ const SmsProviderList: React.FC = () => {
             name="provider"
             label="服务商"
             options={[
+              { label: '火山云', value: 'volcengine' },
               { label: '阿里云', value: 'aliyun' },
               { label: '腾讯云', value: 'tencentcloud' },
               { label: '网易云', value: 'neteasesms' },

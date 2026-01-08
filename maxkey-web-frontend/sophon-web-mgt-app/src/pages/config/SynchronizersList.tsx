@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { PageContainer, ProTable, ModalForm, ProFormText, ProFormSwitch, ProForm, ProFormSelect, ProFormTextArea, ProFormDependency, ProFormDigit } from '@ant-design/pro-components';
+import { PageContainer, ProTable, ModalForm, ProFormText, ProFormSwitch, ProForm, ProFormSelect, ProFormTextArea, ProFormDependency, ProFormDigit, ProCard } from '@ant-design/pro-components';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { Button, Popconfirm, message } from 'antd';
+import { Button, Popconfirm, message, Input, Space } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SyncOutlined } from '@ant-design/icons';
 import synchronizersService, { Synchronizer } from '@/services/synchronizers.service';
 
@@ -12,6 +12,7 @@ const SynchronizersList: React.FC = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<Synchronizer | null>(null);
   const [formRef] = ProForm.useForm();
+  const [searchParams, setSearchParams] = useState<any>({});
 
   const columns: ProColumns<Synchronizer>[] = [
     {
@@ -74,9 +75,10 @@ const SynchronizersList: React.FC = () => {
   const loadData = async (params: any) => {
     try {
       const requestParams: any = {
-        name: params.name || '',
+        name: searchParams.name || params.name || '',
         pageNumber: params.current || 1,
         pageSize: params.pageSize || 10,
+
       };
 
       const result: any = await synchronizersService.fetch(requestParams);
@@ -212,7 +214,7 @@ const SynchronizersList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '同步器管理',
+        // title: '同步器管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -222,14 +224,40 @@ const SynchronizersList: React.FC = () => {
         },
       }}
     >
+      <ProCard bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '16px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>名称：</span>
+            <Input
+              style={{ width: 220 }}
+              placeholder="请输入名称"
+              value={searchParams.name || ''}
+              onChange={(e) => setSearchParams({ ...searchParams, name: e.target.value })}
+              onPressEnter={() => actionRef.current?.reload()}
+            />
+          </div>
+          
+          <Space>
+            <Button type="primary" onClick={() => actionRef.current?.reload()}>
+              查询
+            </Button>
+            <Button onClick={() => {
+              setSearchParams({});
+              // 确保 reload 在状态更新后执行
+              setTimeout(() => actionRef.current?.reload(), 0);
+            }}>
+              重置
+            </Button>
+          </Space>
+        </div>
+      </ProCard>
+
       <ProTable<Synchronizer>
         columns={columns}
         actionRef={actionRef}
         request={loadData}
         rowKey="id"
-        search={{
-          labelWidth: 'auto',
-        }}
+        search={false}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,

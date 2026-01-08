@@ -43,7 +43,7 @@ const InstitutionsList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '机构配置',
+        // title: '机构配置',
         breadcrumb: {
           items: [
             { title: '首页' },

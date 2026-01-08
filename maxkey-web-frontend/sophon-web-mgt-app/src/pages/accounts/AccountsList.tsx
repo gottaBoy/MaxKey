@@ -5,6 +5,7 @@ import {
   ProTable,
   ModalForm,
   ProFormText,
+  ProFormSelect,
   ProForm,
   ProCard,
 } from '@ant-design/pro-components';
@@ -53,6 +54,7 @@ const AccountsList: React.FC = () => {
   const [orgTreeData, setOrgTreeData] = useState<DataNode[]>([]);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<string>('');
   const [userSearchParams, setUserSearchParams] = useState<any>({});
+  const [accountSearchParams, setAccountSearchParams] = useState<any>({});
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const userModalActionRef = useRef<ActionType>();
 
@@ -393,23 +395,8 @@ const AccountsList: React.FC = () => {
       title: '应用名称',
       dataIndex: 'appName',
       width: 200,
-      hideInTable: false,
-      hideInSearch: false,
-      renderFormItem: () => (
-        <Space.Compact style={{ width: '100%' }}>
-          <ProFormText
-            name="appName"
-            placeholder="请选择应用"
-            fieldProps={{
-              readOnly: true,
-              value: selectedAppName,
-            }}
-          />
-          <Button type="primary" onClick={handleSelectApp}>
-            选择
-          </Button>
-        </Space.Compact>
-      ),
+      fixed: 'left',
+      ellipsis: true,
     },
     {
       title: '用户名',
@@ -458,8 +445,8 @@ const AccountsList: React.FC = () => {
   const loadData = async (params: any) => {
     try {
       const requestParams: any = {
-        username: params.username || '',
-        displayName: params.displayName || '',
+        username: accountSearchParams.username || params.username || '',
+        displayName: accountSearchParams.displayName || params.displayName || '',
         employeeNumber: params.employeeNumber || '',
         appId: selectedAppId || params.appId || '',
         appName: selectedAppName || params.appName || '',
@@ -547,7 +534,7 @@ const AccountsList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '账号管理',
+        // title: '账号管理',
         breadcrumb: {
           items: [
             { title: '首页' },
@@ -557,16 +544,67 @@ const AccountsList: React.FC = () => {
         },
       }}
     >
+      {/* 搜索表单 */}
+      <ProCard bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '16px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>应用名称：</span>
+              <Select
+                  style={{ width: 220 }}
+                  placeholder="请选择应用"
+                  value={selectedAppId}
+                  onChange={(value) => {
+                    setSelectedAppId(value);
+                    const app = appList.find(a => a.id === value);
+                    setSelectedAppName(app?.appName || '');
+                    actionRef.current?.reload();
+                  }}
+                  showSearch
+                  allowClear
+                  filterOption={(input, option) =>
+                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
+                  options={appList.map((app) => ({
+                    label: app.appName,
+                    value: app.id,
+                  }))}
+                />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>用户名：</span>
+              <Input
+                style={{ width: 220 }}
+                placeholder="请输入用户名"
+                value={accountSearchParams.username || ''}
+                onChange={(e) => {
+                  setAccountSearchParams({ ...accountSearchParams, username: e.target.value });
+                }}
+                onPressEnter={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+          </div>
+          <Button type="primary" onClick={() => actionRef.current?.reload()}>
+              查询
+          </Button>
+          <Button onClick={() => {
+            setAccountSearchParams({});
+            setSelectedAppId('');
+            setSelectedAppName('');
+            // 确保 reload 在状态更新后执行
+            setTimeout(() => actionRef.current?.reload(), 0);
+          }}>
+              重置
+          </Button>
+        </div>
+      </ProCard>
+
       <ProTable<Accounts>
         columns={columns}
         actionRef={actionRef}
         request={loadData}
         rowKey="id"
-        search={{
-          labelWidth: 'auto',
-          searchText: '查询',
-          resetText: '重置',
-        }}
+        search={false}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -649,21 +687,50 @@ const AccountsList: React.FC = () => {
           }}
         />
         
-        {/* 应用名称 - 始终显示选择按钮，可以重新选择 */}
-        <ProFormText
-          name="appName"
+        {/* 应用名称 - 下拉选择 */}
+        <ProFormSelect
+          name="appId"
           label="应用名称"
           rules={[{ required: true, message: '请选择应用' }]}
+          showSearch
+          options={appList.map((app) => ({
+            label: app.appName,
+            value: app.id,
+          }))}
           fieldProps={{
-            readOnly: true,
-            addonAfter: (
-              <Button type="primary" onClick={handleSelectApp}>
-                选择
-              </Button>
-            ),
+            optionFilterProp: 'label',
+            onChange: async (value) => {
+              const app = appList.find((a) => a.id === value);
+              if (app) {
+                createFormRef.setFieldsValue({
+                  appName: app.appName,
+                  strategyId: undefined,
+                  strategyName: undefined,
+                });
+                
+                // 查询该应用对应的账号策略
+                try {
+                  const strategyResult: any = await accountsStrategyService.fetch({
+                    appId: app.id,
+                    pageNumber: 1,
+                    pageSize: 1,
+                  });
+                  
+                  const strategies = (strategyResult as any)?.rows || (strategyResult as any)?.records || [];
+                  if (strategies.length > 0) {
+                    createFormRef.setFieldsValue({
+                      strategyId: strategies[0].id,
+                      strategyName: strategies[0].name || '',
+                    });
+                  }
+                } catch (error: any) {
+                  console.error('查询账号策略失败:', error);
+                }
+              }
+            }
           }}
         />
-        <ProFormText name="appId" hidden />
+        <ProFormText name="appName" hidden />
         <ProFormText name="strategyId" hidden />
         
         {/* 应用账号 - 可编辑，带生成按钮 */}

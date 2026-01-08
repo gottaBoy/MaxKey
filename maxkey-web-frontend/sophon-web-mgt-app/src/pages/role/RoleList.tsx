@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   PageContainer,
+  ProCard,
   ProTable,
   ModalForm,
   ProFormText,
@@ -20,6 +21,8 @@ import {
   Tree,
   Tag,
   Select,
+  Input,
+  TreeSelect,
 } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 import {
@@ -61,8 +64,12 @@ const RoleList: React.FC = () => {
   const [halfCheckedResourceKeys, setHalfCheckedResourceKeys] = useState<React.Key[]>([]);
   const [resourceTreeData, setResourceTreeData] = useState<DataNode[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [orgTreeSelectData, setOrgTreeSelectData] = useState<any[]>([]);
   const editFormRef = useRef<any>();
+
+  const [roleSearchParams, setRoleSearchParams] = useState<any>({});
+
 
   // 从 URL 参数初始化
   useEffect(() => {
@@ -175,36 +182,111 @@ const RoleList: React.FC = () => {
     }
   };
 
-  // 加载组织树
+  // 加载组织树（用于动态角色的组织选择）
   const loadOrgTree = async () => {
     try {
-      const result: any = await organizationsService.tree();
-      // 处理不同的响应格式
-      let nodes: any[] = [];
+      const result: any = await organizationsService.tree({});
+      console.log('组织树API响应:', result);
       
-      if (result && typeof result === 'object') {
-        if (result.data && typeof result.data === 'object') {
-          if (result.data.nodes && Array.isArray(result.data.nodes)) {
-            nodes = result.data.nodes;
-          } else if (Array.isArray(result.data)) {
-            nodes = result.data;
-          } else if (result.data.rows && Array.isArray(result.data.rows)) {
-            nodes = result.data.rows;
+      let treeDataArray: any[] = [];
+      
+      // 复制自 UserList.tsx 的处理逻辑，支持多层级构建
+      if (Array.isArray(result)) {
+        treeDataArray = result;
+      } else if (result && typeof result === 'object' && result.rootNode && result.nodes) {
+        const rootNode = result.rootNode;
+        const nodes = result.nodes || [];
+        
+        const buildTree = (parentNode: any): any[] => {
+          const children: any[] = [];
+          for (const node of nodes) {
+            const parentKey = node.parentKey || node.parentId || node.parent_id;
+            const nodeKey = node.key || node.id;
+            if (nodeKey && nodeKey !== parentNode.key && parentKey === parentNode.key) {
+              const childNode: any = {
+                id: nodeKey,
+                name: node.title || node.name,
+                key: nodeKey,
+                title: node.title || node.name,
+                isLeaf: true,
+              };
+              const grandChildren = buildTree(childNode);
+              if (grandChildren.length > 0) {
+                childNode.children = grandChildren;
+                childNode.isLeaf = false;
+                parentNode.isLeaf = false;
+              }
+              children.push(childNode);
+            }
           }
-        } else if (Array.isArray(result.nodes)) {
-          nodes = result.nodes;
-        } else if (Array.isArray(result.rows)) {
-          nodes = result.rows;
-        } else if (Array.isArray(result)) {
-          nodes = result;
+          return children;
+        };
+        
+        const rootNodeData: any = {
+          id: rootNode.key,
+          name: rootNode.title,
+          key: rootNode.key,
+          title: rootNode.title,
+          isLeaf: false,
+        };
+        
+        const children = buildTree(rootNodeData);
+        if (children.length > 0) {
+          rootNodeData.children = children;
         }
+        treeDataArray = [rootNodeData];
+      } else if (result && typeof result === 'object' && result.data) {
+         if (Array.isArray(result.data)) {
+           treeDataArray = result.data;
+         } else if (result.data.rootNode && result.data.nodes) {
+           const rootNode = result.data.rootNode;
+           const nodes = result.data.nodes || [];
+           
+           const buildTree = (parentNode: any): any[] => {
+              const children: any[] = [];
+              for (const node of nodes) {
+                const parentKey = node.parentKey || node.parentId || node.parent_id;
+                const nodeKey = node.key || node.id;
+                if (nodeKey && nodeKey !== parentNode.key && parentKey === parentNode.key) {
+                  const childNode: any = {
+                    id: nodeKey,
+                    name: node.title || node.name,
+                    key: nodeKey,
+                    title: node.title || node.name,
+                    isLeaf: true,
+                  };
+                  const grandChildren = buildTree(childNode);
+                  if (grandChildren.length > 0) {
+                    childNode.children = grandChildren;
+                    childNode.isLeaf = false;
+                    parentNode.isLeaf = false;
+                  }
+                  children.push(childNode);
+                }
+              }
+              return children;
+           };
+
+           const rootNodeData: any = {
+              id: rootNode.key,
+              name: rootNode.title,
+              key: rootNode.key,
+              title: rootNode.title,
+              isLeaf: false,
+           };
+           const children = buildTree(rootNodeData);
+           if (children.length > 0) {
+              rootNodeData.children = children;
+           }
+           treeDataArray = [rootNodeData];
+         }
+      } else if (result && typeof result === 'object' && Array.isArray(result.records)) {
+        treeDataArray = result.records;
       }
-      
+
       // 转换为 TreeSelect 数据格式
       const convertToTreeSelectData = (nodeList: any[], processedKeys: Set<string> = new Set(), depth: number = 0): any[] => {
-        if (!nodeList || !Array.isArray(nodeList) || depth > 100) {
-          return [];
-        }
+        if (!nodeList || !Array.isArray(nodeList) || depth > 100) return [];
         
         return nodeList.map((node) => {
           const value = node.id || node.key || node.orgId || '';
@@ -220,26 +302,33 @@ const RoleList: React.FC = () => {
           
           const children = node.children && Array.isArray(node.children) && node.children.length > 0
             ? convertToTreeSelectData(node.children, processedKeys, depth + 1)
-            : [];
+            : undefined;
           
           if (value) {
             processedKeys.delete(value);
           }
           
           const result: any = { value, title };
-          // 即使 children 为空数组，也要保留 children 字段，确保树结构正确
-          result.children = children;
-          
+          if (children && children.length > 0) {
+            result.children = children;
+          }
           return result;
         });
       };
       
-      const treeSelectData = convertToTreeSelectData(nodes);
-      console.log('组织树数据:', treeSelectData);
+      const treeSelectData = convertToTreeSelectData(treeDataArray);
       setOrgTreeSelectData(treeSelectData);
+      
+      // 默认展开第一层节点
+      const firstLevelKeys: React.Key[] = [];
+      treeSelectData.forEach((node) => {
+        if (node.value && node.children && node.children.length > 0) {
+          firstLevelKeys.push(node.value);
+        }
+      });
+      setExpandedKeys(firstLevelKeys);
     } catch (error: any) {
       console.error('加载组织树失败:', error);
-      message.error('加载组织树失败');
     }
   };
 
@@ -400,7 +489,7 @@ const RoleList: React.FC = () => {
       const requestParams: any = {
         appId: selectedAppId || params.appId || '',
         appName: selectedAppName || params.appName || '',
-        roleName: params.roleName || '',
+        roleName: params.roleName || roleSearchParams.roleName || '',
         displayName: params.displayName || '',
         employeeNumber: params.employeeNumber || '',
         startDate: params.startDate || '',
@@ -485,9 +574,16 @@ const RoleList: React.FC = () => {
         appId: selectedAppId || '',
         appName: selectedAppName || '',
         // 处理 orgIdsList
-        orgIdsList: values.orgIdsList && Array.isArray(values.orgIdsList)
-          ? values.orgIdsList.join(',')
-          : values.orgIdsList || '',
+        orgIdsList: values.orgIdsList
+          ? (Array.isArray(values.orgIdsList) 
+              ? values.orgIdsList.map((item: any) => {
+                  if (typeof item === 'object' && item.value) {
+                    return item.value;
+                  }
+                  return item;
+                }).join(',')
+              : values.orgIdsList)
+          : '',
       };
       await rolesService.add(submitData);
       message.success('创建角色成功');
@@ -512,9 +608,16 @@ const RoleList: React.FC = () => {
         id: currentRole.id,
         category: values.category || currentRole.category || 'static',
         // 处理 orgIdsList
-        orgIdsList: values.orgIdsList && Array.isArray(values.orgIdsList)
-          ? values.orgIdsList.join(',')
-          : values.orgIdsList || currentRole.orgIdsList || '',
+        orgIdsList: values.orgIdsList
+          ? (Array.isArray(values.orgIdsList) 
+              ? values.orgIdsList.map((item: any) => {
+                  if (typeof item === 'object' && item.value) {
+                    return item.value;
+                  }
+                  return item;
+                }).join(',')
+              : values.orgIdsList)
+          : (currentRole.orgIdsList || ''),
       };
       await rolesService.update(submitData);
       message.success('更新角色成功');
@@ -774,14 +877,58 @@ const RoleList: React.FC = () => {
         },
       }}
     >
+      {/* 搜索表单 */}
+      <ProCard bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '16px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>应用名称：</span>
+              <Select
+                  style={{ width: 220 }}
+                  placeholder="请选择应用"
+                  value={selectedAppId}
+                  onChange={(value) => {
+                    setSelectedAppId(value);
+                    const app = appList.find(a => a.id === value);
+                    setSelectedAppName(app?.appName || '');
+                    actionRef.current?.reload();
+                  }}
+                  showSearch
+                  allowClear
+                  filterOption={(input, option) =>
+                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
+                  options={appList.map((app) => ({
+                    label: app.appName,
+                    value: app.id,
+                  }))}
+                />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>角色名称：</span>
+              <Input
+                style={{ width: 220 }}
+                placeholder="请输入角色名称"
+                value={roleSearchParams.roleName || ''}
+                onChange={(e) => {
+                  setRoleSearchParams({ roleName: e.target.value });
+                }}
+                onPressEnter={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+          </div>
+          <Button type="primary" onClick={() => actionRef.current?.reload()}>
+              查询
+          </Button>
+        </div>
+      </ProCard>
+
       <ProTable<Role>
         columns={columns}
         actionRef={actionRef}
         request={loadRoles}
         rowKey="id"
-        search={{
-          labelWidth: 'auto',
-        }}
+        search={false}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -907,22 +1054,17 @@ const RoleList: React.FC = () => {
                 <>
                   <ProFormTreeSelect
                     name="orgIdsList"
-                    label="组织范围"
-                    placeholder="请选择组织范围"
+                    label="组织列表"
+                    placeholder="请选择组织列表"
                     fieldProps={{
                       treeData: orgTreeSelectData,
                       multiple: true,
                       treeCheckable: true,
-                      checkStrictly: true,
-                      showCheckedStrategy: 'SHOW_PARENT',
-                      treeDefaultExpandAll: false,
+                      treeCheckStrictly: true,
+                      showCheckedStrategy: TreeSelect.SHOW_ALL,
+                      treeDefaultExpandedKeys: expandedKeys as any,
                       maxTagCount: 3,
                       style: { width: '100%' },
-                      allowClear: true,
-                      showSearch: true,
-                      treeNodeFilterProp: 'title',
-                      virtual: false,
-                      dropdownStyle: { maxHeight: '400px', overflow: 'auto' },
                     }}
                   />
                   <ProFormTextArea
@@ -1005,22 +1147,17 @@ const RoleList: React.FC = () => {
                 <>
                   <ProFormTreeSelect
                     name="orgIdsList"
-                    label="组织范围"
-                    placeholder="请选择组织范围"
+                    label="组织列表"
+                    placeholder="请选择组织列表"
                     fieldProps={{
                       treeData: orgTreeSelectData,
                       multiple: true,
                       treeCheckable: true,
-                      checkStrictly: true,
-                      showCheckedStrategy: 'SHOW_PARENT',
-                      treeDefaultExpandAll: false,
+                      treeCheckStrictly: true,
+                      showCheckedStrategy: TreeSelect.SHOW_ALL,
+                      treeDefaultExpandedKeys: expandedKeys as any,
                       maxTagCount: 3,
                       style: { width: '100%' },
-                      allowClear: true,
-                      showSearch: true,
-                      treeNodeFilterProp: 'title',
-                      virtual: false,
-                      dropdownStyle: { maxHeight: '400px', overflow: 'auto' },
                     }}
                   />
                   <ProFormTextArea

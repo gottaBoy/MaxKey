@@ -55,7 +55,7 @@ const LdapContextList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: 'LDAP配置',
+        // title: 'LDAP配置',
         breadcrumb: {
           items: [
             { title: '首页' },

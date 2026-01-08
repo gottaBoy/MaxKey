@@ -46,7 +46,7 @@ class OrganizationsService extends BaseService<Organization> {
    * 编辑组织
    */
   async editOrg(data) {
-    return request.post(`${this.baseUrl}/orgs/edit`, data);
+    return request.post(`${this.baseUrl}/orgs/update`, data);
   }
 
   /**

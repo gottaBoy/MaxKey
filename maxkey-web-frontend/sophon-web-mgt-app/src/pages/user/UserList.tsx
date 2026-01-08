@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   PageContainer,
   ProCard,
@@ -48,6 +49,7 @@ import organizationsService from '@/services/organizations.service';
 import './UserList.less';
 
 const UserList: React.FC = () => {
+  const navigate = useNavigate();
   const actionRef = useRef<ActionType>();
   const passwordFormRef = useRef<any>();
   const createFormRef = useRef<any>();
@@ -356,9 +358,8 @@ const UserList: React.FC = () => {
   };
 
   // 处理头像上传变化（新增）
-  const handleCreateUploadChange: UploadProps['onChange'] = (info) => {
+  const handleCreateUploadChange: UploadProps['onChange'] = async (info) => {
     const { fileList } = info;
-    setCreateFileList(fileList);
 
     if (info.file.status === 'done') {
       const response = info.file.response;
@@ -367,16 +368,20 @@ const UserList: React.FC = () => {
       if (createFormRef.current) {
         createFormRef.current.setFieldsValue({ pictureId: fileId });
       }
+      
+      if (!info.file.url && !info.file.preview) {
+        info.file.preview = await getBase64(info.file.originFileObj as File);
+      }
       message.success('头像上传成功');
     } else if (info.file.status === 'error') {
       message.error('头像上传失败');
     }
+    setCreateFileList([...fileList]);
   };
 
   // 处理头像上传变化（编辑）
-  const handleEditUploadChange: UploadProps['onChange'] = (info) => {
+  const handleEditUploadChange: UploadProps['onChange'] = async (info) => {
     const { fileList } = info;
-    setEditFileList(fileList);
 
     if (info.file.status === 'done') {
       const response = info.file.response;
@@ -385,10 +390,15 @@ const UserList: React.FC = () => {
       if (editFormRef.current) {
         editFormRef.current.setFieldsValue({ pictureId: fileId });
       }
+      
+      if (!info.file.url && !info.file.preview) {
+        info.file.preview = await getBase64(info.file.originFileObj as File);
+      }
       message.success('头像上传成功');
     } else if (info.file.status === 'error') {
       message.error('头像上传失败');
     }
+    setEditFileList([...fileList]);
   };
 
   // 自定义上传函数
@@ -453,7 +463,7 @@ const UserList: React.FC = () => {
         message.error('网络错误');
       });
 
-      xhr.open('POST', '/file/upload/');
+      xhr.open('POST', '/maxkey-mgt-api/file/upload/');
       if (token) {
         xhr.setRequestHeader('Authorization', `Bearer ${token}`);
       }
@@ -478,18 +488,18 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="displayName"
-                  label="显示名称"
-                  placeholder="请输入显示名称"
-                  rules={[{ required: true, message: '请输入显示名称' }]}
+                  label="姓名"
+                  placeholder="请输入姓名"
+                  rules={[{ required: true, message: '请输入姓名' }]}
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="username"
-                  label="用户名"
-                  placeholder="请输入用户名"
+                  label="账号"
+                  placeholder="请输入账号"
                   disabled={isEdit}
-                  rules={[{ required: true, message: '请输入用户名' }]}
+                  rules={[{ required: true, message: '请输入账号' }]}
                 />
               </Col>
             </Row>
@@ -523,23 +533,6 @@ const UserList: React.FC = () => {
                           生成
                         </Button>
                       ),
-                    }}
-                  />
-                </Col>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <ProFormTreeSelect
-                    name="departmentId"
-                    label="所属部门"
-                    placeholder="请选择所属部门"
-                    request={async () => {
-                      if (Array.isArray(treeSelectData)) {
-                        return treeSelectData;
-                      }
-                      return [];
-                    }}
-                    fieldProps={{
-                      showSearch: true,
-                      treeNodeFilterProp: 'title',
                     }}
                   />
                 </Col>
@@ -590,8 +583,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="windowsAccount"
-                  label="Windows账户"
-                  placeholder="请输入Windows账户"
+                  label="域账号"
+                  placeholder="请输入域账号"
                 />
               </Col>
             </Row>
@@ -599,15 +592,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="mobile"
-                  label="手机号"
-                  placeholder="请输入手机号"
+                  label="手机号码"
+                  placeholder="请输入手机号码"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="email"
-                  label="邮箱"
-                  placeholder="请输入邮箱"
+                  label="电子邮箱"
+                  placeholder="请输入电子邮箱"
                 />
               </Col>
             </Row>
@@ -650,11 +643,11 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormDigit
                   name="sortIndex"
-                  label="排序索引"
+                  label="排序"
                   min={1}
                   max={100000}
                   fieldProps={{ precision: 0 }}
-                  rules={isEdit ? [] : [{ required: true, message: '请输入排序索引' }]}
+                  rules={isEdit ? [] : [{ required: true, message: '请输入排序' }]}
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -684,8 +677,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="familyName"
-                  label="姓氏"
-                  placeholder="请输入姓氏"
+                  label="姓"
+                  placeholder="请输入姓"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -700,8 +693,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="givenName"
-                  label="名字"
-                  placeholder="请输入名字"
+                  label="名"
+                  placeholder="请输入名"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -718,6 +711,7 @@ const UserList: React.FC = () => {
                   name="idType"
                   label="证件类型"
                   placeholder="请选择证件类型"
+                  initialValue={0}
                   options={[
                     { label: '未知', value: 0 },
                     { label: '身份证', value: 1 },
@@ -730,8 +724,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="idCardNo"
-                  label="证件号"
-                  placeholder="请输入证件号"
+                  label="证件号码"
+                  placeholder="请输入证件号码"
                 />
               </Col>
             </Row>
@@ -739,8 +733,9 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormSelect
                   name="married"
-                  label="婚姻状况"
-                  placeholder="请选择婚姻状况"
+                  label="婚姻状态"
+                  placeholder="请选择婚姻状态"
+                  initialValue={0}
                   options={[
                     { label: '未知', value: 0 },
                     { label: '未婚', value: 1 },
@@ -762,8 +757,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="education"
-                  label="教育"
-                  placeholder="请输入教育"
+                  label="学历"
+                  placeholder="请输入学历"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -778,15 +773,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormDatePicker
                   name="graduateDate"
-                  label="毕业日期"
-                  placeholder="请选择毕业日期"
+                  label="毕业时间"
+                  placeholder="请选择毕业时间"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormDatePicker
                   name="startWorkDate"
-                  label="开始工作日期"
-                  placeholder="请选择开始工作日期"
+                  label="工作时间"
+                  placeholder="请选择工作时间"
                 />
               </Col>
             </Row>
@@ -801,8 +796,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="preferredLanguage"
-                  label="首选语言"
-                  placeholder="请输入首选语言"
+                  label="语言偏好"
+                  placeholder="请输入语言偏好"
                 />
               </Col>
             </Row>
@@ -810,8 +805,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="webSite"
-                  label="网站"
-                  placeholder="请输入网站"
+                  label="个人主页"
+                  placeholder="请输入个人主页"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -834,15 +829,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="organization"
-                  label="组织"
-                  placeholder="请输入组织"
+                  label="所属组织"
+                  placeholder="请输入所属组织"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="division"
-                  label="部门"
-                  placeholder="请输入部门"
+                  label="分支机构"
+                  placeholder="请输入分支机构"
                 />
               </Col>
             </Row>
@@ -850,8 +845,9 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="departmentId"
-                  label="部门ID"
-                  placeholder="部门ID"
+                  label="部门编号"
+                  placeholder="部门编号"
+                  hidden
                   fieldProps={{
                     readOnly: true,
                     disabled: true,
@@ -887,8 +883,8 @@ const UserList: React.FC = () => {
                     return (
                       <ProFormTreeSelect
                         name="departmentId"
-                        label="所属部门"
-                        placeholder="请选择所属部门"
+                        label="部门名称"
+                        placeholder="请选择部门"
                         request={async () => {
                           if (Array.isArray(treeSelectData)) {
                             return treeSelectData;
@@ -898,6 +894,7 @@ const UserList: React.FC = () => {
                         fieldProps={{
                           showSearch: true,
                           treeNodeFilterProp: 'title',
+                          treeDefaultExpandedKeys: expandedKeys,
                         }}
                       />
                     );
@@ -916,8 +913,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="jobLevel"
-                  label="职位级别"
-                  placeholder="请输入职位级别"
+                  label="级别"
+                  placeholder="请输入级别"
                 />
               </Col>
             </Row>
@@ -932,8 +929,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="manager"
-                  label="经理"
-                  placeholder="请输入经理"
+                  label="上级经理"
+                  placeholder="请输入上级经理"
                 />
               </Col>
             </Row>
@@ -948,8 +945,8 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="workOfficeName"
-                  label="办公室名称"
-                  placeholder="请输入办公室名称"
+                  label="办公地址"
+                  placeholder="请输入办公地址"
                 />
               </Col>
             </Row>
@@ -957,31 +954,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormDatePicker
                   name="entryDate"
-                  label="入职日期"
-                  placeholder="请选择入职日期"
+                  label="入职时间"
+                  placeholder="请选择入职时间"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormDatePicker
                   name="quitDate"
-                  label="离职日期"
-                  placeholder="请选择离职日期"
-                />
-              </Col>
-            </Row>
-            <Row gutter={[8, 4]}>
-              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <ProFormText
-                  name="workPhoneNumber"
-                  label="工作电话"
-                  placeholder="请输入工作电话"
-                />
-              </Col>
-              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <ProFormText
-                  name="workEmail"
-                  label="工作邮箱"
-                  placeholder="请输入工作邮箱"
+                  label="离职时间"
+                  placeholder="请选择离职时间"
                 />
               </Col>
             </Row>
@@ -996,16 +977,32 @@ const UserList: React.FC = () => {
             <Row gutter={[8, 4]}>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
+                  name="workPhoneNumber"
+                  label="工作电话"
+                  placeholder="请输入工作电话"
+                />
+              </Col>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <ProFormText
+                  name="workEmail"
+                  label="工作邮件"
+                  placeholder="请输入工作邮件"
+                />
+              </Col>
+            </Row>
+            <Row gutter={[8, 4]}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <ProFormText
                   name="workCountry"
-                  label="工作国家"
-                  placeholder="请输入工作国家"
+                  label="国家"
+                  placeholder="请输入国家"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="workRegion"
-                  label="工作地区"
-                  placeholder="请输入工作地区"
+                  label="省"
+                  placeholder="请输入省"
                 />
               </Col>
             </Row>
@@ -1013,15 +1010,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="workLocality"
-                  label="工作城市"
-                  placeholder="请输入工作城市"
+                  label="城市"
+                  placeholder="请输入城市"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="workStreetAddress"
-                  label="工作街道地址"
-                  placeholder="请输入工作街道地址"
+                  label="地址"
+                  placeholder="请输入地址"
                 />
               </Col>
             </Row>
@@ -1029,15 +1026,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="workPostalCode"
-                  label="工作邮编"
-                  placeholder="请输入工作邮编"
+                  label="邮编"
+                  placeholder="请输入邮编"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="workFax"
-                  label="工作传真"
-                  placeholder="请输入工作传真"
+                  label="传真"
+                  placeholder="请输入传真"
                 />
               </Col>
             </Row>
@@ -1085,15 +1082,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="homeCountry"
-                  label="家庭国家"
-                  placeholder="请输入家庭国家"
+                  label="国家"
+                  placeholder="请输入国家"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="homeRegion"
-                  label="家庭地区"
-                  placeholder="请输入家庭地区"
+                  label="省"
+                  placeholder="请输入省"
                 />
               </Col>
             </Row>
@@ -1101,15 +1098,15 @@ const UserList: React.FC = () => {
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="homeLocality"
-                  label="家庭城市"
-                  placeholder="请输入家庭城市"
+                  label="城市"
+                  placeholder="请输入城市"
                 />
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <ProFormText
                   name="homeStreetAddress"
-                  label="家庭街道地址"
-                  placeholder="请输入家庭街道地址"
+                  label="家庭地址"
+                  placeholder="请输入家庭地址"
                 />
               </Col>
             </Row>
@@ -1293,8 +1290,7 @@ const UserList: React.FC = () => {
             } else if (key === 'delete') {
                   handleDelete(record.id, record.username);
                 } else if (key === 'groups') {
-                  // TODO: 导航到用户组页面
-                  message.info('用户组功能待实现');
+                  navigate(`/idm/groupmembers?username=${encodeURIComponent(record.username)}`);
                 }
               },
             }}
@@ -1544,13 +1540,13 @@ const UserList: React.FC = () => {
             <Col xs={24} sm={24} md={8} lg={6} xl={6}>
               <ProCard
                 // title="组织树"
-                extra={
-                  <Space>
-                    <Button size="small" icon={<ReloadOutlined />} onClick={loadOrgTree}>
-                      刷新
-                    </Button>
-                  </Space>
-                }
+                // extra={
+                //   <Space>
+                //     <Button size="small" icon={<ReloadOutlined />} onClick={loadOrgTree}>
+                //       刷新
+                //     </Button>
+                //   </Space>
+                // }
                 bodyStyle={{ 
                   padding: '12px',
                   overflow: 'hidden',

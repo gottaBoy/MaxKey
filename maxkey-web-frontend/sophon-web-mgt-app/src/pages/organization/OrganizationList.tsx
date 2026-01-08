@@ -691,6 +691,178 @@ const OrganizationList: React.FC = () => {
     }
   };
 
+  // 渲染表单标签页
+  const renderFormItems = (isEdit: boolean) => [
+    {
+      key: 'basic',
+      label: '基本信息',
+      children: (
+        <>
+          <ProFormTreeSelect
+            name="parentId"
+            label="父级名称"
+            placeholder="请选择父级名称（留空为顶级组织）"
+            allowClear
+            request={async () => {
+              if (Array.isArray(treeSelectData)) {
+                return treeSelectData;
+              }
+              return [];
+            }}
+            fieldProps={{
+              showSearch: true,
+              treeNodeFilterProp: 'title',
+              treeDefaultExpandedKeys: expandedKeys as any,
+            }}
+          />
+          <ProFormText name="parentName" label="父级名称" hidden />
+          <ProFormText name="parentCode" label="父级编码" hidden />
+          <ProFormText name="id" label="主键" hidden />
+          <ProFormText name="instId" label="租户" hidden />
+          <ProFormText
+            name="orgCode"
+            label="组织编码"
+            placeholder="请输入组织编码"
+            rules={[{ required: true, message: '请输入组织编码' }]}
+          />
+          <ProFormText
+            name="orgName"
+            label="组织名称"
+            placeholder="请输入组织名称"
+            rules={[{ required: true, message: '请输入组织名称' }]}
+          />
+          <ProFormText
+            name="fullName"
+            label="组织全称"
+            placeholder="请输入组织全称"
+          />
+          <ProFormSelect
+            name="type"
+            label="类型"
+            options={[
+              { label: '公司', value: 'company' },
+              { label: '事业部', value: 'division' },
+              { label: '部门', value: 'department' },
+              { label: '团队', value: 'team' },
+              { label: '实体', value: 'entity' },
+              { label: '虚拟', value: 'virtual' },
+            ]}
+            rules={[{ required: true, message: '请选择类型' }]}
+          />
+          <ProFormDigit
+            name="sortIndex"
+            label="排序"
+            min={0}
+            initialValue={isEdit ? undefined : 11}
+            fieldProps={{ precision: 0 }}
+          />
+          <ProFormSwitch
+            name="status"
+            label="状态"
+            checkedChildren="启用"
+            unCheckedChildren="禁用"
+            initialValue={true}
+          />
+        </>
+      ),
+    },
+    {
+      key: 'extra',
+      label: '扩展信息',
+      children: (
+        <>
+          <ProFormText
+            name="codePath"
+            label="编码路径"
+            placeholder="请输入编码路径"
+          />
+          <ProFormText
+            name="namePath"
+            label="名称路径"
+            placeholder="请输入名称路径"
+          />
+          <ProFormDigit
+            name="level"
+            label="级别"
+            min={0}
+            fieldProps={{ precision: 0 }}
+          />
+          <ProFormText
+            name="division"
+            label="分支机构"
+            placeholder="请输入分支机构"
+          />
+        </>
+      ),
+    },
+    {
+      key: 'address',
+      label: '地址',
+      children: (
+        <>
+          <ProFormText
+            name="country"
+            label="国家"
+            placeholder="请输入国家"
+          />
+          <ProFormText
+            name="region"
+            label="省/州"
+            placeholder="请输入省/州"
+          />
+          <ProFormText
+            name="locality"
+            label="市"
+            placeholder="请输入市"
+          />
+          <ProFormText
+            name="street"
+            label="街道"
+            placeholder="请输入街道"
+          />
+          <ProFormText
+            name="address"
+            label="地址"
+            placeholder="请输入地址"
+          />
+          <ProFormText
+            name="postalCode"
+            label="邮政编码"
+            placeholder="请输入邮政编码"
+          />
+        </>
+      ),
+    },
+    {
+      key: 'contact',
+      label: '联系方式',
+      children: (
+        <>
+          <ProFormText
+            name="contact"
+            label="联系人"
+            placeholder="请输入联系人"
+          />
+          <ProFormText
+            name="phone"
+            label="联系电话"
+            placeholder="请输入联系电话"
+          />
+          <ProFormText
+            name="email"
+            label="电子邮箱"
+            placeholder="请输入电子邮箱"
+          />
+          <ProFormText
+            name="fax"
+            label="传真"
+            placeholder="请输入传真"
+          />
+        </>
+      ),
+    },
+  ];
+
   return (
     <div className="organization-list">
     <PageContainer
@@ -711,41 +883,41 @@ const OrganizationList: React.FC = () => {
             <Col span={6}>
           <ProCard
             // title="组织树"
-            extra={
-              <Space>
-                <Button
-                  type="primary"
-                  size="small"
-                  icon={<PlusOutlined />}
-                  onClick={() => {
-                    // 如果选择了树节点，创建时会自动设置父节点
-                    setCreateModalVisible(true);
-                  }}
-                >
-                  新建
-                </Button>
-                {/* <Popconfirm
-                  title="确定要批量删除选中的组织吗？"
-                  onConfirm={handleBatchDelete}
-                  disabled={selectedRowKeys.length === 0}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                  <Button
-                    type="primary"
-                    danger
-                    size="small"
-                    icon={<DeleteOutlined />}
-                    disabled={selectedRowKeys.length === 0}
-                  >
-                    批量删除
-                  </Button>
-                </Popconfirm> */}
-                <Button size="small" icon={<ReloadOutlined />} onClick={loadOrgTree}>
-                  刷新
-                </Button>
-              </Space>
-            }
+            // extra={
+            //   <Space>
+            //     <Button
+            //       type="primary"
+            //       size="small"
+            //       icon={<PlusOutlined />}
+            //       onClick={() => {
+            //         // 如果选择了树节点，创建时会自动设置父节点
+            //         setCreateModalVisible(true);
+            //       }}
+            //     >
+            //       新建
+            //     </Button>
+            //     <Popconfirm
+            //       title="确定要批量删除选中的组织吗？"
+            //       onConfirm={handleBatchDelete}
+            //       disabled={selectedRowKeys.length === 0}
+            //       okText="确定"
+            //       cancelText="取消"
+            //     >
+            //       <Button
+            //         type="primary"
+            //         danger
+            //         size="small"
+            //         icon={<DeleteOutlined />}
+            //         disabled={selectedRowKeys.length === 0}
+            //       >
+            //         批量删除
+            //       </Button>
+            //     </Popconfirm>
+            //     <Button size="small" icon={<ReloadOutlined />} onClick={loadOrgTree}>
+            //       刷新
+            //     </Button>
+            //   </Space>
+            // }
             bodyStyle={{ 
               padding: '16px',
               overflow: 'hidden',
@@ -882,183 +1054,7 @@ const OrganizationList: React.FC = () => {
           })() : undefined,
         }}
       >
-        <Tabs
-          items={[
-            {
-              key: 'basic',
-              label: '基本信息',
-              children: (
-                <>
-        <ProFormTreeSelect
-          name="parentId"
-          label="上级组织"
-          placeholder="请选择上级组织（留空为顶级组织）"
-          allowClear
-                    request={async () => {
-                      // 确保返回数组
-                      if (Array.isArray(treeSelectData)) {
-                        return treeSelectData;
-                      }
-                      return [];
-                    }}
-          fieldProps={{
-            showSearch: true,
-            treeNodeFilterProp: 'title',
-          }}
-        />
-        <ProFormText
-          name="parentName"
-          label="上级组织名称"
-          hidden
-        />
-        <ProFormText
-          name="parentCode"
-          label="上级组织编码"
-          hidden
-        />
-        <ProFormText
-          name="orgCode"
-          label="组织编码"
-          placeholder="请输入组织编码"
-          rules={[{ required: true, message: '请输入组织编码' }]}
-        />
-        <ProFormText
-          name="orgName"
-          label="组织名称"
-          placeholder="请输入组织名称"
-          rules={[{ required: true, message: '请输入组织名称' }]}
-        />
-        <ProFormText
-          name="fullName"
-          label="组织全称"
-          placeholder="请输入组织全称"
-        />
-        <ProFormSelect
-          name="type"
-          label="组织类型"
-                    options={[
-                      { label: '公司', value: 'company' },
-                      { label: '事业部', value: 'division' },
-                      { label: '部门', value: 'department' },
-                      { label: '团队', value: 'team' },
-                      { label: '实体', value: 'entity' },
-                      { label: '虚拟', value: 'virtual' },
-                    ]}
-                    rules={[{ required: true, message: '请选择组织类型' }]}
-        />
-        <ProFormDigit
-          name="sortIndex"
-          label="排序号"
-                    min={0}
-                    initialValue={11}
-                    fieldProps={{ precision: 0 }}
-                  />
-                  <ProFormSwitch
-                    name="status"
-                    label="状态"
-                    checkedChildren="启用"
-                    unCheckedChildren="禁用"
-                  />
-                </>
-              ),
-            },
-            {
-              key: 'extra',
-              label: '扩展信息',
-              children: (
-                <>
-                  <ProFormText
-                    name="codePath"
-                    label="编码路径"
-                    placeholder="请输入编码路径"
-                  />
-                  <ProFormText
-                    name="namePath"
-                    label="名称路径"
-                    placeholder="请输入名称路径"
-                  />
-                  <ProFormDigit
-                    name="level"
-                    label="层级"
-          min={0}
-          fieldProps={{ precision: 0 }}
-        />
-                  <ProFormText
-                    name="division"
-                    label="部门"
-                    placeholder="请输入部门"
-                  />
-                </>
-              ),
-            },
-            {
-              key: 'address',
-              label: '地址信息',
-              children: (
-                <>
-                  <ProFormText
-                    name="country"
-                    label="国家"
-                    placeholder="请输入国家"
-                  />
-                  <ProFormText
-                    name="region"
-                    label="地区"
-                    placeholder="请输入地区"
-                  />
-                  <ProFormText
-                    name="locality"
-                    label="城市"
-                    placeholder="请输入城市"
-                  />
-                  <ProFormText
-                    name="street"
-                    label="街道"
-                    placeholder="请输入街道"
-                  />
-                  <ProFormText
-                    name="address"
-                    label="详细地址"
-                    placeholder="请输入详细地址"
-                  />
-                  <ProFormText
-                    name="postalCode"
-                    label="邮编"
-                    placeholder="请输入邮编"
-                  />
-                </>
-              ),
-            },
-            {
-              key: 'contact',
-              label: '联系方式',
-              children: (
-                <>
-                  <ProFormText
-                    name="contact"
-                    label="联系人"
-                    placeholder="请输入联系人"
-                  />
-                  <ProFormText
-                    name="phone"
-                    label="电话"
-                    placeholder="请输入电话"
-                  />
-                  <ProFormText
-                    name="email"
-                    label="邮箱"
-                    placeholder="请输入邮箱"
-                  />
-                  <ProFormText
-                    name="fax"
-                    label="传真"
-                    placeholder="请输入传真"
-                  />
-                </>
-              ),
-            },
-          ]}
-        />
+        <Tabs items={renderFormItems(false)} />
       </ModalForm>
 
       {/* 编辑组织表单 */}
@@ -1078,182 +1074,7 @@ const OrganizationList: React.FC = () => {
         }}
         initialValues={currentRecord ? { ...currentRecord, status: currentRecord.status === 1 } : undefined}
       >
-        <Tabs
-          items={[
-            {
-              key: 'basic',
-              label: '基本信息',
-              children: (
-                <>
-        <ProFormTreeSelect
-          name="parentId"
-          label="上级组织"
-          placeholder="请选择上级组织（留空为顶级组织）"
-          allowClear
-                    request={async () => {
-                      // 确保返回数组
-                      if (Array.isArray(treeSelectData)) {
-                        return treeSelectData;
-                      }
-                      return [];
-                    }}
-          fieldProps={{
-            showSearch: true,
-            treeNodeFilterProp: 'title',
-          }}
-        />
-        <ProFormText
-          name="parentName"
-          label="上级组织名称"
-          hidden
-        />
-        <ProFormText
-          name="parentCode"
-          label="上级组织编码"
-          hidden
-        />
-        <ProFormText
-          name="orgCode"
-          label="组织编码"
-          placeholder="请输入组织编码"
-          rules={[{ required: true, message: '请输入组织编码' }]}
-        />
-        <ProFormText
-          name="orgName"
-          label="组织名称"
-          placeholder="请输入组织名称"
-          rules={[{ required: true, message: '请输入组织名称' }]}
-        />
-        <ProFormText
-          name="fullName"
-          label="组织全称"
-          placeholder="请输入组织全称"
-        />
-                  <ProFormSelect
-          name="type"
-          label="组织类型"
-                    options={[
-                      { label: '公司', value: 'company' },
-                      { label: '事业部', value: 'division' },
-                      { label: '部门', value: 'department' },
-                      { label: '团队', value: 'team' },
-                      { label: '实体', value: 'entity' },
-                      { label: '虚拟', value: 'virtual' },
-                    ]}
-                    rules={[{ required: true, message: '请选择组织类型' }]}
-        />
-        <ProFormDigit
-          name="sortIndex"
-          label="排序号"
-                    min={0}
-                    fieldProps={{ precision: 0 }}
-                  />
-                  <ProFormSwitch
-                    name="status"
-                    label="状态"
-                    checkedChildren="启用"
-                    unCheckedChildren="禁用"
-                  />
-                </>
-              ),
-            },
-            {
-              key: 'extra',
-              label: '扩展信息',
-              children: (
-                <>
-                  <ProFormText
-                    name="codePath"
-                    label="编码路径"
-                    placeholder="请输入编码路径"
-                  />
-                  <ProFormText
-                    name="namePath"
-                    label="名称路径"
-                    placeholder="请输入名称路径"
-                  />
-                  <ProFormDigit
-                    name="level"
-                    label="层级"
-          min={0}
-          fieldProps={{ precision: 0 }}
-        />
-                  <ProFormText
-                    name="division"
-                    label="部门"
-                    placeholder="请输入部门"
-                  />
-                </>
-              ),
-            },
-            {
-              key: 'address',
-              label: '地址信息',
-              children: (
-                <>
-                  <ProFormText
-                    name="country"
-                    label="国家"
-                    placeholder="请输入国家"
-                  />
-                  <ProFormText
-                    name="region"
-                    label="地区"
-                    placeholder="请输入地区"
-                  />
-                  <ProFormText
-                    name="locality"
-                    label="城市"
-                    placeholder="请输入城市"
-                  />
-                  <ProFormText
-                    name="street"
-                    label="街道"
-                    placeholder="请输入街道"
-                  />
-                  <ProFormText
-                    name="address"
-                    label="详细地址"
-                    placeholder="请输入详细地址"
-                  />
-                  <ProFormText
-                    name="postalCode"
-                    label="邮编"
-                    placeholder="请输入邮编"
-                  />
-                </>
-              ),
-            },
-            {
-              key: 'contact',
-              label: '联系方式',
-              children: (
-                <>
-                  <ProFormText
-                    name="contact"
-                    label="联系人"
-                    placeholder="请输入联系人"
-                  />
-                  <ProFormText
-                    name="phone"
-                    label="电话"
-                    placeholder="请输入电话"
-                  />
-                  <ProFormText
-                    name="email"
-                    label="邮箱"
-                    placeholder="请输入邮箱"
-                  />
-                  <ProFormText
-                    name="fax"
-                    label="传真"
-                    placeholder="请输入传真"
-                  />
-                </>
-              ),
-            },
-          ]}
-        />
+        <Tabs items={renderFormItems(true)} />
       </ModalForm>
     </PageContainer>
     </div>

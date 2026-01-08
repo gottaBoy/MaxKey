@@ -18,6 +18,7 @@ const AccountsStrategyList: React.FC = () => {
   const [appList, setAppList] = useState<Application[]>([]);
   const [selectAppModalVisible, setSelectAppModalVisible] = useState(false);
   const [orgTreeSelectData, setOrgTreeSelectData] = useState<any[]>([]);
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
 
   // 加载应用列表
   useEffect(() => {
@@ -92,6 +93,15 @@ const AccountsStrategyList: React.FC = () => {
       
       const treeSelectData = convertToTreeSelectData(nodes);
       setOrgTreeSelectData(treeSelectData);
+      
+      // 默认展开第一层节点
+      const firstLevelKeys: React.Key[] = [];
+      treeSelectData.forEach((node) => {
+        if (node.value && node.children && node.children.length > 0) {
+          firstLevelKeys.push(node.value);
+        }
+      });
+      setExpandedKeys(firstLevelKeys);
     } catch (error: any) {
       console.error('加载组织树失败:', error);
     }
@@ -419,7 +429,7 @@ const AccountsStrategyList: React.FC = () => {
             treeCheckable: true,
             treeCheckStrictly: true,
             showCheckedStrategy: 'SHOW_PARENT',
-            treeDefaultExpandAll: false,
+            treeDefaultExpandedKeys: expandedKeys as any,
             maxTagCount: 3,
             style: { width: '100%' },
             allowClear: true,

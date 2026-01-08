@@ -41,7 +41,7 @@ const PasswordPolicyList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: '密码策略',
+        // title: '密码策略',
         breadcrumb: {
           items: [
             { title: '首页' },
