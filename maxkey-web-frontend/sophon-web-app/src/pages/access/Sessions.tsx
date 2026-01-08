@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { QuestionCircleOutlined } from '@ant-design/icons';
@@ -8,6 +8,11 @@ import sessionsService from '@/services/sessions.service';
 
 const Sessions: React.FC = () => {
   const actionRef = useRef<ActionType>();
+
+  // 组件挂载时触发初始请求
+  useEffect(() => {
+    actionRef.current?.reload();
+  }, []);
 
   const columns: ProColumns<OnlineSession>[] = [
     {
@@ -192,11 +197,44 @@ const Sessions: React.FC = () => {
               }
             });
 
-            const result = await sessionsService.fetch(requestParams);
+            const result: any = await sessionsService.fetch(requestParams);
+            
+            // 处理返回结果，支持多种格式
+            let rows: OnlineSession[] = [];
+            let records = 0;
+            
+            if (result) {
+              // 优先检查 rows 字段（MaxKey 标准格式）
+              if (Array.isArray(result.rows)) {
+                rows = result.rows;
+                records = result.records || result.total || 0;
+              } 
+              // 检查嵌套的 data.rows
+              else if (result.data && Array.isArray(result.data.rows)) {
+                rows = result.data.rows;
+                records = result.data.records || result.data.total || 0;
+              }
+              // 检查 records 字段（另一种格式）
+              else if (Array.isArray(result.records)) {
+                rows = result.records;
+                records = result.total || 0;
+              }
+              // 检查 data 字段是否为数组
+              else if (Array.isArray(result.data)) {
+                rows = result.data;
+                records = result.total || result.records || 0;
+              }
+              // 如果 result 本身就是数组
+              else if (Array.isArray(result)) {
+                rows = result;
+                records = result.length;
+              }
+            }
+            
             return {
-              data: result.rows || [],
+              data: rows,
               success: true,
-              total: result.records || 0,
+              total: records,
             };
           } catch (error: any) {
             console.error('加载会话列表失败:', error);

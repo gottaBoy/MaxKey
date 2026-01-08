@@ -46,7 +46,7 @@ const Home: React.FC = () => {
   };
 
   const initSso = (app: Application) => {
-    if (app.protocol === 'Basic' || app.inducer === 'SP') {
+    if (app.loginUrl) {
       window.open(app.loginUrl);
       return;
     }

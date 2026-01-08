@@ -69,11 +69,14 @@ const Profile: React.FC = () => {
     setPreviewVisible(true);
   };
 
-  const handleChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
-    setFileList(newFileList);
+  const handleChange: UploadProps['onChange'] = async ({ file, fileList: newFileList }) => {
     if (file.status === 'done' && file.response?.data) {
       form.setFieldValue('pictureId', file.response.data);
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj as File);
+      }
     }
+    setFileList(newFileList);
   };
 
   const handleSubmit = async () => {
