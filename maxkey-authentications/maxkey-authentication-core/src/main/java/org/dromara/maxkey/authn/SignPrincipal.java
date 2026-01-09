@@ -171,6 +171,10 @@ public class SignPrincipal implements  UserDetails {
         return instId;
     }
 
+    public void setInstId(String instId) {
+        this.instId = instId;
+    }
+
     public String getUserId() {
         return userId;
     }

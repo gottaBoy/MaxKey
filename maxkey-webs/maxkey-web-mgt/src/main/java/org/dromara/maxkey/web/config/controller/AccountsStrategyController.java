@@ -48,8 +48,10 @@ public class AccountsStrategyController {
     public Message<JpaPageResults<AccountsStrategy>> fetch(@ModelAttribute AccountsStrategy accountsStrategy,@CurrentUser UserInfo currentUser) {
         accountsStrategy.setInstId(currentUser.getInstId());
         JpaPageResults<AccountsStrategy> accountsStrategyList =accountsStrategyService.fetchPageResults(accountsStrategy);
-        for (AccountsStrategy strategy : accountsStrategyList.getRows()){
-            strategy.transIconBase64();
+        if (accountsStrategyList != null && accountsStrategyList.getRows() != null) {
+            for (AccountsStrategy strategy : accountsStrategyList.getRows()){
+                strategy.transIconBase64();
+            }
         }
         logger.debug("Accounts Strategy {}" , accountsStrategyList);
         return new Message<>(accountsStrategyList);

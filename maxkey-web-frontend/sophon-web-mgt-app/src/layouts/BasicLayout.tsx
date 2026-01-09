@@ -75,7 +75,7 @@ const BasicLayout: React.FC = () => {
         },
         {
           key: '/access/sessions',
-          icon: <EyeOutlined />,
+          // icon: <EyeOutlined />,
           label: '会话管理',
         },
       ],

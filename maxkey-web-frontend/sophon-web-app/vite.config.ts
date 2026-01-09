@@ -15,7 +15,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/sign': {
-        target: 'http://localhost:80',
+        target: 'http://localhost:9529',
         changeOrigin: true,
       },
     },

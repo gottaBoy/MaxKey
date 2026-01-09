@@ -1,4 +1,5 @@
 import { BaseService } from './base.service';
+import request from '@/utils/request';
 
 // 机构配置实体
 export interface Institution {
@@ -21,6 +22,13 @@ export interface Institution {
 class InstitutionsService extends BaseService<Institution> {
   constructor() {
     super('/maxkey-mgt-api/config/institutions');
+  }
+
+  /**
+   * 切换租户
+   */
+  async switchTenant(instId: string): Promise<any> {
+    return request.get(`${this.baseUrl}/switch/${instId}`);
   }
 }
 

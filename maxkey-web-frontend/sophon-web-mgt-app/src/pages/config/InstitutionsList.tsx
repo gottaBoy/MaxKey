@@ -1,92 +1,397 @@
-import { useState, useEffect } from 'react';
-import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
-import { Button, message, Card, Row, Col } from 'antd';
+import { useRef, useState } from 'react';
+import { PageContainer, ProTable, ModalForm, ProFormText, ProFormTextArea, ProForm, ProCard } from '@ant-design/pro-components';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
+import { Button, Popconfirm, message, Input, Space, Row, Col } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, SwapOutlined } from '@ant-design/icons';
 import institutionsService, { Institution } from '@/services/institutions.service';
 
 const InstitutionsList: React.FC = () => {
-  const [form] = ProForm.useForm();
-  const [loading, setLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const actionRef = useRef<ActionType>();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [currentRecord, setCurrentRecord] = useState<Institution | null>(null);
+  const [formRef] = ProForm.useForm();
+  const [searchParams, setSearchParams] = useState<any>({});
 
-  // 加载机构配置
-  useEffect(() => {
-    loadData();
-  }, []);
+  const columns: ProColumns<Institution>[] = [
+    {
+      title: '机构名称',
+      dataIndex: 'name',
+      width: 150,
+      fixed: 'left',
+    },
+    {
+      title: '全称',
+      dataIndex: 'fullName',
+      width: 200,
+      hideInSearch: true,
+    },
+    {
+      title: '域名',
+      dataIndex: 'domain',
+      width: 150,
+    },
+    {
+      title: '联系人',
+      dataIndex: 'contact',
+      width: 100,
+      hideInSearch: true,
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+      width: 120,
+      hideInSearch: true,
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      width: 260,
+      fixed: 'right',
+      render: (_, record) => [
+        <Button
+          key="edit"
+          type="link"
+          size="small"
+          icon={<EditOutlined />}
+          onClick={() => handleEdit(record)}
+        >
+          编辑
+        </Button>,
+        <Popconfirm
+          key="switch"
+          title="确定要切换到该租户管理视角吗？"
+          description="切换后将以该租户身份进行操作，刷新页面可恢复默认视角"
+          onConfirm={() => handleSwitchTenant(record)}
+          okText="切换"
+          cancelText="取消"
+        >
+          <Button
+            type="link"
+            size="small"
+            icon={<SwapOutlined />}
+          >
+            切换视角
+          </Button>
+        </Popconfirm>,
+        <Popconfirm
+          key="delete"
+          title="确定要删除吗？"
+          onConfirm={() => handleDelete(record.id!)}
+          okText="确定"
+          cancelText="取消"
+        >
+          <Button type="link" size="small" danger icon={<DeleteOutlined />}>
+            删除
+          </Button>
+        </Popconfirm>,
+      ],
+    },
+  ];
 
-  const loadData = async () => {
-    setLoading(true);
+  const loadData = async (params: any) => {
     try {
-      const result = await institutionsService.get('');
+      const requestParams: any = {
+        name: searchParams.name || params.name || '',
+        domain: searchParams.domain || '',
+        pageNumber: params.current || 1,
+        pageSize: params.pageSize || 10,
+      };
+
+      const result: any = await institutionsService.fetch(requestParams);
+      
+      let rows: Institution[] = [];
+      let records = 0;
+      
       if (result) {
-        form.setFieldsValue(result);
+        if (Array.isArray(result.rows)) {
+          rows = result.rows;
+          records = result.records || result.total || 0;
+        } else if (result.data && Array.isArray(result.data.rows)) {
+          rows = result.data.rows;
+          records = result.data.records || result.data.total || 0;
+        } else if (Array.isArray(result.records)) {
+          rows = result.records;
+          records = result.total || 0;
+        } else if (Array.isArray(result.data)) {
+          rows = result.data;
+          records = result.total || result.records || 0;
+        } else if (Array.isArray(result)) {
+          rows = result;
+        }
       }
+
+      return {
+        data: rows,
+        success: true,
+        total: records,
+      };
     } catch (error: any) {
-      message.error('加载机构配置失败');
-    } finally {
-      setLoading(false);
+      console.error('加载机构列表失败:', error);
+      return {
+        data: [],
+        success: false,
+        total: 0,
+      };
     }
   };
 
-  // 提交表单
-  const handleSubmit = async (values: Institution) => {
-    setSubmitting(true);
+  const handleAdd = () => {
+    setCurrentRecord(null);
+    formRef.resetFields();
+    setCreateModalVisible(true);
+  };
+
+  const handleEdit = async (record: Institution) => {
     try {
-      await institutionsService.update(values);
-      message.success('保存成功');
+      const detail = await institutionsService.get(record.id!);
+      setCurrentRecord(detail);
+      formRef.setFieldsValue(detail);
+      setEditModalVisible(true);
     } catch (error: any) {
-      message.error('保存失败');
-    } finally {
-      setSubmitting(false);
+      message.error('获取详情失败');
+    }
+  };
+
+  const handleSwitchTenant = async (record: Institution) => {
+    try {
+      if (!record.id) {
+        message.error('参数错误');
+        return;
+      }
+      await institutionsService.switchTenant(record.id);
+      message.success(`已切换至租户 [${record.name}] 视角，页面即将刷新...`);
+      // 延迟刷新页面，让用户看到成功提示
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error: any) {
+      message.error('切换租户失败');
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await institutionsService.delete(id);
+      message.success('删除成功');
+      actionRef.current?.reload();
+    } catch (error: any) {
+      message.error('删除失败');
+    }
+  };
+
+  const handleBatchDelete = async () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning('请选择要删除的记录');
+      return;
+    }
+    try {
+      const ids = selectedRowKeys.join(',');
+      await institutionsService.delete(ids);
+      message.success(`成功删除 ${selectedRowKeys.length} 条记录`);
+      setSelectedRowKeys([]);
+      actionRef.current?.reload();
+    } catch (error: any) {
+      message.error('批量删除失败');
+    }
+  };
+
+  const handleSubmit = async (values: any) => {
+    try {
+      if (currentRecord?.id) {
+        await institutionsService.update({ ...currentRecord, ...values });
+        message.success('更新成功');
+      } else {
+        await institutionsService.add(values);
+        message.success('创建成功');
+      }
+      setCreateModalVisible(false);
+      setEditModalVisible(false);
+      formRef.resetFields();
+      setCurrentRecord(null);
+      actionRef.current?.reload();
+    } catch (error: any) {
+      message.error(currentRecord?.id ? '更新失败' : '创建失败');
     }
   };
 
   return (
     <PageContainer
       header={{
-        // title: '机构配置',
         breadcrumb: {
           items: [
             { title: '首页' },
             { title: '配置管理' },
-            { title: '机构配置' },
+            { title: '机构管理' },
           ],
         },
       }}
     >
-      <Card>
-        <ProForm
-          form={form}
-          layout="horizontal"
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          onFinish={handleSubmit}
-          submitter={{
-            render: (_, dom) => (
-              <Row>
-                <Col offset={6} span={18}>
-                  <Button type="primary" htmlType="submit" loading={submitting}>
-                    提交
-                  </Button>
-                </Col>
-              </Row>
-            ),
-          }}
-        >
-          <ProFormText name="id" label="ID" hidden />
-          <ProFormText name="name" label="机构名称" rules={[{ required: true }]} />
-          <ProFormText name="fullName" label="机构全称" rules={[{ required: true }]} />
-          <ProFormText name="logo" label="Logo" />
-          <ProFormText name="defaultUri" label="默认URI" />
-          <ProFormText name="domain" label="域名" rules={[{ required: true }]} />
-          <ProFormText name="frontTitle" label="前端标题" rules={[{ required: true }]} />
-          <ProFormText name="consoleDomain" label="控制台域名" rules={[{ required: true }]} />
-          <ProFormText name="consoleTitle" label="控制台标题" rules={[{ required: true }]} />
-          <ProFormText name="contact" label="联系人" />
-          <ProFormText name="phone" label="电话" />
-          <ProFormText name="email" label="邮箱" />
-          <ProFormText name="address" label="地址" />
-        </ProForm>
-      </Card>
+      <ProCard bordered={false} style={{ marginBottom: 16 }} bodyStyle={{ padding: '16px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>机构名称：</span>
+            <Input
+              style={{ width: 200 }}
+              placeholder="请输入机构名称"
+              value={searchParams.name || ''}
+              onChange={(e) => setSearchParams({ ...searchParams, name: e.target.value })}
+              onPressEnter={() => actionRef.current?.reload()}
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>域名：</span>
+            <Input
+              style={{ width: 200 }}
+              placeholder="请输入域名"
+              value={searchParams.domain || ''}
+              onChange={(e) => setSearchParams({ ...searchParams, domain: e.target.value })}
+              onPressEnter={() => actionRef.current?.reload()}
+            />
+          </div>
+          
+          <Space>
+            <Button type="primary" onClick={() => actionRef.current?.reload()}>
+              查询
+            </Button>
+            <Button onClick={() => {
+              setSearchParams({});
+              setTimeout(() => actionRef.current?.reload(), 0);
+            }}>
+              重置
+            </Button>
+          </Space>
+        </div>
+      </ProCard>
+
+      <ProTable<Institution>
+        columns={columns}
+        actionRef={actionRef}
+        request={loadData}
+        rowKey="id"
+        search={false}
+        pagination={{
+          defaultPageSize: 10,
+          showSizeChanger: true,
+        }}
+        scroll={{ x: 'max-content' }}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: setSelectedRowKeys,
+        }}
+        toolBarRender={() => [
+          <Button key="add" type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+            新增
+          </Button>,
+          <Popconfirm
+            key="batchDelete"
+            title="确定要批量删除吗？"
+            onConfirm={handleBatchDelete}
+            disabled={selectedRowKeys.length === 0}
+          >
+            <Button danger disabled={selectedRowKeys.length === 0}>
+              批量删除
+            </Button>
+          </Popconfirm>,
+        ]}
+      />
+
+      <ModalForm
+        title={currentRecord?.id ? '编辑机构' : '创建机构'}
+        form={formRef}
+        open={createModalVisible || editModalVisible}
+        onOpenChange={(visible) => {
+          if (!visible) {
+            setCreateModalVisible(false);
+            setEditModalVisible(false);
+            formRef.resetFields();
+            setCurrentRecord(null);
+          }
+        }}
+        onFinish={handleSubmit}
+        width={800}
+        grid={true}
+        rowProps={{
+          gutter: [16, 16],
+        }}
+      >
+        <ProFormText name="id" label="ID" disabled hidden={!currentRecord?.id} colProps={{ span: 24 }} />
+        
+        <ProFormText 
+          name="name" 
+          label="机构名称" 
+          rules={[{ required: true }]} 
+          colProps={{ span: 12 }} 
+        />
+        <ProFormText 
+          name="fullName" 
+          label="机构全称" 
+          rules={[{ required: true }]} 
+          colProps={{ span: 12 }} 
+        />
+
+        <ProFormText 
+          name="domain" 
+          label="域名" 
+          rules={[{ required: true }]} 
+          placeholder="例如: example.com" 
+          colProps={{ span: 12 }} 
+        />
+        <ProFormText 
+          name="defaultUri" 
+          label="默认URI" 
+          colProps={{ span: 12 }} 
+        />
+        
+         <ProFormText 
+           name="frontTitle" 
+           label="前端标题" 
+           rules={[{ required: true }]} 
+           colProps={{ span: 12 }} 
+         />
+         <ProFormText 
+           name="consoleTitle" 
+           label="控制台标题" 
+           rules={[{ required: true }]} 
+           colProps={{ span: 12 }} 
+         />
+
+         <ProFormText 
+           name="consoleDomain" 
+           label="控制台域名" 
+           colProps={{ span: 12 }} 
+         />
+         <ProFormText 
+           name="logo" 
+           label="Logo URL" 
+           colProps={{ span: 12 }} 
+         />
+
+        <ProFormText 
+          name="contact" 
+          label="联系人" 
+          colProps={{ span: 12 }} 
+        />
+        <ProFormText 
+          name="phone" 
+          label="电话" 
+          colProps={{ span: 12 }} 
+        />
+        
+        <ProFormText 
+          name="email" 
+          label="邮箱" 
+          colProps={{ span: 24 }} 
+        />
+
+        <ProFormTextArea 
+          name="address" 
+          label="地址" 
+          colProps={{ span: 24 }} 
+        />
+        
+      </ModalForm>
     </PageContainer>
   );
 };
