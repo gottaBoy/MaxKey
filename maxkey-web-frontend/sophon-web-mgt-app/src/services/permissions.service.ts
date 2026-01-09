@@ -67,7 +67,7 @@ class PermissionsService {
     roleId: string;
     resourceId: string; // 逗号分隔的资源ID列表
   }): Promise<void> {
-    return request.post(`${this.baseUrl}/permissionRole/update`, data);
+    return request.put(`${this.baseUrl}/permissionRole/update`, data);
   }
 
   /**

@@ -108,6 +108,24 @@
             and r.rolename = #{roleName}
         </if>
     </select>
+    
+    <select id="queryRoleMember" parameterType="RoleMember" resultType="RoleMember">
+        select
+            *
+        from
+            mxk_role_member
+        where   instid   =   #{instId} 
+        <if test="id != null and id != ''">
+            and id  =   #{id}
+        </if> 
+        <if test="roleId != null and roleId != ''">
+            and roleId  =   #{roleId}
+        </if> 
+        <if test="memberId != null and memberId != ''">
+            and memberId  =   #{memberId}
+        </if> 
+    </select>
+
 	
 	<!-- ROLE_MEMBER  ROLE Member-->
 	<select id="roleMemberInRole" parameterType="RoleMember" resultType="Roles">

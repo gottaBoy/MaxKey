@@ -27,6 +27,11 @@ import org.dromara.mybatis.jpa.service.IJpaService;
 import org.dromara.mybatis.jpa.entity.JpaPageResults;
 
 public interface RoleMemberService  extends IJpaService<RoleMember>{
+    public List<RoleMember> queryRoleMembers(String roleId);
+
+    public List<RoleMember> queryMemberByRoleIds(List<String> roleIds);
+
+    public List<RoleMember> queryRoleMember(RoleMember roleMember);
 
     public int addDynamicRoleMember(Roles dynamicGroup);
     

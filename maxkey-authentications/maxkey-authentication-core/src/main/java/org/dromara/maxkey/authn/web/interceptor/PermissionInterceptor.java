@@ -61,6 +61,11 @@ public class PermissionInterceptor  implements AsyncHandlerInterceptor  {
     public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception {
          _logger.trace("Permission Interceptor .");
          AuthorizationUtils.authenticate(request, authTokenService, sessionManager);
+         //try authenticate With Cookie
+         if(AuthorizationUtils.isNotAuthenticated()) {
+        	 AuthorizationUtils.authenticateWithCookie(request, authTokenService, sessionManager);
+         }
+         
          SignPrincipal principal = AuthorizationUtils.getPrincipal();
         //判断用户是否登录,判断用户是否登录用户
         if(principal == null){

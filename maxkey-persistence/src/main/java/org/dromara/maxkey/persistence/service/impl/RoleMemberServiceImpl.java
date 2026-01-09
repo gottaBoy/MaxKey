@@ -51,6 +51,22 @@ public class RoleMemberServiceImpl  extends JpaServiceImpl<RoleMemberMapper,Role
         return getMapper().queryMemberByRoleId(groupId);
     }
     
+    @Override
+    public List<RoleMember> queryRoleMembers(String roleId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<RoleMember> queryMemberByRoleIds(List<String> roleIds) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<RoleMember> queryRoleMember(RoleMember roleMember) {
+        return getMapper().queryRoleMember(roleMember);
+    }
     
     public JpaPageResults<Roles> rolesNoMember(RoleMember entity) {
         entity.build();

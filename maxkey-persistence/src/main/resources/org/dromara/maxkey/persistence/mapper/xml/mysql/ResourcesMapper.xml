@@ -56,5 +56,66 @@
     		</foreach>
     </update>
     
+    <select id="queryResourcesByRoleIds"  parameterType="java.util.List" resultType="Resources">
+        select
+            distinct res.*
+        from
+            mxk_resources res
+        where
+            res.status = 1
+            and res.id in (
+                select
+                    resourceid
+                from
+                    mxk_permission_role
+                where
+                    roleid in
+                    <foreach item="item" collection="list" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+            )
+        order by res.sortindex
+    </select>
+   
+    <select id="queryResourcesByRoleAndGroupIds" parameterType="java.util.Map" resultType="Resources">
+        select
+            distinct res.*
+        from
+            mxk_resources res
+        where
+            res.status = 1
+            and (
+                <if test="roleIds != null and roleIds.size() > 0">
+                res.id in (
+                    select
+                        resourceid
+                    from
+                        mxk_permission_role
+                    where
+                        roleid in
+                        <foreach item="item" collection="roleIds" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                )
+                </if>
+                <if test="roleIds != null and roleIds.size() > 0 and groupIds != null and groupIds.size() > 0">
+                    or
+                </if>
+                 <if test="groupIds != null and groupIds.size() > 0">
+                res.id in (
+                    select
+                        resourceid
+                    from
+                        mxk_permission
+                    where
+                        groupid in
+                        <foreach item="item" collection="groupIds" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                )
+                </if>
+            )
+        order by res.sortindex
+    </select>
    
 </mapper>

@@ -43,4 +43,7 @@ public class PermissionServiceImpl  extends JpaServiceImpl<PermissionMapper,Perm
         return getMapper().queryGroupPrivileges(rolePermissions);
     }    
 
+    public List<Permission> queryRolePermissions(Permission permission){
+        return getMapper().queryRolePermissions(permission);
+    }
 }

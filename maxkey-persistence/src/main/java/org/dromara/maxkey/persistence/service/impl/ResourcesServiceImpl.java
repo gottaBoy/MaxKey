@@ -31,4 +31,15 @@ public class ResourcesServiceImpl  extends JpaServiceImpl<ResourcesMapper,Resour
     public List<Resources> queryResourcesTree(Resources resource){
        return  getMapper().fetchPageResults(resource);
     }
+    
+    public List<Resources> queryResourcesByRoleIds(List<String> roleIds){
+    	return getMapper().queryResourcesByRoleIds(roleIds);
+    }
+
+    public List<Resources> queryResourcesByRoleAndGroupIds(List<String> roleIds, List<String> groupIds) {
+        java.util.Map<String, Object> params = new java.util.HashMap<>();
+        params.put("roleIds", roleIds);
+        params.put("groupIds", groupIds);
+        return getMapper().queryResourcesByRoleAndGroupIds(params);
+    }
 }

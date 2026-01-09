@@ -46,6 +46,8 @@ public  interface RoleMemberMapper extends IJpaMapper<RoleMember> {
     public int deleteByRoleId(String roleId);
     
     public List<UserInfo> queryMemberByRoleId(String roleId);
+
+    public List<RoleMember> queryRoleMember(RoleMember roleMember);
     
     
     

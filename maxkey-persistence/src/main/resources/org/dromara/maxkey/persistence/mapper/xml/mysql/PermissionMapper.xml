@@ -47,6 +47,19 @@
 	    </foreach>
 	</insert>
 	
-	
+	<select id="queryRolePermissions" parameterType="Permission" resultType="Permission">
+        select
+            *
+        from
+            mxk_permission
+        where   instid   =   #{instId} 
+            and status   = 1
+        <if test="appId != null and appId != ''">
+            and appid  =   #{appId}
+        </if> 
+        <if test="groupId != null and groupId != ''">
+            and groupid  =   #{groupId}
+        </if> 
+    </select>
    
 </mapper>

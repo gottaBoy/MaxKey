@@ -38,4 +38,5 @@ public  interface PermissionMapper extends IJpaMapper<Permission> {
         
     public List<Permission> queryGroupPrivileges(Permission groupPrivileges);
 
+    public List<Permission> queryRolePermissions(Permission permission);
 }

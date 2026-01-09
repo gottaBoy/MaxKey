@@ -30,4 +30,5 @@ public interface PermissionService  extends IJpaService<Permission>{
     
     public List<Permission> queryGroupPrivileges(Permission rolePermissions);
 
+    public List<Permission> queryRolePermissions(Permission permission);
 }

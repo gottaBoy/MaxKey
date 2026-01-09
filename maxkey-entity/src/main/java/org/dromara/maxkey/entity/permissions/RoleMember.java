@@ -26,6 +26,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import java.util.List;
 
 @Entity
 @Table(name = "MXK_ROLE_MEMBER")  
@@ -55,6 +57,9 @@ public class RoleMember extends UserInfo implements Serializable{
     private String instId;
 
     private String instName;
+    
+    @Transient
+    private List<String> userIds;
     
     public RoleMember(){
         super();
@@ -193,6 +198,13 @@ public class RoleMember extends UserInfo implements Serializable{
         this.instName = instName;
     }
 
+    public List<String> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<String> userIds) {
+        this.userIds = userIds;
+    }
 
     @Override
     public String toString() {

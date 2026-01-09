@@ -25,4 +25,8 @@ import org.dromara.mybatis.jpa.service.IJpaService;
 public interface ResourcesService  extends IJpaService<Resources>{
     
     public List<Resources> queryResourcesTree(Resources resource);
+    
+    public List<Resources> queryResourcesByRoleIds(List<String> roleIds);
+
+    public List<Resources> queryResourcesByRoleAndGroupIds(List<String> roleIds, List<String> groupIds);
 }

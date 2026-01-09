@@ -23,6 +23,8 @@ package org.dromara.maxkey.persistence.mapper;
 import org.dromara.maxkey.entity.permissions.Resources;
 import org.dromara.mybatis.jpa.IJpaMapper;
 
+import java.util.List;
+
 /**
  * @author Crystal.sea
  *
@@ -30,4 +32,7 @@ import org.dromara.mybatis.jpa.IJpaMapper;
 
 public  interface ResourcesMapper extends IJpaMapper<Resources> {
 
+    public List<Resources> queryResourcesByRoleIds(List<String> roleIds);
+
+    public List<Resources> queryResourcesByRoleAndGroupIds(java.util.Map<String, Object> params);
 }

@@ -257,10 +257,10 @@ const PermissionAssignment: React.FC = () => {
     // 收集所有需要保存的资源ID：选中节点 + 半选中节点
     const allResourceIds = [...new Set([...checkedKeys, ...halfCheckedKeys])] as string[];
     
-    if (allResourceIds.length === 0) {
-      message.warning('请至少选择一个资源');
-      return;
-    }
+    // if (allResourceIds.length === 0) {
+    //   message.warning('请至少选择一个资源');
+    //   return;
+    // }
     
     try {
       // 构建资源ID字符串（逗号分隔）
