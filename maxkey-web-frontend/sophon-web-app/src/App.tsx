@@ -31,6 +31,30 @@ const PageLoading = () => (
   </div>
 );
 
+// Token 处理组件
+const TokenHandler = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const token = searchParams.get('token');
+  
+  if (token) {
+    // 解码 token (虽然 URLSearchParams 应该会自动解码，但为了安全起见)
+    // 并且如果 token 改变了，清除旧的 userInfo，防止数据不一致
+    const currentToken = localStorage.getItem('token');
+    if (currentToken !== token) {
+      localStorage.setItem('token', token);
+      localStorage.removeItem('userInfo'); // 强制重新获取用户信息
+      localStorage.removeItem('ticket');  // 清除旧 ticket
+      console.log('TokenHandler: 新 Token 已设置，清除旧的用户信息');
+    }
+    
+    // 清除 URL 中的 token 参数
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+  }
+  
+  return null;
+};
+
 const App: React.FC = () => {
   return (
     <BrowserRouter
@@ -38,6 +62,7 @@ const App: React.FC = () => {
         v7_relativeSplatPath: true,
       }}
     >
+      <TokenHandler />
       <Routes>
         <Route path="/user" element={<UserLayout />}>
           <Route path="login" element={

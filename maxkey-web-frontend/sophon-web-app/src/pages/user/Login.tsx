@@ -43,6 +43,24 @@ const Login: React.FC = () => {
       }
     };
   }, []);
+
+  // 处理 redirect_uri
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const redirectUriBase64 = params.get('redirect_uri');
+    if (redirectUriBase64) {
+      try {
+        // Base64Url decode: Replace - with + and _ with /
+        const base64 = redirectUriBase64.replace(/-/g, '+').replace(/_/g, '/');
+        // Decode base64 to string (handling potential UTF-8)
+        const decodedUri = decodeURIComponent(escape(window.atob(base64)));
+        console.log('📌 检测到跳转目标 redirect_uri:', decodedUri);
+        localStorage.setItem('redirect_uri', decodedUri);
+      } catch (e) {
+        console.error('❌ 解析 redirect_uri 失败:', e);
+      }
+    }
+  }, []);
   
   // 监听登录类型切换
   useEffect(() => {
@@ -270,9 +288,17 @@ const Login: React.FC = () => {
           console.log('✅ 登录成功，准备跳转到 /dashboard/home');
           console.log('✅ 保存的 token:', authData.token ? '已保存' : '空');
           console.log('✅ 保存的 ticket:', authData.ticket ? '已保存' : '空');
-          // 使用 window.location.href 强制跳转，确保页面完全刷新
-          // 立即跳转，不延迟，避免在延迟期间触发其他逻辑
-          window.location.href = '/app-panel';
+          
+          // 检查是否有重定向目标
+          const redirectUri = localStorage.getItem('redirect_uri');
+          if (redirectUri) {
+            console.log('🔄 登录成功，跳转到 redirect_uri:', redirectUri);
+            localStorage.removeItem('redirect_uri');
+            window.location.href = redirectUri;
+          } else {
+            // 使用 window.location.href 强制跳转，确保页面完全刷新    
+            window.location.href = '/app-panel';
+          }
         } else {
           // 需要二次认证，跳转到二次认证页面
           localStorage.setItem('two_factor_data', JSON.stringify(authData));

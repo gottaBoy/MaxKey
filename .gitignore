@@ -62,7 +62,11 @@ maxkey-web-frontend/sophon-web-app/node_modules/
 maxkey-web-frontend/sophon-web-app/.angular/
 maxkey-web-frontend/sophon-web-app/yarn.lock
 maxkey-web-frontend/sophon-web-app/dist
-maxkey-web-frontend/sophon-web-app/dist
+
+maxkey-web-frontend/sophon-console/node_modules/
+maxkey-web-frontend/sophon-console/.angular/
+maxkey-web-frontend/sophon-console/yarn.lock
+maxkey-web-frontend/sophon-console/dist
 
 sophon-flutter/.dart_tool/
 sophon-flutter/.vscode/

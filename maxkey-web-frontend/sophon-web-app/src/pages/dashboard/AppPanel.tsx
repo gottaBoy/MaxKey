@@ -4,6 +4,7 @@ import type { MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import authnService from '@/services/authn.service';
+import usersService from '@/services/users.service';
 import './AppPanel.less';
 
 const { Content, Footer } = Layout;
@@ -72,14 +73,42 @@ const AppPanel: React.FC = () => {
         return;
       }
       
-      if (!userInfoStr) {
-        console.log('未检测到用户信息，跳转到登录页');
+      // 注意：App.tsx 中的 TokenHandler 可能刚刚设置了新的 token 并清除了 userInfo
+      // 所以这里需要重新检查 localStorage
+      const currentToken = localStorage.getItem('token');
+      const currentUserInfoStr = localStorage.getItem('userInfo');
+
+      if ((!currentToken || currentToken.trim() === '') && (!ticket || ticket.trim() === '')) {
+        console.log('AppPanel: 未检测到登录信息，跳转到登录页');
+        setTimeout(() => navigate('/user/login', { replace: true }), 100);
+        return;
+      }
+      
+      // 存在 token 但没有 userInfo，尝试获取
+      if (!currentUserInfoStr || currentUserInfoStr === '{}') {
+        console.log('AppPanel: 未检测到用户信息，尝试从后端获取...');
+        if (currentToken) {
+           usersService.getProfile().then(user => {
+             console.log('AppPanel: 用户信息获取成功', user);
+             localStorage.setItem('userInfo', JSON.stringify(user));
+             // 成功后刷新一次以应用状态
+             window.location.reload();
+           }).catch(err => {
+             console.error('AppPanel: 获取用户信息失败', err);
+             // 如果是 401 可以在这里处理，但 request.ts 拦截器通常会先处理
+             // 我们给一点时间让拦截器工作，如果没有跳转，再手动跳转
+             // setTimeout(() => navigate('/user/login', { replace: true }), 500);
+           });
+           return;
+        }
+        
+        console.log('AppPanel: 无用户信息且无法获取，跳转到登录页');
         navigate('/user/login', { replace: true });
         return;
       }
       
       try {
-        const userInfo = JSON.parse(userInfoStr);
+        const userInfo = JSON.parse(currentUserInfoStr);
         if (!userInfo || !userInfo.id) {
           console.log('用户信息无效，跳转到登录页');
           navigate('/user/login', { replace: true });

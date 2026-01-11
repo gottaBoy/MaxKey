@@ -11,8 +11,9 @@ import {
   SettingOutlined,
   LogoutOutlined,
   EyeOutlined,
+  GlobalOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Dropdown, Avatar, Space } from 'antd';
+import { Layout, Menu, Dropdown, Avatar, Space, Button, Tooltip } from 'antd';
 import type { MenuProps } from 'antd';
 import ThemeDensitySelector from '../components/ThemeDensitySelector';
 import './BasicLayout.less';
@@ -279,6 +280,21 @@ const BasicLayout: React.FC = () => {
           </div>
           <div className="header-right">
             <Space size="middle">
+              <Tooltip title="前往用户门户">
+                <Button 
+                  type="text" 
+                  icon={<GlobalOutlined />} 
+                  onClick={() => {
+                    const token = localStorage.getItem('token');
+                    const url = token 
+                      ? `http://localhost:8529/app-panel?token=${encodeURIComponent(token)}`
+                      : 'http://localhost:8529/app-panel';
+                    window.open(url, '_blank');
+                  }}
+                >
+                  用户门户
+                </Button>
+              </Tooltip>
               <ThemeDensitySelector />
               <Dropdown
                 menu={{ items: userMenuItems, onClick: handleUserMenuClick }}

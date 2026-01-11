@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   MenuFoldOutlined,
@@ -11,9 +11,10 @@ import {
   AppstoreOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Dropdown, Avatar, Space } from 'antd';
+import { Layout, Menu, Dropdown, Avatar, Space, Button } from 'antd';
 import type { MenuProps } from 'antd';
 import authnService from '@/services/authn.service';
+import usersService from '@/services/users.service';
 import './BasicLayout.less';
 
 const { Header, Sider, Content } = Layout;
@@ -24,7 +25,37 @@ const BasicLayout: React.FC = () => {
   const location = useLocation();
 
   // 获取用户信息
-  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+  const [userInfo, setUserInfo] = useState<any>(JSON.parse(localStorage.getItem('userInfo') || '{}'));
+
+  // 判断是否显示后台管理按钮：平台超管(admin/PLATFORM_ADMIN) 或 租户超管(TANANT_ADMIN)
+  const showConsoleJump = React.useMemo(() => {
+    if (!userInfo) return false;
+    const { username, userType } = userInfo;
+    return (
+      username === 'admin' || 
+      userType === 'PLATFORM_ADMIN' || 
+      userType === 'TANANT_ADMIN' ||
+      userType === 'TENANT_ADMIN' // 兼容可能的拼写修正
+    );
+  }, [userInfo]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const storedUserInfo = localStorage.getItem('userInfo');
+
+    if (token && (!storedUserInfo || storedUserInfo === '{}')) {
+      usersService.getProfile().then(user => {
+        console.log('BasicLayout: 用户信息获取成功', user);
+        localStorage.setItem('userInfo', JSON.stringify(user));
+        setUserInfo(user);
+      }).catch(err => {
+        console.error('BasicLayout: 获取用户信息失败', err);
+        // 如果获取失败，可能是 token 失效，但交给 request 拦截器处理跳转
+      });
+    } else if (storedUserInfo && storedUserInfo !== '{}') {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, [location.pathname]);
 
   const menuItems: MenuProps['items'] = [
     {
@@ -91,11 +122,6 @@ const BasicLayout: React.FC = () => {
         },
       ],
     },
-    // {
-    //   key: '/authz/mgt',
-    //   icon: <ClusterOutlined />,
-    //   label: '后台',
-    // },
   ];
 
   const handleMenuClick = ({ key }: { key: string }) => {
@@ -163,6 +189,24 @@ const BasicLayout: React.FC = () => {
             })}
           </div>
           <div className="header-right">
+            {showConsoleJump && (
+              <Button
+                type="primary"
+                ghost
+                icon={<ClusterOutlined />}
+                style={{ marginRight: 16 }}
+                onClick={() => {
+                  const token = localStorage.getItem('token');
+                  if (token) {
+                    window.open(`http://localhost:8528?token=${encodeURIComponent(token)}`, '_blank');
+                  } else {
+                    window.open('http://localhost:8528', '_blank');
+                  }
+                }}
+              >
+                后台管理
+              </Button>
+            )}
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
               <Space className="user-info" style={{ cursor: 'pointer' }}>
                 <Avatar icon={<UserOutlined />} />

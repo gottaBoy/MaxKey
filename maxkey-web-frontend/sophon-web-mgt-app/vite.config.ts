@@ -13,6 +13,7 @@ export default defineConfig({
   server: {
     port: 8528,
     host: true,
+    allowedHosts: ['iot.intra.zeron.ai'],
     proxy: {
       '/maxkey-mgt-api': {
         target: 'http://localhost:9528',

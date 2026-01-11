@@ -9,6 +9,21 @@ import UserList from '@/pages/user/UserList';
 
 // 懒加载页面组件
 const OrganizationList = lazy(() => import('@/pages/organization/OrganizationList'));
+
+// Token 处理组件
+const TokenHandler = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const token = searchParams.get('token');
+  
+  if (token) {
+    localStorage.setItem('token', token);
+    // 清除 URL 中的 token 参数
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+  }
+  
+  return null;
+};
 const GroupList = lazy(() => import('@/pages/group/GroupList'));
 const GroupMembersList = lazy(() => import('@/pages/group-members/GroupMembersList'));
 const ApplicationList = lazy(() => import('@/pages/application/ApplicationList'));
@@ -55,6 +70,7 @@ const App: React.FC = () => {
         v7_relativeSplatPath: true,
       }}
     >
+      <TokenHandler />
       <Suspense fallback={<PageLoading />}>
         <Routes>
           {/* 用户布局 - 登录页 */}

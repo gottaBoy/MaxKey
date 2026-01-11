@@ -13,6 +13,7 @@ export default defineConfig({
   server: {
     port: 8529,
     host: true,
+    allowedHosts: ['iot.intra.zeron.ai'],
     proxy: {
       '/sign': {
         target: 'http://localhost:9529',
