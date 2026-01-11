@@ -60,4 +60,7 @@ dependencies {
    	implementation project(":maxkey-synchronizers:maxkey-synchronizer-ldap")
    	implementation project(":maxkey-synchronizers:maxkey-synchronizer-workweixin")
    	implementation project(":maxkey-synchronizers:maxkey-synchronizer-dingtalk")
+   	
+   	implementation project(":maxkey-web-apis:maxkey-web-api-rest")
+	implementation project(":maxkey-web-apis:maxkey-web-api-scim")
 }

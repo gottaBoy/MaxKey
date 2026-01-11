@@ -114,8 +114,29 @@ public class RoleMemberController {
         }
         String roleId = roleMember.getRoleId();
         
-        
         boolean result = true;
+        
+        if (roleMember.getUserIds() != null && !roleMember.getUserIds().isEmpty()) {
+            for (String memberId : roleMember.getUserIds()) {
+                 UserInfo userInfo = userInfoService.get(memberId);
+                 String memberName = (userInfo != null) ? userInfo.getDisplayName() : "Unknown";
+
+                 RoleMember newRoleMember = new RoleMember(
+                        roleId,
+                        roleMember.getRoleName(),
+                        memberId,
+                        memberName,
+                        "USER", // Assuming USER type for direct user assignment
+                        currentUser.getId(),
+                        currentUser.getInstId());
+                newRoleMember.setId(WebContext.genId());
+                result = roleMemberService.insert(newRoleMember);
+            }
+             if(result) {
+                return new Message<>(Message.SUCCESS);
+            }
+        }
+        
         String memberIds = roleMember.getMemberId();
         String memberNames = roleMember.getMemberName();
         if (memberIds != null) {

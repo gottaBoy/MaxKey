@@ -75,6 +75,7 @@ public class MaxKeyMgtMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/localization/**")
                 
                 .addPathPatterns("/file/upload/")
+                .addPathPatterns("/api/idm/current/**") 
                 
                 .addPathPatterns("/logout")
                 .addPathPatterns("/logout/**")

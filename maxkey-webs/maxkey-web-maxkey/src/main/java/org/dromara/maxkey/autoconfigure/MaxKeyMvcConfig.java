@@ -107,6 +107,7 @@ public class MaxKeyMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/logout")
                 .addPathPatterns("/logout/**")
                 .addPathPatterns("/authz/refused")
+                .addPathPatterns("/api/idm/current/**") 
                 .excludePathPatterns("/logon/oauth20/**/**")
                 .excludePathPatterns("/swagger-ui/**")
                 .excludePathPatterns("/swagger-resources/**")

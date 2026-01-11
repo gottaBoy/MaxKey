@@ -69,10 +69,10 @@ public class SingleSignOnInterceptor  implements AsyncHandlerInterceptor {
         AuthorizationUtils.authenticateWithCookie(request,authTokenService,sessionManager);
 
         if(AuthorizationUtils.isNotAuthenticated()) {
-            String loginUrl = applicationConfig.getFrontendUri() + "/#/passport/login?redirect_uri=%s";
+            String loginUrl = applicationConfig.getFrontendUri() + "/user/login?redirect_uri=%s";
             String redirect_uri = UrlUtils.buildFullRequestUrl(request);
             String base64RequestUrl = Base64Utils.base64UrlEncode(redirect_uri.getBytes());
-            logger.debug("No Authentication ... Redirect to /passport/login , redirect_uri {} , base64 {}",
+            logger.debug("No Authentication ... Redirect to /user/login , redirect_uri {} , base64 {}",
                             redirect_uri ,base64RequestUrl);
             response.sendRedirect(String.format(loginUrl,base64RequestUrl));
             return false;

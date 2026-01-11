@@ -58,4 +58,7 @@ dependencies {
    	implementation project(":maxkey-protocols:maxkey-protocol-oauth-2.0")
    	implementation project(":maxkey-protocols:maxkey-protocol-saml-2.0")
 	implementation project(":maxkey-protocols:maxkey-protocol-jwt")
+	
+	implementation project(":maxkey-web-apis:maxkey-web-api-rest")
+	implementation project(":maxkey-web-apis:maxkey-web-api-scim")
 }
