@@ -566,7 +566,7 @@ const ApplicationList: React.FC = () => {
   // 生成 Secret
   const handleGenerateSecret = async (formRef: ProFormInstance | undefined) => {
     try {
-      const result = await request.get('/maxkey-mgt-api/apps/generateSecret', {
+      const result = await request.get('/sophon-mgt-api/apps/generateSecret', {
         params: { type: 'base' },
       });
       if (formRef) {
@@ -1640,7 +1640,7 @@ const ApplicationList: React.FC = () => {
                   <div style={{ marginBottom: 16 }}>
                     <label style={{ display: 'block', marginBottom: 8 }}>应用图标</label>
                     <Upload
-                      action="/maxkey-mgt-api/file/upload"
+                      action="/sophon-mgt-api/file/upload"
                       listType="picture-card"
                       fileList={editFileList}
                       onPreview={handlePreview}

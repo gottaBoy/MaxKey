@@ -27,7 +27,7 @@
     <artifactId>pig-common-security</artifactId>
     <packaging>jar</packaging>
 
-    <description>pig 安全工具类</description>
+    <description>pig 安全工具�?/description>
 
 
     <dependencies>
@@ -59,7 +59,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-commons</artifactId>
         </dependency>
-        <!--feign 工具类-->
+        <!--feign 工具�?->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>

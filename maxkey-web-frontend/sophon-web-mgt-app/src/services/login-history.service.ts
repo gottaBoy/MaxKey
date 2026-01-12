@@ -18,7 +18,7 @@ export interface LoginHistory {
 
 class LoginHistoryService extends BaseService<LoginHistory> {
   constructor() {
-    super('/maxkey-mgt-api/historys/loginHistory');
+    super('/sophon-mgt-api/historys/loginHistory');
   }
 }
 

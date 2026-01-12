@@ -1,7 +1,0 @@
-MaxKey Licensed under the Apache License, Version 2.0
-
-
-第三方许可证/Third party licenses
-
-see
-https://www.maxkey.top/zh/about/dependency.html

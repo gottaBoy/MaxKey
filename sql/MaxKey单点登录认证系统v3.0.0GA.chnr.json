@@ -1,6 +1,6 @@
 {
-  "name": "MaxKey单点登录认证系统",
-  "describe": "MaxKey单点登录认证系统",
+  "name": "ZeronEdge单点登录认证系统",
+  "describe": "ZeronEdge单点登录认证系统",
   "avatar": "data:image/png;base64,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",
   "version": "4.1.1",
   "createdTime": "2021-8-22 20:00:01",
@@ -461,7 +461,7 @@
   },
   "entities": [
     {
-      "defKey": "mxk_accounts",
+      "defKey": "ze_accounts",
       "defName": "用户账号表",
       "comment": "",
       "properties": {},
@@ -768,7 +768,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps",
+      "defKey": "ze_apps",
       "defName": "应用表",
       "comment": "",
       "properties": {},
@@ -1625,7 +1625,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps_adapters",
+      "defKey": "ze_apps_adapters",
       "defName": "应用适配器表",
       "comment": "",
       "properties": {},
@@ -1954,7 +1954,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps_cas_details",
+      "defKey": "ze_apps_cas_details",
       "defName": "应用CAS详情表",
       "comment": "",
       "properties": {},
@@ -2151,7 +2151,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps_form_based_details",
+      "defKey": "ze_apps_form_based_details",
       "defName": "应用FormBase详情表",
       "comment": "details",
       "properties": {},
@@ -2392,7 +2392,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps_jwt_details",
+      "defKey": "ze_apps_jwt_details",
       "defName": "应用JWT详情表",
       "comment": "",
       "properties": {},
@@ -2655,7 +2655,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps_oauth_client_details",
+      "defKey": "ze_apps_oauth_client_details",
       "defName": "应用oauth详情表",
       "comment": "",
       "properties": {},
@@ -3182,7 +3182,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps_saml_v20_details",
+      "defKey": "ze_apps_saml_v20_details",
       "defName": "应用SAML详情表",
       "comment": "",
       "properties": {},
@@ -3687,7 +3687,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_apps_token_based_details",
+      "defKey": "ze_apps_token_based_details",
       "defName": "应用token_based详情表",
       "comment": "",
       "properties": {},
@@ -3950,7 +3950,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_group_member",
+      "defKey": "ze_group_member",
       "defName": "用户组成员表",
       "comment": "member,USERS OR GROUPS",
       "properties": {},
@@ -4183,7 +4183,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_group_privileges",
+      "defKey": "ze_group_privileges",
       "defName": "用户组权限表",
       "comment": "privileges",
       "properties": {},
@@ -4408,7 +4408,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_groups",
+      "defKey": "ze_groups",
       "defName": "用户组表",
       "comment": "",
       "properties": {},
@@ -4825,7 +4825,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_history_connector",
+      "defKey": "ze_history_connector",
       "defName": "审计-连接器日志表",
       "comment": "",
       "properties": {},
@@ -5154,7 +5154,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_history_event",
+      "defKey": "ze_history_event",
       "defName": "审计-任务日志表",
       "comment": "",
       "properties": {},
@@ -5373,7 +5373,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_history_login",
+      "defKey": "ze_history_login",
       "defName": "审计-登录日志表",
       "comment": "",
       "properties": {},
@@ -5856,7 +5856,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_history_login_apps",
+      "defKey": "ze_history_login_apps",
       "defName": "审计-应用登录日志表",
       "comment": "On apps Records",
       "properties": {},
@@ -6141,7 +6141,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_history_logs",
+      "defKey": "ze_history_logs",
       "defName": "审计-管理日志表",
       "comment": "OPERATE LOGS",
       "properties": {},
@@ -6514,7 +6514,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_history_synchronizer",
+      "defKey": "ze_history_synchronizer",
       "defName": "审计-同步器日志表",
       "comment": "logs",
       "properties": {},
@@ -6799,7 +6799,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_notices",
+      "defKey": "ze_notices",
       "defName": "公告通知",
       "comment": "",
       "properties": {},
@@ -7106,7 +7106,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_organizations",
+      "defKey": "ze_organizations",
       "defName": "机构表",
       "comment": "",
       "properties": {},
@@ -7919,7 +7919,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_password_policy",
+      "defKey": "ze_password_policy",
       "defName": "密码策略表",
       "comment": "policy",
       "properties": {},
@@ -8402,7 +8402,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_resources",
+      "defKey": "ze_resources",
       "defName": "权限-资源管理表",
       "comment": "",
       "properties": {},
@@ -8885,7 +8885,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_role_member",
+      "defKey": "ze_role_member",
       "defName": "权限-角色成员表",
       "comment": "members",
       "properties": {},
@@ -9104,7 +9104,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_role_permissions",
+      "defKey": "ze_role_permissions",
       "defName": "权限-角色权限表",
       "comment": "",
       "properties": {},
@@ -9367,7 +9367,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_roles",
+      "defKey": "ze_roles",
       "defName": "权限-角色表",
       "comment": "",
       "properties": {},
@@ -9740,7 +9740,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_socials_associate",
+      "defKey": "ze_socials_associate",
       "defName": "社交账号映射表",
       "comment": "USER BIND",
       "properties": {},
@@ -10091,7 +10091,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_synchronizers",
+      "defKey": "ze_synchronizers",
       "defName": "同步器",
       "comment": "",
       "properties": {},
@@ -10728,7 +10728,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_userinfo",
+      "defKey": "ze_userinfo",
       "defName": "用户表",
       "comment": "INFO DEFINE",
       "properties": {},
@@ -13027,7 +13027,7 @@
       "nameTemplate": "{defKey}[{defName}]"
     },
     {
-      "defKey": "mxk_userinfo_adjunct",
+      "defKey": "ze_userinfo_adjunct",
       "defName": "用户兼任机构表",
       "comment": "INFO Adjunct",
       "properties": {},

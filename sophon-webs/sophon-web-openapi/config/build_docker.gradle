@@ -1,0 +1,77 @@
+buildscript {
+	repositories {
+		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/'}
+	}
+}
+//docker
+plugins {
+	id 'java'
+	id 'com.google.cloud.tools.jib' version "${jibGradlePluginVersion}"
+	id 'org.springframework.boot' version "${springBootVersion}"
+}
+
+
+apply plugin: 'com.google.cloud.tools.jib'
+
+description = "sophon-web-openapi"
+
+jib {
+	from {
+		image = "${jibFromImage}"
+		platforms {
+			platform {
+				architecture = 'amd64'
+				os = 'linux'
+			}
+			platform {
+				architecture = 'arm64'
+				os = 'linux'
+			}
+		}
+	}
+	to {
+		//https://registry.hub.docker.com/repository/docker/Sophontop/sophon-openapi
+		image = "${jibToImage}/sophon-openapi"
+		tags = ["${project.version}".toString(), 'latest']
+		auth {
+			username = "${jibToAuthUsername}"
+			password = "${jibToAuthPassword}"
+		}
+		
+	}
+	container {
+		mainClass 	= "org.zeron.sophon.SophonApiApplication"
+		jvmFlags 	= ['-Dfile.encoding=utf-8', '-Dserver.port=9525','-Duser.timezone=Asia/Shanghai']
+		ports	 	= ['9525']
+	}
+}
+
+//build.configure { finalizedBy jib }
+
+dependencies {
+	implementation project(":sophon-commons:sophon-cache")
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-commons:sophon-core")
+	implementation project(":sophon-commons:sophon-crypto")
+	
+	implementation project(":sophon-entity")
+	implementation project(":sophon-persistence")
+	
+	implementation project(":sophon-starter:sophon-starter-captcha")
+   	implementation project(":sophon-starter:sophon-starter-ip2location")
+	implementation project(":sophon-starter:sophon-starter-otp")
+	implementation project(":sophon-starter:sophon-starter-sms")
+	implementation project(":sophon-starter:sophon-starter-web")
+	
+	implementation project(":sophon-authentications:sophon-authentication-core")
+	implementation project(":sophon-authentications:sophon-authentication-provider")
+	
+	implementation project(":sophon-protocols:sophon-protocol-authorize")
+   	implementation project(":sophon-protocols:sophon-protocol-oauth-2.0")
+   	implementation project(":sophon-protocols:sophon-protocol-saml-2.0")   
+   	
+   	//webapis
+   	implementation project(":sophon-web-apis:sophon-web-api-scim")   
+   	implementation project(":sophon-web-apis:sophon-web-api-rest")	
+   	
+}

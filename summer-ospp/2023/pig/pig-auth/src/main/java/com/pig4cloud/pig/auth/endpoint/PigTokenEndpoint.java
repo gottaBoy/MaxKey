@@ -76,7 +76,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author lengleng
- * @date 2019/2/1 删除token端点
+ * @date 2019/2/1 ɾ��token�˵�
  */
 @Slf4j
 @RestController
@@ -112,10 +112,10 @@ public class PigTokenEndpoint {
 
 
     /**
-     * 认证页面
+     * ��֤ҳ��
      *
      * @param modelAndView
-     * @param error        表单登录失败处理回调的错误信息
+     * @param error        �����¼ʧ�ܴ���ص��Ĵ�����Ϣ
      * @return ModelAndView
      */
     @GetMapping("/login")
@@ -132,7 +132,7 @@ public class PigTokenEndpoint {
                                 @RequestParam(OAuth2ParameterNames.STATE) String state) {
         SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
                 .getData()
-                .orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+                .orElseThrow(() -> new OAuthClientException("clientId ���Ϸ�"));
 
         Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
         modelAndView.addObject("clientId", clientId);
@@ -144,7 +144,7 @@ public class PigTokenEndpoint {
     }
 
     /**
-     * 退出并删除token
+     * �˳���ɾ��token
      *
      * @param authHeader Authorization
      */
@@ -167,9 +167,9 @@ public class PigTokenEndpoint {
     }
 
     /**
-     * 校验token
+     * У��token
      *
-     * @param token 令牌
+     * @param token ����
      */
     @SneakyThrows
     @GetMapping("/check_token")
@@ -185,7 +185,7 @@ public class PigTokenEndpoint {
         }
         OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 
-        // 如果令牌不存在 返回401
+        // ������Ʋ����??����401
         if (authorization == null || authorization.getAccessToken() == null) {
             this.authenticationFailureHandler.onAuthenticationFailure(request, response,
                     new InvalidBearerTokenException(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN));
@@ -199,7 +199,7 @@ public class PigTokenEndpoint {
     }
 
     /**
-     * 令牌管理调用
+     * ���ƹ�����??
      *
      * @param token token
      */
@@ -215,26 +215,26 @@ public class PigTokenEndpoint {
         if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
             return R.ok();
         }
-        // 清空用户信息
+        // ����û���??
         cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
-        // 清空access token
+        // ���access token
         authorizationService.remove(authorization);
-        // 处理自定义退出事件，保存相关日志
+        // �����Զ����˳��¼������������??
         SpringContextHolder.publishEvent(new LogoutSuccessEvent(new PreAuthenticatedAuthenticationToken(
                 authorization.getPrincipalName(), authorization.getRegisteredClientId())));
         return R.ok();
     }
 
     /**
-     * 查询token
+     * ��ѯtoken
      *
-     * @param params 分页参数
+     * @param params ��ҳ����
      * @return
      */
     @Inner
     @PostMapping("/page")
     public R<Page> tokenList(@RequestBody Map<String, Object> params) {
-        // 根据分页参数获取对应数据
+        // ���ݷ�ҳ������ȡ��Ӧ����
         String key = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
         int current = MapUtil.getInt(params, CommonConstants.CURRENT);
         int size = MapUtil.getInt(params, CommonConstants.SIZE);

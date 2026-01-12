@@ -1,0 +1,31 @@
+description = "sophon-web-Sophon"
+
+//add support for Java
+apply plugin: 'java'
+
+dependencies {
+	implementation project(":sophon-common")
+	implementation project(":sophon-core")
+	implementation project(":sophon-persistence")
+   	
+   	implementation project(":sophon-starter:sophon-starter-captcha")
+   	implementation project(":sophon-starter:sophon-starter-ip2location")
+	implementation project(":sophon-starter:sophon-starter-otp")
+	implementation project(":sophon-starter:sophon-starter-sms")
+	implementation project(":sophon-starter:sophon-starter-social")
+	implementation project(":sophon-starter:sophon-starter-web")
+	
+   	implementation project(":sophon-authentications:sophon-authentication-core")
+   	implementation project(":sophon-authentications:sophon-authentication-provider")
+
+   	implementation project(":sophon-protocols:sophon-protocol-authorize")
+   	implementation project(":sophon-protocols:sophon-protocol-cas")
+	implementation project(":sophon-protocols:sophon-protocol-extendapi")
+	implementation project(":sophon-protocols:sophon-protocol-formbased")
+	implementation project(":sophon-protocols:sophon-protocol-tokenbased")
+   	implementation project(":sophon-protocols:sophon-protocol-oauth-2.0")
+   	implementation project(":sophon-protocols:sophon-protocol-saml-2.0")
+	implementation project(":sophon-protocols:sophon-protocol-jwt")
+	
+}
+

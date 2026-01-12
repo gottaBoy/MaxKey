@@ -15,7 +15,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/error**").permitAll()
                 .anyRequest().authenticated()
                 .and().logout().logoutUrl("/logout")
-                .logoutSuccessUrl("http://sso.maxkey.top/sign/force/logout");
+                .logoutSuccessUrl("http://sso.Sophon.top/sign/force/logout");
 
         }
 }

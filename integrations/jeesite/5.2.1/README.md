@@ -1,13 +1,13 @@
 
-# JustAuth 源码地址
+# JustAuth 婧愮爜鍦板潃
 https://github.com/justauth/JustAuth
 
-# 文档地址
+# 鏂囨。鍦板潃
 
 https://justauth.wiki/guide/quickstart/how-to-use
 
-# 视频演示
+# 瑙嗛婕旂ず
 
 https://b23.tv/8eZQCJD
 
-【jeesite+ruoyi+ruoyi-vue plus+maxkey+JustAuth+oauthor2统一认证统一门户演示-哔哩哔哩】 
+銆恓eesite+ruoyi+ruoyi-vue plus+Sophon+JustAuth+oauthor2缁熶竴璁よ瘉缁熶竴闂ㄦ埛婕旂ず-鍝斿摡鍝斿摡銆?

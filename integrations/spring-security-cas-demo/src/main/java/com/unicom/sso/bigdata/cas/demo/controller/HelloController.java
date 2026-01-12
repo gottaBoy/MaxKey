@@ -36,7 +36,7 @@ public class HelloController {
 //        model.addAttribute("username", username);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("当前用户信息：" + auth.getPrincipal());
+        System.out.println("当前用户信息?? + auth.getPrincipal());
         return "home";
     }
 
@@ -55,7 +55,7 @@ public class HelloController {
         model.addAttribute("username", username);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("当前用户信息：" + auth.getPrincipal());
+        System.out.println("当前用户信息?? + auth.getPrincipal());
         return "home";
     }
 

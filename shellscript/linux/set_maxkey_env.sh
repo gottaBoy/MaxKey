@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "-------------------------------------------------------------------------------"
-echo "--    Maxkey Sigle Sign On  System                                           --"
+echo "--    Sophon Sigle Sign On  System                                           --"
 echo "--    Set JAVA_HOME  ....                                                    --"
 echo "--    JAVA_HOME   JDK                                                        --"
 

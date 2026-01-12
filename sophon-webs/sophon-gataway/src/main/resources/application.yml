@@ -1,0 +1,43 @@
+# Port
+application:
+  name: sophon-gateway-server
+  formatted-version: v4.1.9 GA
+server:
+  port: 9000
+spring:
+  application:
+    name: sophon-gateway
+  cloud:
+    gateway:
+      routes:
+# Nacos health check port 8080
+        - id: sophons_route
+          uri: lb://sophon
+          filters:
+            - PrefixPath=/
+          predicates:
+            - Path=/sign/**
+        - id: sophon_mgts_route
+          uri: lb://sophon-mgt
+          filters:
+            - PrefixPath=/
+          predicates:
+            - Path=/sophon-mgt-api/**
+#      default-filters:
+#       - name: Hystrix
+#          args:
+#            name: default
+#            fallbackUri: 'forward:/defaultFallback'
+        
+  main:
+    web-application-type: reactive
+#spring.main.web-application-type=reactive
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            # 1 minute timeout, service unavailable fuse
+            timeoutInMilliseconds: 60000

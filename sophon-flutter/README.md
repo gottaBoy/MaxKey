@@ -1,56 +1,56 @@
 # sophon_flutter
 
-## ZeronEdge Flutter 移动客户端
+## ZeronEdge Flutter 绉诲姩瀹㈡埛绔?
 
-基于 MaxKey 的 ZeronEdge 移动应用客户端，使用 Flutter 开发。
+鍩轰簬 Sophon 鐨?ZeronEdge 绉诲姩搴旂敤瀹㈡埛绔紝浣跨敤 Flutter 寮€鍙戙€?
 
-### 功能
-- [x] 账密登录
-- [x] 保留登录状态
-- [x] 账号信息
-- [x] 扫码登录
-- [x] 登出
-- [x] TOTP 录入、展示和编辑
-- [x] TOTP 与账号绑定的持久化
-- [x] 检测 token 是否有效
-- [x] 多语言
-- [x] 切换日夜间模式
-- [x] 指定主机和测试链接
-- [x] 查看日志
+### 鍔熻兘
+- [x] 璐﹀瘑鐧诲綍
+- [x] 淇濈暀鐧诲綍鐘舵€?
+- [x] 璐﹀彿淇℃伅
+- [x] 鎵爜鐧诲綍
+- [x] 鐧诲嚭
+- [x] TOTP 褰曞叆銆佸睍绀哄拰缂栬緫
+- [x] TOTP 涓庤处鍙风粦瀹氱殑鎸佷箙鍖?
+- [x] 妫€娴?token 鏄惁鏈夋晥
+- [x] 澶氳瑷€
+- [x] 鍒囨崲鏃ュ闂存ā寮?
+- [x] 鎸囧畾涓绘満鍜屾祴璇曢摼鎺?
+- [x] 鏌ョ湅鏃ュ織
 
-### 环境要求
+### 鐜瑕佹眰
 - Flutter 3.35.5+
 - Dart 3.9.2+
 
-### 编译帮助
-1. 安装 Flutter 开发环境 [Install | Flutter](https://docs.flutter.dev/get-started/install)
-2. （可选）自定义主机地址。在 `[lib/persistent.dart](lib/persistent.dart)` 中修改 `SophonPersistent` 的 `_DEFAULT_HOST` 值
-3. 终端运行命令：
-   1. 获取依赖库：`flutter pub get`
-   2. 生成多语言文件：`flutter gen-l10n`
-   3. 构建 Release(Android)：`flutter build apk`。详见 [Build and release an Android app](https://docs.flutter.dev/deployment/android)
-   4. 构建 Release(iOS)。详见 [Build and release an iOS app](https://docs.flutter.dev/deployment/ios)
+### 缂栬瘧甯姪
+1. 瀹夎 Flutter 寮€鍙戠幆澧?[Install | Flutter](https://docs.flutter.dev/get-started/install)
+2. 锛堝彲閫夛級鑷畾涔変富鏈哄湴鍧€銆傚湪 `[lib/persistent.dart](lib/persistent.dart)` 涓慨鏀?`SophonPersistent` 鐨?`_DEFAULT_HOST` 鍊?
+3. 缁堢杩愯鍛戒护锛?
+   1. 鑾峰彇渚濊禆搴擄細`flutter pub get`
+   2. 鐢熸垚澶氳瑷€鏂囦欢锛歚flutter gen-l10n`
+   3. 鏋勫缓 Release(Android)锛歚flutter build apk`銆傝瑙?[Build and release an Android app](https://docs.flutter.dev/deployment/android)
+   4. 鏋勫缓 Release(iOS)銆傝瑙?[Build and release an iOS app](https://docs.flutter.dev/deployment/ios)
 
-### 使用到的 Package
-  dio: 网络请求
-  go_router: 路由管理
-  mobile_scanner: 扫码
-  shared_preferences: 持久化
+### 浣跨敤鍒扮殑 Package
+  dio: 缃戠粶璇锋眰
+  go_router: 璺敱绠＄悊
+  mobile_scanner: 鎵爜
+  shared_preferences: 鎸佷箙鍖?
   auth_totp: TOTP
-  logger: 日志
+  logger: 鏃ュ織
 
-### 目录结构
+### 鐩綍缁撴瀯
 - lib
-  - l10n // 多语言
-    - app_en.arb // 英语
-    - app_zh.arb // 中文
-  - maxkey // MaxKey API
-    - maxkey.dart // MaxKey API 单例
-    - services // MaxKey API（参照 [maxkey-web-app/src/app/service](https://gitee.com/dromara/MaxKey/tree/main/maxkey-web-frontend/maxkey-web-app/src/app/service)）
-  - pages // 页面
-  - app_color_scheme.dart // 从 MaxKey 图标生成的主题色
+  - l10n // 澶氳瑷€
+    - app_en.arb // 鑻辫
+    - app_zh.arb // 涓枃
+  - Sophon // Sophon API
+    - Sophon.dart // Sophon API 鍗曚緥
+    - services // Sophon API锛堝弬鐓?[Sophon-web-app/src/app/service](https://gitee.com/dromara/Sophon/tree/main/Sophon-web-frontend/Sophon-web-app/src/app/service)锛?
+  - pages // 椤甸潰
+  - app_color_scheme.dart // 浠?Sophon 鍥炬爣鐢熸垚鐨勪富棰樿壊
   - main.dart
-  - persistent.dart // 持久化
-  - repeat_tween_animation_builder.dart // 动画组件
-  - totp.dart // TOTP 相关逻辑
+  - persistent.dart // 鎸佷箙鍖?
+  - repeat_tween_animation_builder.dart // 鍔ㄧ敾缁勪欢
+  - totp.dart // TOTP 鐩稿叧閫昏緫
   - utils.dart // Logger, route path, str extension

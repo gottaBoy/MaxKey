@@ -18,8 +18,8 @@ public class SpringBootOauthClientApplication {
 ### application.yml
 
 ```ini
-# 授权服务地址
-maxkey-auth-url: http://sso.maxkey.top/sign
+# 鎺堟潈鏈嶅姟鍦板潃
+Sophon-auth-url: http://sso.Sophon.top/sign
 
 security:
   oauth2:
@@ -27,13 +27,13 @@ security:
       client-id: 1000185112135991296
       client-secret: 8Nv7MTcwNjIwMjQyMDU5Mzg5MDU65R
       scope: all
-      user-authorization-uri: ${maxkey-auth-url}/authz/oauth/v20/authorize
-      access-token-uri: ${maxkey-auth-url}/authz/oauth/v20/token
+      user-authorization-uri: ${Sophon-auth-url}/authz/oauth/v20/authorize
+      access-token-uri: ${Sophon-auth-url}/authz/oauth/v20/token
     resource:
-      # 检查令牌
-      #token-info-uri: ${maxkey-auth-url}/authz/oauth/v20/token
-      # 用户信息
-      user-info-uri: ${maxkey-auth-url}/api/oauth/v20/me
+      # 妫€鏌ヤ护鐗?
+      #token-info-uri: ${Sophon-auth-url}/authz/oauth/v20/token
+      # 鐢ㄦ埛淇℃伅
+      user-info-uri: ${Sophon-auth-url}/api/oauth/v20/me
 ```
 
 ### ResourceServerConfiguration
@@ -44,8 +44,8 @@ security:
 public class ResourceServerConfiguration extends WebSecurityConfigurerAdapter {
 	Logger log = LoggerFactory.getLogger(ResourceServerConfiguration.class);
 	
-	@Value("${maxkey-auth-url}") 
-	String maxkeyAuthUrl;
+	@Value("${Sophon-auth-url}") 
+	String SophonAuthUrl;
 	
 	@Value("${security.oauth2.client.user-authorization-uri}") 
 	String userAuthorizationUri;

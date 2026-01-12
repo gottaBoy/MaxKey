@@ -1,37 +1,37 @@
-# cas-springboot-demo使用
+# cas-springboot-demo浣跨敤
 
-源代码地址  https://gitee.com/dromara/MaxKey/tree/main/integrations/cas-springboot-demo
+婧愪唬鐮佸湴鍧€  https://gitee.com/dromara/Sophon/tree/main/integrations/cas-springboot-demo
 
-感谢 xiazhenyou 提供Demo。
+鎰熻阿 xiazhenyou 鎻愪緵Demo銆?
 
 # cas-springboot-demo
-基于spring boot配置cas客户端
-demo分别写了三个请求:拦截请求 test1/index,test1/index1 以及不拦截请求test1/index2,
-## 第一步，引入cas 客户端所需包
+鍩轰簬spring boot閰嶇疆cas瀹㈡埛绔?
+demo鍒嗗埆鍐欎簡涓変釜璇锋眰:鎷︽埅璇锋眰 test1/index,test1/index1 浠ュ強涓嶆嫤鎴姹倀est1/index2,
+## 绗竴姝ワ紝寮曞叆cas 瀹㈡埛绔墍闇€鍖?
       <dependency>
             <groupId>net.unicon.cas</groupId>
             <artifactId>cas-client-autoconfig-support</artifactId>
             <version>2.3.0-GA</version>
       </dependency>
-## 第二部，配置spring boot 配置文件
+## 绗簩閮紝閰嶇疆spring boot 閰嶇疆鏂囦欢
 ```
 server:
   port: 8989
 cas:
-  # cas服务端地址
-  server-url-prefix: http://sso.maxkey.top/sign/authz/cas/
-  # cas服务端登陆地址
-  server-login-url: http://sso.maxkey.top/sign/authz/cas/login
-  # 客户端访问地址
+  # cas鏈嶅姟绔湴鍧€
+  server-url-prefix: http://sso.Sophon.top/sign/authz/cas/
+  # cas鏈嶅姟绔櫥闄嗗湴鍧€
+  server-login-url: http://sso.Sophon.top/sign/authz/cas/login
+  # 瀹㈡埛绔闂湴鍧€
   client-host-url: http://localhost:8989/
-  # 认证方式，默认cas
+  # 璁よ瘉鏂瑰紡锛岄粯璁as
   validation-type: cas
-  #  客户端需要拦截的URL地址
+  #  瀹㈡埛绔渶瑕佹嫤鎴殑URL鍦板潃
   authentication-url-patterns:
     - /test1/index
     - /test1/index1
 ```
-扩展配置项
+鎵╁睍閰嶇疆椤?
 ````
 cas.authentication-url-patterns
 cas.validation-url-patterns
@@ -46,7 +46,7 @@ cas.proxy-receptor-url
 cas.accept-any-proxy
 server.context-parameters.renew
 ````
-## 第三部 在application启动类上加上 @EnableCasClient 注解
+## 绗笁閮?鍦╝pplication鍚姩绫讳笂鍔犱笂 @EnableCasClient 娉ㄨВ
 ```java
 @SpringBootApplication
 @EnableCasClient
@@ -58,7 +58,7 @@ public class CasClientDemoApplication {
 
 }
 ```
-## 第四步 在代码中获取登录用户信息
+## 绗洓姝?鍦ㄤ唬鐮佷腑鑾峰彇鐧诲綍鐢ㄦ埛淇℃伅
 ``` java
     @GetMapping("test1/index1")
     public String index1(HttpServletRequest request){
@@ -69,6 +69,7 @@ public class CasClientDemoApplication {
         String username=     assertion.getPrincipal().getName();
         System.out.println(username);
 
-        return "test index cas拦截正常,登录账号:"+username;
+        return "test index cas鎷︽埅姝ｅ父,鐧诲綍璐﹀彿:"+username;
     }
 ```
+

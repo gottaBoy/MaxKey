@@ -3,7 +3,7 @@ import { OnlineSession } from '@/types/entity';
 import { PageParams, PageResponse } from '@/utils/request';
 
 class OnlineSessionsService {
-  private baseUrl = '/maxkey-mgt-api/access/session';
+  private baseUrl = '/sophon-mgt-api/access/session';
 
   /**
    * 分页查询在线会话

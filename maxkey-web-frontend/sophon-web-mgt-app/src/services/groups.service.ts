@@ -4,7 +4,7 @@ import { Group } from '@/types/entity';
 
 class GroupsService extends BaseService<Group> {
   constructor() {
-    super('/maxkey-mgt-api/access/groups');
+    super('/sophon-mgt-api/access/groups');
   }
 
   /**

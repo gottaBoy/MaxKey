@@ -108,7 +108,7 @@ public class SysUserController {
     @PostMapping("/sso_save")
     public R<UserInfo> save_sso(@RequestBody Map<String, Object> attributes) {
         String username = (String) attributes.getOrDefault("username", "pig");
-        // 判断用户名是否存在
+        // 判断用户名是否存??
         SysUser sysUser = userService.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
         if (sysUser == null) {
             SysUser sysUserByMap = BeanCreator.createSysUserByMap(attributes);
@@ -192,7 +192,7 @@ public class SysUserController {
     }
 
     /**
-     * 管理员更新用户信息
+     * 管理员更新用户信??
      *
      * @param userDto 用户信息
      * @return R
@@ -208,7 +208,7 @@ public class SysUserController {
     /**
      * 分页查询用户
      *
-     * @param page    参数集
+     * @param page    参数??
      * @param userDTO 查询参数列表
      * @return 用户集合
      */

@@ -58,8 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()// 配置安全策略
                 .antMatchers(ArrayUtil.toArray(permitAllUrl.getUrls(), String.class)).permitAll()
-                .anyRequest().authenticated()// 其余的所有请求都需要验证
-                .and().logout().permitAll()// 定义logout不需要验证
+                .anyRequest().authenticated()// 其余的所有请求都需要验??
+                .and().logout().permitAll()// 定义logout不需要验??
                 .and().formLogin();// 使用form表单登录
 
         http.exceptionHandling()
@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(casAuthenticationFilter())
                 .addFilterBefore(casLogoutFilter(), LogoutFilter.class)
                 .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
-        // 取消跨站请求伪造防护
+        // 取消跨站请求伪造防??
         http.csrf().disable();
 //      // 防止iframe 造成跨域
         http.headers().frameOptions().disable();
@@ -76,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 认证的入口
+     * 认证的入??
      */
     @Bean
     public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * CAS认证过滤器
+     * CAS认证过滤??
      */
     @Bean
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
@@ -118,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CasAuthenticationProvider casAuthenticationProvider() {
         CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
         casAuthenticationProvider.setAuthenticationUserDetailsService(casUserDetailService);
-        // //这里只是接口类型，实现的接口不一样，都可以的。
+        // //这里只是接口类型，实现的接口不一样，都可以的??
         casAuthenticationProvider.setServiceProperties(serviceProperties());
         casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
         casAuthenticationProvider.setKey("casAuthenticationProviderKey");
@@ -134,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 单点登出过滤器
+     * 单点登出过滤??
      */
     @Bean
     public SingleSignOutFilter singleSignOutFilter() {

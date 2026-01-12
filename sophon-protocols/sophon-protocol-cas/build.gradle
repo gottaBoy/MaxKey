@@ -1,0 +1,24 @@
+
+description = "sophon-protocol-cas"
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/*/', include: '*.jar')
+
+	testImplementation group: 'org.pac4j', name: 'pac4j-core', version: '3.8.3'
+	// https://mvnrepository.com/artifact/org.pac4j/pac4j-cas
+	testImplementation group: 'org.pac4j', name: 'pac4j-cas', version: '3.8.3'
+	
+	implementation project(":sophon-commons:sophon-cache")
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-commons:sophon-core")
+	implementation project(":sophon-commons:sophon-crypto")
+	
+	implementation project(":sophon-entity")
+	implementation project(":sophon-persistence")
+   	implementation project(":sophon-protocols:sophon-protocol-authorize")
+   	implementation project(":sophon-authentications:sophon-authentication-core")
+   	implementation project(":sophon-authentications:sophon-authentication-provider")
+   
+}

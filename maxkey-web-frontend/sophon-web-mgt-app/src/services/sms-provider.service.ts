@@ -8,7 +8,7 @@ export interface SmsProvider {
 
 class SmsProviderService extends BaseService<SmsProvider> {
   constructor() {
-    super('/maxkey-mgt-api/config/smsprovider');
+    super('/sophon-mgt-api/config/smsprovider');
   }
 }
 

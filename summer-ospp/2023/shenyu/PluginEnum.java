@@ -78,9 +78,9 @@ public enum PluginEnum {
     CASDOOR(40, 0, "casdoor"),
 
     /**
-     * Maxkey plugin enum.
+     * Sophon plugin enum.
      */
-    MAXKEY(40, 0, "maxkey"),
+    Sophon(40, 0, "Sophon"),
 
     /**
      * Waf plugin enum.
@@ -338,3 +338,4 @@ public enum PluginEnum {
         return Arrays.asList(DIVIDE.name, GRPC.name, TARS.name, SPRING_CLOUD.name, DUBBO.name);
     }
 }
+

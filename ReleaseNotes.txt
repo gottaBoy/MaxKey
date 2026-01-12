@@ -1,20 +1,20 @@
-﻿MaxKey v 4.1.9 GA 2025/10/10
-    *(MAXKEY-250501) #248 最新镜像 启动登陆异常
-    *(MAXKEY-250502) 仪表盘显示和数据优化，增加totalUsers、totalDepts、totalApps统计
-    *(MAXKEY-250503) 开源之夏-官方操作手册 by xiaoyvhuv
-    *(MAXKEY-250504) 开源之夏-WebAuth passkey认证支持 by Spock12138
-    *(MAXKEY-250505) #57 去掉密码策略校验 当密码错误次数超过6次被暂定锁定后，社交登录时也会报错被锁定 by zwj 
-    *(MAXKEY-250506) 点击部门分页问题修复
-    *(MAXKEY-250507) #67 modify dockerfile Merge pull request !1 from 乐淘
-    *(MAXKEY-250508) 访问控制分页问题修复
-    *(MAXKEY-250509) build.gradle优化
-    *(MAXKEY-250510) 管理端增加官方网站链接菜单
-    *(MAXKEY-250511) mybatis-jpa-extra升级优化
-    *(MAXKEY-250512) release.bat构建脚本优化
-    *(MAXKEY-250513) 社交服务 ->社交登录
-    *(MAXKEY-250514) 国际化切换图标修改，English abbr EN，zh-CN abbr CN
-    *(MAXKEY-250515) sql文件数据结构和数据合并成一个问题maxkey.sql
-    *(MAXKEY-250516) 依赖项引用、更新和升级
+Sophon v 4.1.9 GA 2025/10/10
+    *(Sophon-250501) #248 最新镜像 启动登陆异常
+    *(Sophon-250502) 仪表盘显示和数据优化，增加totalUsers、totalDepts、totalApps统计
+    *(Sophon-250503) 开源之夏-官方操作手册 by xiaoyvhuv
+    *(Sophon-250504) 开源之夏-WebAuth passkey认证支持 by Spock12138
+    *(Sophon-250505) #57 去掉密码策略校验 当密码错误次数超过6次被暂定锁定后，社交登录时也会报错被锁定 by zwj 
+    *(Sophon-250506) 点击部门分页问题修复
+    *(Sophon-250507) #67 modify dockerfile Merge pull request !1 from 乐淘
+    *(Sophon-250508) 访问控制分页问题修复
+    *(Sophon-250509) build.gradle优化
+    *(Sophon-250510) 管理端增加官方网站链接菜单
+    *(Sophon-250511) mybatis-jpa-extra升级优化
+    *(Sophon-250512) release.bat构建脚本优化
+    *(Sophon-250513) 社交服务 ->社交登录
+    *(Sophon-250514) 国际化切换图标修改，English abbr EN，zh-CN abbr CN
+    *(Sophon-250515) sql文件数据结构和数据合并成一个问题Sophon.sql
+    *(Sophon-250516) 依赖项引用、更新和升级
             springVersion                   6.2.11
             springBootVersion               3.4.10
             springSecurityVersion           6.5.5
@@ -26,23 +26,23 @@
             mybatis-jpa-extra               3.3.6
             log4jVersion                    2.25.2
             
-MaxKey v 4.1.8 GA 2025/08/01
-    *(MAXKEY-250401) 二次认证
-    *(MAXKEY-250402) MaxKeyOpenApiApplication name MaxKeyApiApplication
-    *(MAXKEY-250403) 缓存优化
-    *(MAXKEY-250404) maxkey-core 拆分 maxkey-entity maxkey-cache
-    *(MAXKEY-250405) maxkey-common 拆分maxkey-crypto、maxkey-ldap & maxkey-commons 
-    *(MAXKEY-250406) 缓存验证码过期异常问题
-    *(MAXKEY-250407) 二次认证的配置
-    *(MAXKEY-250408) /functionList 获取应用功能权限清单
-    *(MAXKEY-250409) #IBY0OL 长时间未操作，验证码无法登录
-    *(MAXKEY-250410) 用户和组织的排序优化
-    *(MAXKEY-250411) 密码修改入口优化
-    *(MAXKEY-250412) Groups.service.ts rename groups.service.ts
-    *(MAXKEY-250413) 代码整合和优化
-    *(MAXKEY-250414) 开源之夏任务讲解和具体事项说明
-    *(MAXKEY-250415) angular.json optimize
-    *(MAXKEY-250416) 依赖项引用、更新和升级
+Sophon v 4.1.8 GA 2025/08/01
+    *(Sophon-250401) 二次认证
+    *(Sophon-250402) SophonOpenApiApplication name SophonApiApplication
+    *(Sophon-250403) 缓存优化
+    *(Sophon-250404) Sophon-core 拆分 Sophon-entity Sophon-cache
+    *(Sophon-250405) Sophon-common 拆分Sophon-crypto、Sophon-ldap & Sophon-commons 
+    *(Sophon-250406) 缓存验证码过期异常问题
+    *(Sophon-250407) 二次认证的配置
+    *(Sophon-250408) /functionList 获取应用功能权限清单
+    *(Sophon-250409) #IBY0OL 长时间未操作，验证码无法登录
+    *(Sophon-250410) 用户和组织的排序优化
+    *(Sophon-250411) 密码修改入口优化
+    *(Sophon-250412) Groups.service.ts rename groups.service.ts
+    *(Sophon-250413) 代码整合和优化
+    *(Sophon-250414) 开源之夏任务讲解和具体事项说明
+    *(Sophon-250415) angular.json optimize
+    *(Sophon-250416) 依赖项引用、更新和升级
             springVersion                   6.2.9
             springBootVersion               3.4.8
             springSecurityVersion           6.5.2
@@ -51,17 +51,17 @@ MaxKey v 4.1.8 GA 2025/08/01
             tomcatVersion                   10.1.43
             jacksonVersion                  2.18.4
             
-MaxKey v 4.1.7 GA 2025/04/01
-    *(MAXKEY-250301) #IBQEYU 使用 AccessToken 验证身份报错session is null
-    *(MAXKEY-250302) org.dromara.maxkey.web.component to org.dromara.maxkey.entity
-    *(MAXKEY-250303) remove query submitLoading
-    *(MAXKEY-250304) 编译后可能导致图无法显示问题
-    *(MAXKEY-250305) sessionStatus优化
-    *(MAXKEY-250306) 菜单名称优化
-    *(MAXKEY-250307) 新增用户密码生成功能
-    *(MAXKEY-250308) 管理端前端存储INST值改为inst_mgt
-    *(MAXKEY-250309) 代码优化
-    *(MAXKEY-250310) 依赖项引用、更新和升级
+Sophon v 4.1.7 GA 2025/04/01
+    *(Sophon-250301) #IBQEYU 使用 AccessToken 验证身份报错session is null
+    *(Sophon-250302) org.zeron.sophon.web.component to org.zeron.sophon.entity
+    *(Sophon-250303) remove query submitLoading
+    *(Sophon-250304) 编译后可能导致图无法显示问题
+    *(Sophon-250305) sessionStatus优化
+    *(Sophon-250306) 菜单名称优化
+    *(Sophon-250307) 新增用户密码生成功能
+    *(Sophon-250308) 管理端前端存储INST值改为inst_mgt
+    *(Sophon-250309) 代码优化
+    *(Sophon-250310) 依赖项引用、更新和升级
             springVersion                 6.2.5
             springBootVersion             3.4.4
             springSecurityVersion         6.4.4
@@ -76,22 +76,22 @@ MaxKey v 4.1.7 GA 2025/04/01
             mybatisspringVersion          3.0.4
             mybatis-jpa-extra             3.3.5
             
-MaxKey v 4.1.6 GA 2025/02/20
-    *(MAXKEY-250201) 无效请求地址全局优化
-    *(MAXKEY-250202) loginConfig,captchaType属性补写,修复openApi运行失败问题 by zhangzhongjie
-    *(MAXKEY-250203) #IBGVOI LoginConfig 设置默认值
-    *(MAXKEY-250204) 增加30日世界地图访问
-    *(MAXKEY-250205) JWT验证代码优化
-    *(MAXKEY-250206) 审计查询优化
-    *(MAXKEY-250207) 读取当前机构优化
-    *(MAXKEY-250208) #IBI3NO fetch 查询条件不能为空么问题
-    *(MAXKEY-250209) 登录成功信息更新优化
-    *(MAXKEY-250210) 认证端终止会话问题优化
-    *(MAXKEY-250211) 当已存在token时也需要保存visited到当前session呀   by zwj
-    *(MAXKEY-250212) 修复因converter处理顺序导致string类型被mappingJacksonHttpMessageConverter当成字符串处理 by 宁鹏涛
-    *(MAXKEY-250213) 图片计算验证码增加计算复杂度优化
-    *(MAXKEY-250214) 管理端增加源码的连接地址
-    *(MAXKEY-250215) 依赖项引用、更新和升级
+Sophon v 4.1.6 GA 2025/02/20
+    *(Sophon-250201) 无效请求地址全局优化
+    *(Sophon-250202) loginConfig,captchaType属性补写,修复openApi运行失败问题 by zhangzhongjie
+    *(Sophon-250203) #IBGVOI LoginConfig 设置默认值
+    *(Sophon-250204) 增加30日世界地图访问
+    *(Sophon-250205) JWT验证代码优化
+    *(Sophon-250206) 审计查询优化
+    *(Sophon-250207) 读取当前机构优化
+    *(Sophon-250208) #IBI3NO fetch 查询条件不能为空么问题
+    *(Sophon-250209) 登录成功信息更新优化
+    *(Sophon-250210) 认证端终止会话问题优化
+    *(Sophon-250211) 当已存在token时也需要保存visited到当前session呀   by zwj
+    *(Sophon-250212) 修复因converter处理顺序导致string类型被mappingJacksonHttpMessageConverter当成字符串处理 by 宁鹏涛
+    *(Sophon-250213) 图片计算验证码增加计算复杂度优化
+    *(Sophon-250214) 管理端增加源码的连接地址
+    *(Sophon-250215) 依赖项引用、更新和升级
             springDataVersion           3.4.2
             springkafkaVersion          3.3.2
             freemarkerVersion           2.3.34
@@ -107,37 +107,37 @@ MaxKey v 4.1.6 GA 2025/02/20
             jakartaxmlbindapiVersion    4.0.2
             mybatis-jpa-extra           3.3.4
             
-MaxKey v 4.1.5 GA 2025/01/10
-    *(MAXKEY-250101) 登录验证码配置优化，默认配置启用
-    *(MAXKEY-250102) SQL语法表达式增强
-    *(MAXKEY-250103) unlockdate 修改为 unlocktime
-    *(MAXKEY-250104) Xss 安全防护优化
-    *(MAXKEY-250105) #IBFGSI knife4j bug by zwj
-    *(MAXKEY-250106) 在线文档升级和优化
-    *(MAXKEY-250107) 依赖项引用、更新和升级
+Sophon v 4.1.5 GA 2025/01/10
+    *(Sophon-250101) 登录验证码配置优化，默认配置启用
+    *(Sophon-250102) SQL语法表达式增强
+    *(Sophon-250103) unlockdate 修改为 unlocktime
+    *(Sophon-250104) Xss 安全防护优化
+    *(Sophon-250105) #IBFGSI knife4j bug by zwj
+    *(Sophon-250106) 在线文档升级和优化
+    *(Sophon-250107) 依赖项引用、更新和升级
             mybatis-jpa-extra       3.3.3
 
-MaxKey v 4.1.4 GA 2024/12/27
-    *(MAXKEY-240801) 部署在线演示系统
-    *(MAXKEY-240802) mysql数据库连接参数 serverTimezone=GMT+8
-    *(MAXKEY-240803) map地图优化
-    *(MAXKEY-240804) 国际化翻译
-    *(MAXKEY-240805) 登录日志增加参数category 区分认证1和管理端5
-    *(MAXKEY-240806) 认证端到管理端的单点登录改为CAS
-    *(MAXKEY-240807) 增加Dromara标识
-    *(MAXKEY-240808) 仪表盘优化和更新
-    *(MAXKEY-240809) 仪表盘优化-增加国内地图显示
-    *(MAXKEY-240810) 会话管理优化
-    *(MAXKEY-240811) CAS适配器名称修正
-    *(MAXKEY-240812) #IB8ZT6 认证平台无法修改密码
-    *(MAXKEY-240813) 登录日志默认InstId
-    *(MAXKEY-240814) InstitutionsService 优化和整合
-    *(MAXKEY-240815) DefaultTokenServices RefreshToken优化
-    *(MAXKEY-240816) 整合LoginHistoryRepository 到 HistoryLoginService
-    *(MAXKEY-240817) 认证代码整合优化
-    *(MAXKEY-240818) 登录LoginRepository 整合优化LoginServiceImpl  
-    *(MAXKEY-240819) 在线文档升级和优化
-    *(MAXKEY-240820) 依赖项引用、更新和升级
+Sophon v 4.1.4 GA 2024/12/27
+    *(Sophon-240801) 部署在线演示系统
+    *(Sophon-240802) mysql数据库连接参数 serverTimezone=GMT+8
+    *(Sophon-240803) map地图优化
+    *(Sophon-240804) 国际化翻译
+    *(Sophon-240805) 登录日志增加参数category 区分认证1和管理端5
+    *(Sophon-240806) 认证端到管理端的单点登录改为CAS
+    *(Sophon-240807) 增加Dromara标识
+    *(Sophon-240808) 仪表盘优化和更新
+    *(Sophon-240809) 仪表盘优化-增加国内地图显示
+    *(Sophon-240810) 会话管理优化
+    *(Sophon-240811) CAS适配器名称修正
+    *(Sophon-240812) #IB8ZT6 认证平台无法修改密码
+    *(Sophon-240813) 登录日志默认InstId
+    *(Sophon-240814) InstitutionsService 优化和整合
+    *(Sophon-240815) DefaultTokenServices RefreshToken优化
+    *(Sophon-240816) 整合LoginHistoryRepository 到 HistoryLoginService
+    *(Sophon-240817) 认证代码整合优化
+    *(Sophon-240818) 登录LoginRepository 整合优化LoginServiceImpl  
+    *(Sophon-240819) 在线文档升级和优化
+    *(Sophon-240820) 依赖项引用、更新和升级
             springVersion                   6.2.1
             springBootVersion               3.4.1
             springSecurityVersion           6.4.2
@@ -147,35 +147,35 @@ MaxKey v 4.1.4 GA 2024/12/27
             springcloudVersion              4.2.0
             springcloudalibabaVersion       2023.0.1.2
             
-MaxKey v 4.1.3 GA 2024/11/29
-    *(MAXKEY-240701) #IAZNZS oauth2单点注销没有生效修复
-    *(MAXKEY-240702) #238 飞书扫码登录失败
-    *(MAXKEY-240703) 升级mybatis-jpa-extra-3.3.2 增加service接口和impl实现
-    *(MAXKEY-240704) 把activedirectory相关移动到org.dromara.maxkey.ldap.activedirectory下
-    *(MAXKEY-240705) 增加 maxkey-authentication-provider-mgt
-    *(MAXKEY-240706) maxkey.auth.session.timeout rename to maxkey.auth.jwt.refresh.expires
-    *(MAXKEY-240707) 增加公共规则 ConstsRegex
-    *(MAXKEY-240708) 认证后跳转判断优化
-    *(MAXKEY-240709) #IB1BC9 客户端调用单点注销接口或者maxkey-hmt管理后台页面退出报错：Circular view path [logout]
-    *(MAXKEY-240710) oidc wellknown接口优化
-    *(MAXKEY-240711) #IAEWN7 well-known/openid-configuration 接口 返回的response_types_supported问题
-    *(MAXKEY-240712) 短信验证码服务代码优化
-    *(MAXKEY-240713) 分离登录扫码接口
-    *(MAXKEY-240714) 登录会话和日志查询优化，增加IP地址归属地显示，删除loginUrl字段
-    *(MAXKEY-240715) 宝塔面板安装部署接入
-    *(MAXKEY-240716) bean初始化判断的优化
-    *(MAXKEY-240717) ALL Project UTF-8
-    *(MAXKEY-240718) maxkey-authentications\maxkey-authentication-social -> maxkey-starter\maxkey-starter-social
-    *(MAXKEY-240719) 数据库字段自动填充instId，createdBy，createdDate，modifiedBy，modifiedDate
-    *(MAXKEY-240720) #235 from khangdc2/circleci-project-setup
-    *(MAXKEY-240721) docker-compose & docker 部署更新和优化
-    *(MAXKEY-240722) gradle配置文件优化
-    *(MAXKEY-240723) 删除代码中无效引用，代码规范化
-    *(MAXKEY-240724) HistorySignOnAppInterceptor 改名 HistorySingleSignOnInterceptor 
-    *(MAXKEY-240725) mysql升级8.4.2
-    *(MAXKEY-240726) #IB71WC 前端本地启动 404 问题
-    *(MAXKEY-240727) saml metadata emailAddress support@maxsso.net
-    *(MAXKEY-240728) 依赖项引用、更新和升级
+Sophon v 4.1.3 GA 2024/11/29
+    *(Sophon-240701) #IAZNZS oauth2单点注销没有生效修复
+    *(Sophon-240702) #238 飞书扫码登录失败
+    *(Sophon-240703) 升级mybatis-jpa-extra-3.3.2 增加service接口和impl实现
+    *(Sophon-240704) 把activedirectory相关移动到org.zeron.sophon.ldap.activedirectory下
+    *(Sophon-240705) 增加 Sophon-authentication-provider-mgt
+    *(Sophon-240706) Sophon.auth.session.timeout rename to Sophon.auth.jwt.refresh.expires
+    *(Sophon-240707) 增加公共规则 ConstsRegex
+    *(Sophon-240708) 认证后跳转判断优化
+    *(Sophon-240709) #IB1BC9 客户端调用单点注销接口或者Sophon-hmt管理后台页面退出报错：Circular view path [logout]
+    *(Sophon-240710) oidc wellknown接口优化
+    *(Sophon-240711) #IAEWN7 well-known/openid-configuration 接口 返回的response_types_supported问题
+    *(Sophon-240712) 短信验证码服务代码优化
+    *(Sophon-240713) 分离登录扫码接口
+    *(Sophon-240714) 登录会话和日志查询优化，增加IP地址归属地显示，删除loginUrl字段
+    *(Sophon-240715) 宝塔面板安装部署接入
+    *(Sophon-240716) bean初始化判断的优化
+    *(Sophon-240717) ALL Project UTF-8
+    *(Sophon-240718) Sophon-authentications\Sophon-authentication-social -> Sophon-starter\Sophon-starter-social
+    *(Sophon-240719) 数据库字段自动填充instId，createdBy，createdDate，modifiedBy，modifiedDate
+    *(Sophon-240720) #235 from khangdc2/circleci-project-setup
+    *(Sophon-240721) docker-compose & docker 部署更新和优化
+    *(Sophon-240722) gradle配置文件优化
+    *(Sophon-240723) 删除代码中无效引用，代码规范化
+    *(Sophon-240724) HistorySignOnAppInterceptor 改名 HistorySingleSignOnInterceptor 
+    *(Sophon-240725) mysql升级8.4.2
+    *(Sophon-240726) #IB71WC 前端本地启动 404 问题
+    *(Sophon-240727) saml metadata emailAddress support@maxsso.net
+    *(Sophon-240728) 依赖项引用、更新和升级
             spring 6.2.0
             springBoot 3.3.6
             springSecurity 6.4.1
@@ -189,69 +189,69 @@ MaxKey v 4.1.3 GA 2024/11/29
             gson 2.11.0
             freemarker  2.3.33
     
-MaxKey v 4.1.2 GA 2024/09/30
-    *(MAXKEY-240601) timebased otp 优化
-    *(MAXKEY-240602) appCategoryService优化
-    *(MAXKEY-240603) 开源暑期 Flutter认证APP项目
-    *(MAXKEY-240604) 开源暑期同步器增加属性配置管理项目
-    *(MAXKEY-240605) APP扫码登录功能
-    *(MAXKEY-240606) maxkey-web-openapi访问路径/maxkey-openapi
-    *(MAXKEY-240607) APP扫码登录支持
-    *(MAXKEY-240608) 组和角色优化，增加角色动态任务，删除resumeTime和suspendTime
-    *(MAXKEY-240609) ProvisionAction 改为ProvisionAct
-    *(MAXKEY-240610) MaxKeyGatewayApplication移除exclude  DruidDataSourceAutoConfigure.class
-    *(MAXKEY-240611) 登录后台跳转功能修复
-    *(MAXKEY-240612) Oauth20Client代码优化，移除Oauth20ClientAutoConfiguration
-    *(MAXKEY-240613) core Repository移动到maxkey-persistence，以后的版本进行合并
-    *(MAXKEY-240614) 依赖项引用、更新和升级
+Sophon v 4.1.2 GA 2024/09/30
+    *(Sophon-240601) timebased otp 优化
+    *(Sophon-240602) appCategoryService优化
+    *(Sophon-240603) 开源暑期 Flutter认证APP项目
+    *(Sophon-240604) 开源暑期同步器增加属性配置管理项目
+    *(Sophon-240605) APP扫码登录功能
+    *(Sophon-240606) Sophon-web-openapi访问路径/Sophon-openapi
+    *(Sophon-240607) APP扫码登录支持
+    *(Sophon-240608) 组和角色优化，增加角色动态任务，删除resumeTime和suspendTime
+    *(Sophon-240609) ProvisionAction 改为ProvisionAct
+    *(Sophon-240610) SophonGatewayApplication移除exclude  DruidDataSourceAutoConfigure.class
+    *(Sophon-240611) 登录后台跳转功能修复
+    *(Sophon-240612) Oauth20Client代码优化，移除Oauth20ClientAutoConfiguration
+    *(Sophon-240613) core Repository移动到Sophon-persistence，以后的版本进行合并
+    *(Sophon-240614) 依赖项引用、更新和升级
         mybatis-jpa-extra               3.3.1
         springVersion                   6.1.13
         springBootVersion               3.3.4
         springDataVersion               3.3.4
         tomcatVersion                   10.1.30
     
-MaxKey v 4.1.1 GA 2024/08/20
-    *(MAXKEY-240501) 构建方式优化
-    *(MAXKEY-240502) 修复jwks转义问题 @奇健陀螺王
-    *(MAXKEY-240503) 增加删除确认提醒
-    *(MAXKEY-240504) 批量删除按钮文字调整
-    *(MAXKEY-240505) 应用访问权限修复
-    *(MAXKEY-240506) 个人资料、密码修改优化
-    *(MAXKEY-240507) APP扫码登录支持
-    *(MAXKEY-240508) 历史日志数量从100改为15
-    *(MAXKEY-240509) @Bean public to default
-    *(MAXKEY-240510) 大量框架代码的优化
-    *(MAXKEY-240511) 依赖项引用、更新和升级
+Sophon v 4.1.1 GA 2024/08/20
+    *(Sophon-240501) 构建方式优化
+    *(Sophon-240502) 修复jwks转义问题 @奇健陀螺王
+    *(Sophon-240503) 增加删除确认提醒
+    *(Sophon-240504) 批量删除按钮文字调整
+    *(Sophon-240505) 应用访问权限修复
+    *(Sophon-240506) 个人资料、密码修改优化
+    *(Sophon-240507) APP扫码登录支持
+    *(Sophon-240508) 历史日志数量从100改为15
+    *(Sophon-240509) @Bean public to default
+    *(Sophon-240510) 大量框架代码的优化
+    *(Sophon-240511) 依赖项引用、更新和升级
         
-MaxKey v 4.1.0 GA 2024/07/19
-    *(MAXKEY-240401) 本地StringUtils 调整成 StrUtils ，取消org.apache.commons.lang3.StringUtils继承关系
-    *(MAXKEY-240402) 功能模块化，调整通用模块为starter,包括模块captcha、ip2location、otp、sms、web
-    *(MAXKEY-240403) 定时任务优化
-    *(MAXKEY-240404) 调整用户组成员管理的用户组为列表
-    *(MAXKEY-240405) 调整访问控制的用户组为列表
-    *(MAXKEY-240406) 增加权限管理的应用列表界面，通过应用列表中的按钮管理应用资源和权限授予
-    *(MAXKEY-240407) 单点登录日志记录时间为空问题修复
-    *(MAXKEY-240408) gradle-wrapper.properties地址优化 @杨坡 <yanghbu@163.com>
-    *(MAXKEY-240409) 数据访问层升级和优化
-    *(MAXKEY-240410) AutoConfiguration自动加载优化
-    *(MAXKEY-240411) 依赖项引用、更新和升级
+Sophon v 4.1.0 GA 2024/07/19
+    *(Sophon-240401) 本地StringUtils 调整成 StrUtils ，取消org.apache.commons.lang3.StringUtils继承关系
+    *(Sophon-240402) 功能模块化，调整通用模块为starter,包括模块captcha、ip2location、otp、sms、web
+    *(Sophon-240403) 定时任务优化
+    *(Sophon-240404) 调整用户组成员管理的用户组为列表
+    *(Sophon-240405) 调整访问控制的用户组为列表
+    *(Sophon-240406) 增加权限管理的应用列表界面，通过应用列表中的按钮管理应用资源和权限授予
+    *(Sophon-240407) 单点登录日志记录时间为空问题修复
+    *(Sophon-240408) gradle-wrapper.properties地址优化 @杨坡 <yanghbu@163.com>
+    *(Sophon-240409) 数据访问层升级和优化
+    *(Sophon-240410) AutoConfiguration自动加载优化
+    *(Sophon-240411) 依赖项引用、更新和升级
         mybatis-jpa-extra               3.3.0
 
-MaxKey v 4.0.5 GA 2024/06/27
-    *(MAXKEY-240301) ProductVersionEndpoint 显示产品版本信息
-    *(MAXKEY-240302) WARN No Root logger was configured, creating default ERROR-level Root logger with Console appender 优化配置
-    *(MAXKEY-240303) ConfigurerFreeMarker代码优化
-    *(MAXKEY-240304) ConstsOperateAction  改为 ConstsAct 
-    *(MAXKEY-240305) 增加ConstsAct.FORGOT_PASSWORD类型
-    *(MAXKEY-240306) Rocketmq日志输出警告日志优化
-    *(MAXKEY-240307) 增加spring-boot-security-oauth-client-sample
-    *(MAXKEY-240308) 手机号码规则优化
-    *(MAXKEY-240309) gradle.properties增加项目信息
-    *(MAXKEY-240310) delete maxkey-synchronizer-reorgdept & settings.gradle文件优化
-    *(MAXKEY-240311) TokenBased 令牌内容保存问题优化 @xujialiang
-    *(MAXKEY-240312) gradle-8.8
-    *(MAXKEY-240313) window发行版mysql-8.4.0&jdk 21
-    *(MAXKEY-240314) 依赖项引用、更新和升级
+Sophon v 4.0.5 GA 2024/06/27
+    *(Sophon-240301) ProductVersionEndpoint 显示产品版本信息
+    *(Sophon-240302) WARN No Root logger was configured, creating default ERROR-level Root logger with Console appender 优化配置
+    *(Sophon-240303) ConfigurerFreeMarker代码优化
+    *(Sophon-240304) ConstsOperateAction  改为 ConstsAct 
+    *(Sophon-240305) 增加ConstsAct.FORGOT_PASSWORD类型
+    *(Sophon-240306) Rocketmq日志输出警告日志优化
+    *(Sophon-240307) 增加spring-boot-security-oauth-client-sample
+    *(Sophon-240308) 手机号码规则优化
+    *(Sophon-240309) gradle.properties增加项目信息
+    *(Sophon-240310) delete Sophon-synchronizer-reorgdept & settings.gradle文件优化
+    *(Sophon-240311) TokenBased 令牌内容保存问题优化 @xujialiang
+    *(Sophon-240312) gradle-8.8
+    *(Sophon-240313) window发行版mysql-8.4.0&jdk 21
+    *(Sophon-240314) 依赖项引用、更新和升级
         spring                   6.1.8
         springBoot               3.3.0
         springSecurity           6.3.0
@@ -269,22 +269,22 @@ MaxKey v 4.0.5 GA 2024/06/27
         slf4j                    2.0.13
         gradle                   8.8
 
-MaxKey v 4.0.4 GA 2024/05/17
-    *(MAXKEY-240201) 开源协议的说明细化
-    *(MAXKEY-240202) 更改标准打包方式为Fat Jar
-    *(MAXKEY-240203) 优化OpenAPI接口Basic和OAuth认证
-    *(MAXKEY-240204) 代码优化，删除UserAdjoint次要功能
-    *(MAXKEY-240205) OAuth 2增加URLDecoder兼容，支持URL Fragment
-    *(MAXKEY-240206) SQL中mxk_userinfo表SORTORDER调整为SORTINDEX
-    *(MAXKEY-240207) 管理控制台左侧菜单颜色优化
-    *(MAXKEY-240208) 增加 date格式化支持
-    *(MAXKEY-240209) maxkey.session.timeout 改为maxkey.auth.session.timeout 
-    *(MAXKEY-240210) 日期类型调整为date
-    *(MAXKEY-240211) 源代码增加版权声明
-    *(MAXKEY-240212) Linux和Window启动脚本调整优化
-    *(MAXKEY-240213) 开源之夏项目MaxKey APP客户端Flutter开发项目和MaxKey同步功能增强，增加属性映射关系管理
-    *(MAXKEY-240214) swagger问题修复
-    *(MAXKEY-240215) 依赖项引用、更新和升级
+Sophon v 4.0.4 GA 2024/05/17
+    *(Sophon-240201) 开源协议的说明细化
+    *(Sophon-240202) 更改标准打包方式为Fat Jar
+    *(Sophon-240203) 优化OpenAPI接口Basic和OAuth认证
+    *(Sophon-240204) 代码优化，删除UserAdjoint次要功能
+    *(Sophon-240205) OAuth 2增加URLDecoder兼容，支持URL Fragment
+    *(Sophon-240206) SQL中ze_userinfo表SORTORDER调整为SORTINDEX
+    *(Sophon-240207) 管理控制台左侧菜单颜色优化
+    *(Sophon-240208) 增加 date格式化支持
+    *(Sophon-240209) Sophon.session.timeout 改为Sophon.auth.session.timeout 
+    *(Sophon-240210) 日期类型调整为date
+    *(Sophon-240211) 源代码增加版权声明
+    *(Sophon-240212) Linux和Window启动脚本调整优化
+    *(Sophon-240213) 开源之夏项目Sophon APP客户端Flutter开发项目和Sophon同步功能增强，增加属性映射关系管理
+    *(Sophon-240214) swagger问题修复
+    *(Sophon-240215) 依赖项引用、更新和升级
         spring                 6.0.19
         springBoot             3.1.11
         tomcat                 10.1.23
@@ -310,33 +310,33 @@ MaxKey v 4.0.4 GA 2024/05/17
         springdoc              2.0.4
         knife4j                4.5.0
         
-MaxKey v 4.0.3 GA 2024/03/28
-    *(MAXKEY-240101) JDBC 同步器 问题修改 @liuxiaogang1987
-    *(MAXKEY-240102) 显示应用编码
-    *(MAXKEY-240103) 优化OpenAPI接口Basic和OAuth认证
-    *(MAXKEY-240104) openapi 单独分离出密码修改接口
-    *(MAXKEY-240105) CasRestV1Users数据
-    *(MAXKEY-240106) #I8AT43编辑动态组调整部门后报错
-    *(MAXKEY-240107) 11.11 应用访问日志改为线程写入，登录的ROLE->GROUP
-    *(MAXKEY-240108) 日志打印优化
-    *(MAXKEY-240109) 组织机构构建路径
-    *(MAXKEY-240110) OAuth20Details详情的优化
-    *(MAXKEY-240111) 调整ldap到org.dromara.maxkey.ldap
-    *(MAXKEY-240112) 抽出公共配置ResourceMvcConfig、MvcCurrentUserAutoConfiguration
-    *(MAXKEY-240113) CAS返回的格式化
-    *(MAXKEY-240114) 缓存已设置过期时间，此处删除缓存后续操作无法获取，注释掉删除代码。https://gitee.com/ll-liang
-    *(MAXKEY-240115) DesedeEncoder的对称加密
-    *(MAXKEY-240116) 索引统一名称sortindex
-    *(MAXKEY-240117) 校验权限，避免权限提升 Lyon_Li@gap.com
-    *(MAXKEY-240118) CAS serviceValidate support GET POST
-    *(MAXKEY-240119) 修复OpenID Connect metadata 元数据接口接口返回json格式不正确  https://gitee.com/yyn_0210
-    *(MAXKEY-240120) 修复ComponentScan注解执行的包名不对  https://gitee.com/yyn_0210
-    *(MAXKEY-240121) 优化代码，去掉已过时代码  https://gitee.com/yyn_0210
-    *(MAXKEY-240122) fix: 修复判断字符串是否为YES始终为false https://gitee.com/rain-night
-    *(MAXKEY-240123) 增加isUserExist的判断
-    *(MAXKEY-240124) Listener 优化
-    *(MAXKEY-240125) 代码优化和日志优化调整
-    *(MAXKEY-240126) 依赖项引用、更新和升级
+Sophon v 4.0.3 GA 2024/03/28
+    *(Sophon-240101) JDBC 同步器 问题修改 @liuxiaogang1987
+    *(Sophon-240102) 显示应用编码
+    *(Sophon-240103) 优化OpenAPI接口Basic和OAuth认证
+    *(Sophon-240104) openapi 单独分离出密码修改接口
+    *(Sophon-240105) CasRestV1Users数据
+    *(Sophon-240106) #I8AT43编辑动态组调整部门后报错
+    *(Sophon-240107) 11.11 应用访问日志改为线程写入，登录的ROLE->GROUP
+    *(Sophon-240108) 日志打印优化
+    *(Sophon-240109) 组织机构构建路径
+    *(Sophon-240110) OAuth20Details详情的优化
+    *(Sophon-240111) 调整ldap到org.zeron.sophon.ldap
+    *(Sophon-240112) 抽出公共配置ResourceMvcConfig、MvcCurrentUserAutoConfiguration
+    *(Sophon-240113) CAS返回的格式化
+    *(Sophon-240114) 缓存已设置过期时间，此处删除缓存后续操作无法获取，注释掉删除代码。https://gitee.com/ll-liang
+    *(Sophon-240115) DesedeEncoder的对称加密
+    *(Sophon-240116) 索引统一名称sortindex
+    *(Sophon-240117) 校验权限，避免权限提升 Lyon_Li@gap.com
+    *(Sophon-240118) CAS serviceValidate support GET POST
+    *(Sophon-240119) 修复OpenID Connect metadata 元数据接口接口返回json格式不正确  https://gitee.com/yyn_0210
+    *(Sophon-240120) 修复ComponentScan注解执行的包名不对  https://gitee.com/yyn_0210
+    *(Sophon-240121) 优化代码，去掉已过时代码  https://gitee.com/yyn_0210
+    *(Sophon-240122) fix: 修复判断字符串是否为YES始终为false https://gitee.com/rain-night
+    *(Sophon-240123) 增加isUserExist的判断
+    *(Sophon-240124) Listener 优化
+    *(Sophon-240125) 代码优化和日志优化调整
+    *(Sophon-240126) 依赖项引用、更新和升级
         spring              6.0.18
         springBoot          3.1.9
         mybatis-jpa-extra   3.2.2
@@ -352,54 +352,54 @@ MaxKey v 4.0.3 GA 2024/03/28
         opentracing         0.33.0
         springkafka         3.0.13
 
-MaxKey v 4.0.2 GA 2023/10/12
-    *(MAXKEY-231001) shenyu网关插件 @Saiph 
-    *(MAXKEY-231002) ip2region & GeoLite2 ip地址转换，支持国家、省、市、地域
-    *(MAXKEY-231003) #I844NY消除Session与Authentication来回嵌套
-    *(MAXKEY-231004) #I83BUJ4.0.1版本 建应用，凭证类型选 user_defined用户自定义。值不一样
-    *(MAXKEY-231005) 删除 session getFormattedId
-    *(MAXKEY-231006) 用户组显示bug修复
-    *(MAXKEY-231007) pig整合MAXKEY方案 @RJ 
-    *(MAXKEY-231008) 日志打印优化!31fix:log4j2.xml
-    *(MAXKEY-231009) 新增ProductEnvironment的显示
-    *(MAXKEY-231010) #I8651R新建了应用，但在认证系统里面看不到
-    *(MAXKEY-231011) 修复动态用户组出现bug #I85U4I
-    *(MAXKEY-231012) 依赖项引用、更新和升级
+Sophon v 4.0.2 GA 2023/10/12
+    *(Sophon-231001) shenyu网关插件 @Saiph 
+    *(Sophon-231002) ip2region & GeoLite2 ip地址转换，支持国家、省、市、地域
+    *(Sophon-231003) #I844NY消除Session与Authentication来回嵌套
+    *(Sophon-231004) #I83BUJ4.0.1版本 建应用，凭证类型选 user_defined用户自定义。值不一样
+    *(Sophon-231005) 删除 session getFormattedId
+    *(Sophon-231006) 用户组显示bug修复
+    *(Sophon-231007) pig整合Sophon方案 @RJ 
+    *(Sophon-231008) 日志打印优化!31fix:log4j2.xml
+    *(Sophon-231009) 新增ProductEnvironment的显示
+    *(Sophon-231010) #I8651R新建了应用，但在认证系统里面看不到
+    *(Sophon-231011) 修复动态用户组出现bug #I85U4I
+    *(Sophon-231012) 依赖项引用、更新和升级
         spring              6.0.12
         springBoot          3.1.4   
     
-MaxKey v 4.0.1 GA 2023/09/19
-    *(MAXKEY-230901) !24 fix:shell启动脚本错误 * fix:启动脚本的JAVA_MAINCLASS有误 @tzk007
-    *(MAXKEY-230902) 组权限问题修复
-    *(MAXKEY-230903) !25修复错误的表别名使用
-    *(MAXKEY-230904) GroupMemberMapper.xml 下memberNotIn sql 错误 @OomiyaShinobu
-    *(MAXKEY-230905) 增加 scripts，用于处理安装依赖与镜像问题 @徐晓伟
-    *(MAXKEY-230906) 修改启动getProperty("server.port")
-    *(MAXKEY-230907) 修复用户组bug
-    *(MAXKEY-230908) 应用访问空值问题
-    *(MAXKEY-230909) 用户组-资源绑定关系
-    *(MAXKEY-230910) 删除历史sql文件
-    *(MAXKEY-230911) 依赖项引用、更新和升级
+Sophon v 4.0.1 GA 2023/09/19
+    *(Sophon-230901) !24 fix:shell启动脚本错误 * fix:启动脚本的JAVA_MAINCLASS有误 @tzk007
+    *(Sophon-230902) 组权限问题修复
+    *(Sophon-230903) !25修复错误的表别名使用
+    *(Sophon-230904) GroupMemberMapper.xml 下memberNotIn sql 错误 @OomiyaShinobu
+    *(Sophon-230905) 增加 scripts，用于处理安装依赖与镜像问题 @徐晓伟
+    *(Sophon-230906) 修改启动getProperty("server.port")
+    *(Sophon-230907) 修复用户组bug
+    *(Sophon-230908) 应用访问空值问题
+    *(Sophon-230909) 用户组-资源绑定关系
+    *(Sophon-230910) 删除历史sql文件
+    *(Sophon-230911) 依赖项引用、更新和升级
 
     
     
-MaxKey v 4.0.0 GA 2023/09/01
-    *(MAXKEY-230801) JDK 17 支持
-    *(MAXKEY-230802) SpringBoot 3.0+ 支持
-    *(MAXKEY-230803) Spring 6.0+ 支持
-    *(MAXKEY-230804) javax.修改为换为jakarta.
-    *(MAXKEY-230805) Jakarta EE 10
-    *(MAXKEY-230806) org.maxkey改为org.dromara.maxkey
-    *(MAXKEY-230807) queryPageResults -> fetchPageResults
-    *(MAXKEY-230808) 调整获取accessToken次序
-    *(MAXKEY-230809) 前端代码适配springboot3微调
-    *(MAXKEY-230810) 日志打印优化
-    *(MAXKEY-230811) 新增身份管理一级菜单包含组织、用户、用户组、用户组成员
-    *(MAXKEY-230812) 角色调整为用户组，后续为应用级权限控制
-    *(MAXKEY-230813) Mybatis JPA Etra优化，类似JPA实体定义，开发更加简洁
-    *(MAXKEY-230814) 增加前端打包镜像的dockerfile暴露8527、8526端口 @iwc_2011911
-    *(MAXKEY-230815) jar 打包baseName -> archiveBaseName
-    *(MAXKEY-230816) 依赖项引用、更新和升级
+Sophon v 4.0.0 GA 2023/09/01
+    *(Sophon-230801) JDK 17 支持
+    *(Sophon-230802) SpringBoot 3.0+ 支持
+    *(Sophon-230803) Spring 6.0+ 支持
+    *(Sophon-230804) javax.修改为换为jakarta.
+    *(Sophon-230805) Jakarta EE 10
+    *(Sophon-230806) org.Sophon改为org.zeron.sophon
+    *(Sophon-230807) queryPageResults -> fetchPageResults
+    *(Sophon-230808) 调整获取accessToken次序
+    *(Sophon-230809) 前端代码适配springboot3微调
+    *(Sophon-230810) 日志打印优化
+    *(Sophon-230811) 新增身份管理一级菜单包含组织、用户、用户组、用户组成员
+    *(Sophon-230812) 角色调整为用户组，后续为应用级权限控制
+    *(Sophon-230813) Mybatis JPA Etra优化，类似JPA实体定义，开发更加简洁
+    *(Sophon-230814) 增加前端打包镜像的dockerfile暴露8527、8526端口 @iwc_2011911
+    *(Sophon-230815) jar 打包baseName -> archiveBaseName
+    *(Sophon-230816) 依赖项引用、更新和升级
         JDK                 17
         spring              6.0.11
         springBoot          3.1.2
@@ -414,32 +414,32 @@ MaxKey v 4.0.0 GA 2023/09/01
         jibGradlePlugin     3.3.2
 
 
-MaxKey v 3.5.19 GA 2023/08/15
-    *(MAXKEY-230701) 增加配置:每次构建docker镜像时,可同时构建arm64镜像 * 增加配置:每次构建docker镜像时,可同时构建arm64镜像
-    *(MAXKEY-230702) 优化CAS注销 CasLogout
-    *(MAXKEY-230703) 修复资源管理无法添加资源 #I7EPYO
-    *(MAXKEY-230704) 新增角色失败，数据入库问题。 #I7KMSJ
-    *(MAXKEY-230705) 修复/sign/authz/cas/v1/tickets这个接口只要用户名正确，密码随便填都能通过 #I7LC07
-    *(MAXKEY-230706) 日志记录采用异步方式写入
-    *(MAXKEY-230707) 增加Dockerfile，方便镜像构建
-    *(MAXKEY-230708) gradle升级到 8.0.2
-    *(MAXKEY-230709) readme增加安装介绍链接
-    *(MAXKEY-230710) 代码优化和整合
-    *(MAXKEY-230711) 依赖项引用、更新和升级
+Sophon v 3.5.19 GA 2023/08/15
+    *(Sophon-230701) 增加配置:每次构建docker镜像时,可同时构建arm64镜像 * 增加配置:每次构建docker镜像时,可同时构建arm64镜像
+    *(Sophon-230702) 优化CAS注销 CasLogout
+    *(Sophon-230703) 修复资源管理无法添加资源 #I7EPYO
+    *(Sophon-230704) 新增角色失败，数据入库问题。 #I7KMSJ
+    *(Sophon-230705) 修复/sign/authz/cas/v1/tickets这个接口只要用户名正确，密码随便填都能通过 #I7LC07
+    *(Sophon-230706) 日志记录采用异步方式写入
+    *(Sophon-230707) 增加Dockerfile，方便镜像构建
+    *(Sophon-230708) gradle升级到 8.0.2
+    *(Sophon-230709) readme增加安装介绍链接
+    *(Sophon-230710) 代码优化和整合
+    *(Sophon-230711) 依赖项引用、更新和升级
         spring              5.3.29
         springBoot          2.7.14
         springSecurity      5.7.10
         tomcat              9.0.78
         
-MaxKey v 3.5.18 GA 2023/06/06
-    *(MAXKEY-230601) 组织机构和用户同步的REST和SCIM从maxkey-web-mgt中分离到新建maxkey-web-openapi
-    *(MAXKEY-230602) 腾讯企业邮件接口优化
-    *(MAXKEY-230603) 修改认证系统 是否需要验证码的配置
-    *(MAXKEY-230604) 同步组织机构和用户API REST新增/.search分页查询功能
-    *(MAXKEY-230605) #I76SV6 更正JdbcUsersService的username
-    *(MAXKEY-230606) 增加一次性动态口令验证功能
-    *(MAXKEY-230607) 修改项目介绍信息
-    *(MAXKEY-230608) 依赖项引用、更新和升级
+Sophon v 3.5.18 GA 2023/06/06
+    *(Sophon-230601) 组织机构和用户同步的REST和SCIM从Sophon-web-mgt中分离到新建Sophon-web-openapi
+    *(Sophon-230602) 腾讯企业邮件接口优化
+    *(Sophon-230603) 修改认证系统 是否需要验证码的配置
+    *(Sophon-230604) 同步组织机构和用户API REST新增/.search分页查询功能
+    *(Sophon-230605) #I76SV6 更正JdbcUsersService的username
+    *(Sophon-230606) 增加一次性动态口令验证功能
+    *(Sophon-230607) 修改项目介绍信息
+    *(Sophon-230608) 依赖项引用、更新和升级
         spring              5.3.27
         springBoot          2.7.12
         commonsfileupload   1.5
@@ -447,23 +447,23 @@ MaxKey v 3.5.18 GA 2023/06/06
         log4j               2.20.0
         tomcat              9.0.75
         
-MaxKey v 3.5.17 GA 2023/04/25
-    *(MAXKEY-230501) 4.0.0开发计划
-    *(MAXKEY-230502) 增加跳转引导配置inducer参数
-    *(MAXKEY-230503) 本地开发调试模式baseUrl改为本地地址 @tomsun28
-    *(MAXKEY-230504) 优化同步API REST和SCIM接口日志打印
-    *(MAXKEY-230505) GatewayApplication改为MaxKeyGatewayApplication
-    *(MAXKEY-230506) Gateway启动bug，netty 4.1.65.Final
-    *(MAXKEY-230507) lombok支持，目前是可选 @sudarshan-doiphode
-    *(MAXKEY-230508) 新增CAS明文适配器CasPlainAdapter
-    *(MAXKEY-230509) synchronizer 同步的空值处理
-    *(MAXKEY-230510) 增加官方微信支持，方便开发者咨询
-    *(MAXKEY-230511) Spring Security OAuth SSO demo地址调整
-    *(MAXKEY-230512) 用户自定义凭证类型前后端不统一修复
-    *(MAXKEY-230513) arm架构docker @tzk007
-    *(MAXKEY-230514) .gitignore优化 @tzk007
-    *(MAXKEY-230515) 社区版前端文件统一放在maxkey_frontend下maxkey_html、maxkey_mgt_html，配置文件参见conf下
-    *(MAXKEY-230516) 依赖项引用、更新和升级
+Sophon v 3.5.17 GA 2023/04/25
+    *(Sophon-230501) 4.0.0开发计划
+    *(Sophon-230502) 增加跳转引导配置inducer参数
+    *(Sophon-230503) 本地开发调试模式baseUrl改为本地地址 @tomsun28
+    *(Sophon-230504) 优化同步API REST和SCIM接口日志打印
+    *(Sophon-230505) GatewayApplication改为SophonGatewayApplication
+    *(Sophon-230506) Gateway启动bug，netty 4.1.65.Final
+    *(Sophon-230507) lombok支持，目前是可选 @sudarshan-doiphode
+    *(Sophon-230508) 新增CAS明文适配器CasPlainAdapter
+    *(Sophon-230509) synchronizer 同步的空值处理
+    *(Sophon-230510) 增加官方微信支持，方便开发者咨询
+    *(Sophon-230511) Spring Security OAuth SSO demo地址调整
+    *(Sophon-230512) 用户自定义凭证类型前后端不统一修复
+    *(Sophon-230513) arm架构docker @tzk007
+    *(Sophon-230514) .gitignore优化 @tzk007
+    *(Sophon-230515) 社区版前端文件统一放在Sophon_frontend下Sophon_html、Sophon_mgt_html，配置文件参见conf下
+    *(Sophon-230516) 依赖项引用、更新和升级
         spring              5.3.27
         springBoot          2.7.11
         netty               4.1.65.Final
@@ -471,25 +471,25 @@ MaxKey v 3.5.17 GA 2023/04/25
         tomcat              9.0.74
         micrometercore      1.9.10
 
-MaxKey v 3.5.16 GA 2023/03/23
-    *(MAXKEY-230401) 从请求中解析token令牌信息1) 参数 access_token 2) header 的Authorization 3) 参数 token 。
-    *(MAXKEY-230402) 企业微信文本注释
-    *(MAXKEY-230403) 1、应用列表新增分类 2、密码修改新增强度说明 3、忘记密码页新增强度说明 4、登录失败无提示的功能修复
-    *(MAXKEY-230404) 登录失败无提示的功能修复
-    *(MAXKEY-230405) 发送邮件失败异常拦截
-    *(MAXKEY-230406) 密码强度定义描述说明更新
-    *(MAXKEY-230407) 原密码错误都能修改密码的问题修复
-    *(MAXKEY-230408) 新增密码强度
-    *(MAXKEY-230409) 官方网站迁移到国内
-    *(MAXKEY-230410) 新增jeesite & maxkey 集成案例
-    *(MAXKEY-230411) cas springboot demo
-    *(MAXKEY-230412) 接口文档优化swagger with knife4j
-    *(MAXKEY-230413)【新增】integrations新增Spring Security OAuth MaxKey SSO
-    *(MAXKEY-230414) AuthorizationHeaderCredential rename to AuthorizationHeader
-    *(MAXKEY-230415) 接口优化，请求参数access_token , header Authorization , token
-    *(MAXKEY-230416) 网站帮助文档优化
-    *(MAXKEY-230417) 新建integrations目录，存放与maxkey集成的案例和Demo
-    *(MAXKEY-230418) 依赖项引用、更新和升级
+Sophon v 3.5.16 GA 2023/03/23
+    *(Sophon-230401) 从请求中解析token令牌信息1) 参数 access_token 2) header 的Authorization 3) 参数 token 。
+    *(Sophon-230402) 企业微信文本注释
+    *(Sophon-230403) 1、应用列表新增分类 2、密码修改新增强度说明 3、忘记密码页新增强度说明 4、登录失败无提示的功能修复
+    *(Sophon-230404) 登录失败无提示的功能修复
+    *(Sophon-230405) 发送邮件失败异常拦截
+    *(Sophon-230406) 密码强度定义描述说明更新
+    *(Sophon-230407) 原密码错误都能修改密码的问题修复
+    *(Sophon-230408) 新增密码强度
+    *(Sophon-230409) 官方网站迁移到国内
+    *(Sophon-230410) 新增jeesite & Sophon 集成案例
+    *(Sophon-230411) cas springboot demo
+    *(Sophon-230412) 接口文档优化swagger with knife4j
+    *(Sophon-230413)【新增】integrations新增Spring Security OAuth Sophon SSO
+    *(Sophon-230414) AuthorizationHeaderCredential rename to AuthorizationHeader
+    *(Sophon-230415) 接口优化，请求参数access_token , header Authorization , token
+    *(Sophon-230416) 网站帮助文档优化
+    *(Sophon-230417) 新建integrations目录，存放与Sophon集成的案例和Demo
+    *(Sophon-230418) 依赖项引用、更新和升级
         spring              5.3.26
         springBoot          2.7.9
         springSecurity      5.7.7
@@ -502,59 +502,59 @@ MaxKey v 3.5.16 GA 2023/03/23
         springdoc           1.6.15
         knife4j             4.0.0
         
-MaxKey v 3.5.15 GA 2023/02/28
-    *(MAXKEY-230301) 提交短信密钥在加载时候进行解密。
-    *(MAXKEY-230302) 提交社交服务绑定账号+短信验证过程
-    *(MAXKEY-230303) 提交maxkey自定义扫码和社交服务绑定过程
-    *(MAXKEY-230304) 社交服务登录认证账号绑定接口
-    *(MAXKEY-230305) 提交阿里云SDK的其他依赖
-    *(MAXKEY-230306) 企业微信上下游处理用户id，不获取用户详情
-    *(MAXKEY-230307) 获取上下文路径问题WebContext.getContextPath()
-    *(MAXKEY-230308) Gson对象转字符串htmlEscaping
-    *(MAXKEY-230309) 新增OpenID Connect metadata
-    *(MAXKEY-230310) 新增/jwks的公钥访问地址
-    *(MAXKEY-230311) 新增Introspect令牌状态访问接口
-    *(MAXKEY-230312) Enhancer AccessToken，用户已经存在token的增强
-    *(MAXKEY-230313) build.gradle优化
-    *(MAXKEY-230314) 新增应用时选择协议优化，改为选项卡，标准协议和定制协议
-    *(MAXKEY-230315) 修复MaxKey-SpringBoot4CAS-demo地址配置问题
-    *(MAXKEY-230316) MaxKey和JeeSite单点登录集成指南
-    *(MAXKEY-230317) 网站帮助文档优化
-    *(MAXKEY-230318) 依赖项引用、更新和升级
+Sophon v 3.5.15 GA 2023/02/28
+    *(Sophon-230301) 提交短信密钥在加载时候进行解密。
+    *(Sophon-230302) 提交社交服务绑定账号+短信验证过程
+    *(Sophon-230303) 提交Sophon自定义扫码和社交服务绑定过程
+    *(Sophon-230304) 社交服务登录认证账号绑定接口
+    *(Sophon-230305) 提交阿里云SDK的其他依赖
+    *(Sophon-230306) 企业微信上下游处理用户id，不获取用户详情
+    *(Sophon-230307) 获取上下文路径问题WebContext.getContextPath()
+    *(Sophon-230308) Gson对象转字符串htmlEscaping
+    *(Sophon-230309) 新增OpenID Connect metadata
+    *(Sophon-230310) 新增/jwks的公钥访问地址
+    *(Sophon-230311) 新增Introspect令牌状态访问接口
+    *(Sophon-230312) Enhancer AccessToken，用户已经存在token的增强
+    *(Sophon-230313) build.gradle优化
+    *(Sophon-230314) 新增应用时选择协议优化，改为选项卡，标准协议和定制协议
+    *(Sophon-230315) 修复Sophon-SpringBoot4CAS-demo地址配置问题
+    *(Sophon-230316) Sophon和JeeSite单点登录集成指南
+    *(Sophon-230317) 网站帮助文档优化
+    *(Sophon-230318) 依赖项引用、更新和升级
         springData          2.7.8
         druid               1.2.16
 
-MaxKey v 3.5.14 GA 2023/02/14
-    *(MAXKEY-230201) 社交登录查询关联账号查询新增租户标识查询
-    *(MAXKEY-230202) docker-compose 搭建 maxkey-mgt 启动报错 I6BR6D
-    *(MAXKEY-230203) JWKSetKeyStore优化
-    *(MAXKEY-230204) maxkey-webapis 重命名为 maxkey-web-apis
-    *(MAXKEY-230205) CasDefaultAdapter 增加 username字段
-    *(MAXKEY-230206) 增加docker部署和启动脚本maxkey_docker_install.sh,maxkey_docker_start.sh等
-    *(MAXKEY-230207) 前端页面版权年度自动按照当前年度修改
-    *(MAXKEY-230208) OAuth2不显示OpenID Connect的tab页
-    *(MAXKEY-230209) 应用新增修改，下拉菜单改为弹出框，增加协议的图标及描述
-    *(MAXKEY-230210) docker-compose部署配置优化
-    *(MAXKEY-230211) docker mysql 8.0.32升级
-    *(MAXKEY-230212) docker部署文档优化
-    *(MAXKEY-230213) JumpServer开源堡垒机单点登录适配文档
-    *(MAXKEY-230214) Docker部署Mysql 脚本目录改为latest，文件名改为maxkey.sql(表结构)、maxkey_data.sql(数据记录)
-    *(MAXKEY-230215) 依赖项引用、更新和升级
+Sophon v 3.5.14 GA 2023/02/14
+    *(Sophon-230201) 社交登录查询关联账号查询新增租户标识查询
+    *(Sophon-230202) docker-compose 搭建 Sophon-mgt 启动报错 I6BR6D
+    *(Sophon-230203) JWKSetKeyStore优化
+    *(Sophon-230204) Sophon-webapis 重命名为 Sophon-web-apis
+    *(Sophon-230205) CasDefaultAdapter 增加 username字段
+    *(Sophon-230206) 增加docker部署和启动脚本Sophon_docker_install.sh,Sophon_docker_start.sh等
+    *(Sophon-230207) 前端页面版权年度自动按照当前年度修改
+    *(Sophon-230208) OAuth2不显示OpenID Connect的tab页
+    *(Sophon-230209) 应用新增修改，下拉菜单改为弹出框，增加协议的图标及描述
+    *(Sophon-230210) docker-compose部署配置优化
+    *(Sophon-230211) docker mysql 8.0.32升级
+    *(Sophon-230212) docker部署文档优化
+    *(Sophon-230213) JumpServer开源堡垒机单点登录适配文档
+    *(Sophon-230214) Docker部署Mysql 脚本目录改为latest，文件名改为Sophon.sql(表结构)、Sophon_data.sql(数据记录)
+    *(Sophon-230215) 依赖项引用、更新和升级
         freemarker          2.3.32
         tomcat              9.0.71
         mysqlconnector      8.0.32
     
-MaxKey v 3.5.13 GA 2023/01/27
-    *(MAXKEY-230101) application-http.properties重命名为application-maxkey-mgt.properties 
-    *(MAXKEY-230102) application-http.properties重命名为application-maxkey.properties 
-    *(MAXKEY-230103) 分离出maxkey-authentication-sms模块
-    *(MAXKEY-230104) JdbcSynchronizer 优化
-    *(MAXKEY-230105) NOTICE更新，源文件添加License
-    *(MAXKEY-230106) Provisioning 优化，增加日志记录
-    *(MAXKEY-230107) maxkey-identitys 重命名为maxkey-webapis
-    *(MAXKEY-230108) build.gradle构建优化
-    *(MAXKEY-230109) 基本信息更新和下载信息优化
-    *(MAXKEY-230110) 依赖项引用、更新和升级
+Sophon v 3.5.13 GA 2023/01/27
+    *(Sophon-230101) application-http.properties重命名为application-Sophon-mgt.properties 
+    *(Sophon-230102) application-http.properties重命名为application-Sophon.properties 
+    *(Sophon-230103) 分离出Sophon-authentication-sms模块
+    *(Sophon-230104) JdbcSynchronizer 优化
+    *(Sophon-230105) NOTICE更新，源文件添加License
+    *(Sophon-230106) Provisioning 优化，增加日志记录
+    *(Sophon-230107) Sophon-identitys 重命名为Sophon-webapis
+    *(Sophon-230108) build.gradle构建优化
+    *(Sophon-230109) 基本信息更新和下载信息优化
+    *(Sophon-230110) 依赖项引用、更新和升级
         spring          5.3.25
         springBoot      2.7.8
         jibGradlePlugin 3.2.0
@@ -562,54 +562,54 @@ MaxKey v 3.5.13 GA 2023/01/27
         zxingcore       3.5.1
         jackson         2.14.1
         
-MaxKey v 3.5.12 GA 2022/12/27
-    *(MAXKEY-221701) #I66S79 CAS退出跳转报错问题
-    *(MAXKEY-221702) 用户批量删除 onBatchDelete 调用的后端 delete
-    *(MAXKEY-221703) 管理端退出后，会话值为无效
-    *(MAXKEY-221704) 应用管理排序字段显示
-    *(MAXKEY-221705) 应用删除按钮增加nzDanger颜色标识
-    *(MAXKEY-221706) 依赖项引用、更新和升级
+Sophon v 3.5.12 GA 2022/12/27
+    *(Sophon-221701) #I66S79 CAS退出跳转报错问题
+    *(Sophon-221702) 用户批量删除 onBatchDelete 调用的后端 delete
+    *(Sophon-221703) 管理端退出后，会话值为无效
+    *(Sophon-221704) 应用管理排序字段显示
+    *(Sophon-221705) 应用删除按钮增加nzDanger颜色标识
+    *(Sophon-221706) 依赖项引用、更新和升级
         springBoot      2.7.7
         httpcomponents  4.5.14
         httpcore        4.4.16
         tomcat          9.0.70
         springSecurity  5.7.6
         
-MaxKey v 3.5.11 GA 2022/12/15
-    *(MAXKEY-221601) 官方网站优化及重构
-    *(MAXKEY-221602) BadPasswordCount 次数问题解决
-    *(MAXKEY-221603) 增加session的日志输出信息
-    *(MAXKEY-221604) MXK_APPS的字段CREDENTIAL改为varchar(45)
-    *(MAXKEY-221605) 同步器删除字段filters、basedn，新增字段userfilters、userbasedn、orgfilters、orgbasedn，界面的时间区间增加“天”单位
-    *(MAXKEY-221606) 优化Jdbc的同步器，可以配置SQL同步组织和用户数据
-    *(MAXKEY-221607) 优化LDAP和AD的同步器
-    *(MAXKEY-221608) 用户信息增加通用字段education-学历，graduateFrom-毕业院校，graduateDate-毕业时间
-    *(MAXKEY-221609) 完善基本信息的介绍
-    *(MAXKEY-221610) 用户头像PICTURE改为LONGBLOB类型
-    *(MAXKEY-221611) 去除后端管理cookie的设置
-    *(MAXKEY-221612) 左侧导航菜单收缩时，二级菜单点击问题修复
-    *(MAXKEY-221613) 测试数据优化，包括用户、组织、应用等
-    *(MAXKEY-221614) 依赖项引用、更新和升级
+Sophon v 3.5.11 GA 2022/12/15
+    *(Sophon-221601) 官方网站优化及重构
+    *(Sophon-221602) BadPasswordCount 次数问题解决
+    *(Sophon-221603) 增加session的日志输出信息
+    *(Sophon-221604) ZE_APPS的字段CREDENTIAL改为varchar(45)
+    *(Sophon-221605) 同步器删除字段filters、basedn，新增字段userfilters、userbasedn、orgfilters、orgbasedn，界面的时间区间增加“天”单位
+    *(Sophon-221606) 优化Jdbc的同步器，可以配置SQL同步组织和用户数据
+    *(Sophon-221607) 优化LDAP和AD的同步器
+    *(Sophon-221608) 用户信息增加通用字段education-学历，graduateFrom-毕业院校，graduateDate-毕业时间
+    *(Sophon-221609) 完善基本信息的介绍
+    *(Sophon-221610) 用户头像PICTURE改为LONGBLOB类型
+    *(Sophon-221611) 去除后端管理cookie的设置
+    *(Sophon-221612) 左侧导航菜单收缩时，二级菜单点击问题修复
+    *(Sophon-221613) 测试数据优化，包括用户、组织、应用等
+    *(Sophon-221614) 依赖项引用、更新和升级
         springBoot                2.7.6
     
-MaxKey v 3.5.10 GA 2022/11/23
-    *(MAXKEY-221501) SAML元数据接口地址修正
-    *(MAXKEY-221502) SAML Subject增加类型persistent,transient,unspecified,emailAddress,WindowsDomainQualifiedName
-    *(MAXKEY-221503) SAML receiverEndpoint判断优化
-    *(MAXKEY-221504) Pretty SQL , Json , XML optimize
-    *(MAXKEY-221505) 网易企业邮箱单点登录优化
-    *(MAXKEY-221506) ExtendApi应用图片上传的问题
-    *(MAXKEY-221507) APPS SharedPassword的优化
-    *(MAXKEY-221508) Apps类型转换为string给前端
-    *(MAXKEY-221509) App credential定义为string类型user_defined,shared,system,none
-    *(MAXKEY-221510) 加密方式PasswordEncoder类型可以配置到配置文件，默认为bcrypt
-    *(MAXKEY-221511) 前端js和html的格式化，符合规范
-    *(MAXKEY-221512) 开发环境配置参数修复，#I61FL8 by lihu
-    *(MAXKEY-221513) 提交短信认证后端逻辑判断
-    *(MAXKEY-221514) macOS执行启动脚本报空指针异常#I5X10K by tzk007
-    *(MAXKEY-221515) 所有表格列宽、表格操作列按钮最多显示2两个，多的采用更多下拉方式呈现
-    *(MAXKEY-221516) vuln-fix: Temporary File Information Disclosure #94 by Jonathan.Leitschuh@gmail.com
-    *(MAXKEY-221517) 依赖项引用、更新和升级
+Sophon v 3.5.10 GA 2022/11/23
+    *(Sophon-221501) SAML元数据接口地址修正
+    *(Sophon-221502) SAML Subject增加类型persistent,transient,unspecified,emailAddress,WindowsDomainQualifiedName
+    *(Sophon-221503) SAML receiverEndpoint判断优化
+    *(Sophon-221504) Pretty SQL , Json , XML optimize
+    *(Sophon-221505) 网易企业邮箱单点登录优化
+    *(Sophon-221506) ExtendApi应用图片上传的问题
+    *(Sophon-221507) APPS SharedPassword的优化
+    *(Sophon-221508) Apps类型转换为string给前端
+    *(Sophon-221509) App credential定义为string类型user_defined,shared,system,none
+    *(Sophon-221510) 加密方式PasswordEncoder类型可以配置到配置文件，默认为bcrypt
+    *(Sophon-221511) 前端js和html的格式化，符合规范
+    *(Sophon-221512) 开发环境配置参数修复，#I61FL8 by lihu
+    *(Sophon-221513) 提交短信认证后端逻辑判断
+    *(Sophon-221514) macOS执行启动脚本报空指针异常#I5X10K by tzk007
+    *(Sophon-221515) 所有表格列宽、表格操作列按钮最多显示2两个，多的采用更多下拉方式呈现
+    *(Sophon-221516) vuln-fix: Temporary File Information Disclosure #94 by Jonathan.Leitschuh@gmail.com
+    *(Sophon-221517) 依赖项引用、更新和升级
         springSecurity            5.7.5
         spring                    5.3.24
         springdoc                 1.6.13
@@ -618,46 +618,46 @@ MaxKey v 3.5.10 GA 2022/11/23
         druidspringboot           1.2.15
         jodatime                  2.12.1
 
-MaxKey v 3.5.9 GA 2022/10/25
-    *(MAXKEY-221401) docker和docker-compose部署的参数及文档优化
-    *(MAXKEY-221402) app合并SAML和元数据配置
-    *(MAXKEY-221403) 菜单配置的优化
-    *(MAXKEY-221404) 应用状态status的优化
-    *(MAXKEY-221405) 更新3.5.8的界面图片
-    *(MAXKEY-221406) SpringBootAdmin默认的enabled=false
-    *(MAXKEY-221407) properties 参数优化
-    *(MAXKEY-221408) 增加JDBC同步器
-    *(MAXKEY-221409) OAuth refresh_token改为静态变量
-    *(MAXKEY-221410) HttpRequestAdapter请求适配器优化
-    *(MAXKEY-221411) 单点通知日志改为debug
-    *(MAXKEY-221412) 移除docker 旧版本mysql sql
-    *(MAXKEY-221413) 官方网站优化，导航、依赖内容、图片等
-    *(MAXKEY-221414) macOS执行启动脚本报空指针异常#I5X10K by tzk007
-    *(MAXKEY-221415) 修复maxkey docker的nginx配置转发问题
-    *(MAXKEY-221416) 进行smart-servlet的适配https://gitee.com/smartboot/smart-servlet
-    *(MAXKEY-221417) 依赖项引用、更新和升级
+Sophon v 3.5.9 GA 2022/10/25
+    *(Sophon-221401) docker和docker-compose部署的参数及文档优化
+    *(Sophon-221402) app合并SAML和元数据配置
+    *(Sophon-221403) 菜单配置的优化
+    *(Sophon-221404) 应用状态status的优化
+    *(Sophon-221405) 更新3.5.8的界面图片
+    *(Sophon-221406) SpringBootAdmin默认的enabled=false
+    *(Sophon-221407) properties 参数优化
+    *(Sophon-221408) 增加JDBC同步器
+    *(Sophon-221409) OAuth refresh_token改为静态变量
+    *(Sophon-221410) HttpRequestAdapter请求适配器优化
+    *(Sophon-221411) 单点通知日志改为debug
+    *(Sophon-221412) 移除docker 旧版本mysql sql
+    *(Sophon-221413) 官方网站优化，导航、依赖内容、图片等
+    *(Sophon-221414) macOS执行启动脚本报空指针异常#I5X10K by tzk007
+    *(Sophon-221415) 修复Sophon docker的nginx配置转发问题
+    *(Sophon-221416) 进行smart-servlet的适配https://gitee.com/smartboot/smart-servlet
+    *(Sophon-221417) 依赖项引用、更新和升级
         springBoot                2.7.5
         springSecurity            5.7.4
         mysqlconnector            8.0.30
     
-MaxKey v 3.5.8 GA 2022/10/11
-    *(MAXKEY-221301) 新版LOGO更新
-    *(MAXKEY-221302) 角色属性dynamic - >category
-    *(MAXKEY-221303) 角色列表增加"成员"和"访问权限"按钮，方便管理员操作
-    *(MAXKEY-221304) 新增组织类型type=department，sortIndex=11
-    *(MAXKEY-221305) 组织列表编码和名称左对齐
-    *(MAXKEY-221306) 社交服务优化，socialsProvider  状态 hidden-->display, scanCode
-    *(MAXKEY-221307) 提交注销地址回调外部URL地址
-    *(MAXKEY-221308) LDAP配置的测试功能
-    *(MAXKEY-221309) ActiveDirectory组织同步默认类型department，fullName=orgName
-    *(MAXKEY-221310) LDAP组织同步默认类型department，fullName=orgName
-    *(MAXKEY-221311) 访问权限管理appName显示问题
-    *(MAXKEY-221312) 修复MFA的MfaAuthenticationProvider的getProviderName的BUG
-    *(MAXKEY-221313) Cannot call sendRedirect() after the response has been committed 无权限访问应用
-    *(MAXKEY-221314) 资源权限管理中的角色列表调整到左边，资源树列表调整到右边
-    *(MAXKEY-221315) 优化docker-compose部署方案，支持最新版v3.5.7快速启动部署 @xiaojian
-    *(MAXKEY-221316) 优化v3.3docker-compose部署方案，启动时不重新打包镜像，mysql服务名取代localhost @xiaojian
-    *(MAXKEY-221317) 依赖项引用、更新和升级
+Sophon v 3.5.8 GA 2022/10/11
+    *(Sophon-221301) 新版LOGO更新
+    *(Sophon-221302) 角色属性dynamic - >category
+    *(Sophon-221303) 角色列表增加"成员"和"访问权限"按钮，方便管理员操作
+    *(Sophon-221304) 新增组织类型type=department，sortIndex=11
+    *(Sophon-221305) 组织列表编码和名称左对齐
+    *(Sophon-221306) 社交服务优化，socialsProvider  状态 hidden-->display, scanCode
+    *(Sophon-221307) 提交注销地址回调外部URL地址
+    *(Sophon-221308) LDAP配置的测试功能
+    *(Sophon-221309) ActiveDirectory组织同步默认类型department，fullName=orgName
+    *(Sophon-221310) LDAP组织同步默认类型department，fullName=orgName
+    *(Sophon-221311) 访问权限管理appName显示问题
+    *(Sophon-221312) 修复MFA的MfaAuthenticationProvider的getProviderName的BUG
+    *(Sophon-221313) Cannot call sendRedirect() after the response has been committed 无权限访问应用
+    *(Sophon-221314) 资源权限管理中的角色列表调整到左边，资源树列表调整到右边
+    *(Sophon-221315) 优化docker-compose部署方案，支持最新版v3.5.7快速启动部署 @xiaojian
+    *(Sophon-221316) 优化v3.3docker-compose部署方案，启动时不重新打包镜像，mysql服务名取代localhost @xiaojian
+    *(Sophon-221317) 依赖项引用、更新和升级
         springBoot                2.7.4
         kafkaclients              2.8.9
         hibernate                 6.2.5.Final
@@ -671,28 +671,28 @@ MaxKey v 3.5.8 GA 2022/10/11
         xmlsec                    2.1.7
         xstream                   1.4.19
 
-MaxKey v 3.5.7 GA 2022/09/23
-    *(MAXKEY-221201) springboot升级至2.7.3，修改相关程序及配置
-    *(MAXKEY-221202) 访问根上下文访问返回，消除报错
-    *(MAXKEY-221203) 同步器同步组织和用户OU为大写的问题修复
-    *(MAXKEY-221204) Eclipse设置工程字符集错误修复
-    *(MAXKEY-221205) HttpRequestAdapter 请求的优化
-    *(MAXKEY-221206) JsonUtils 方法重命名
-    *(MAXKEY-221207) Copyright版权声明的添加
-    *(MAXKEY-221208) 连接器配置管理
-    *(MAXKEY-221209) 重新实现实时连接下游数据同步功能
-    *(MAXKEY-221210) gradle升级至7.5.1及构建的优化
-    *(MAXKEY-221211) 同步器配置的优化
-    *(MAXKEY-221212) 所有的自动配置类统一存放到org.maxkey.autoconfigure包下
-    *(MAXKEY-221213) 连接器日志查询优化
-    *(MAXKEY-221214) 加强产品的对外合作和推广
-    *(MAXKEY-221215) 解决3.5.6 docker初始化数据库数据的问题(#I5ROWK)
-    *(MAXKEY-221216) 删除springboot的spring.factories配置文件
-    *(MAXKEY-221217) 统一http请求内容类型配置到org.maxkey.constants.ContentType
-    *(MAXKEY-221218) 组织更改上级组织增加树形控件，用户可直接选择对应父级组织
-    *(MAXKEY-221219) SAML新增或者编辑时添加证书数据或者元数据文件时，编辑窗口关闭问题修复(#I5RRGX)
-    *(MAXKEY-221220) 新增或者编辑用户信息时，用户所属的机构增加树形控件
-    *(MAXKEY-221221) 依赖项引用、更新和升级
+Sophon v 3.5.7 GA 2022/09/23
+    *(Sophon-221201) springboot升级至2.7.3，修改相关程序及配置
+    *(Sophon-221202) 访问根上下文访问返回，消除报错
+    *(Sophon-221203) 同步器同步组织和用户OU为大写的问题修复
+    *(Sophon-221204) Eclipse设置工程字符集错误修复
+    *(Sophon-221205) HttpRequestAdapter 请求的优化
+    *(Sophon-221206) JsonUtils 方法重命名
+    *(Sophon-221207) Copyright版权声明的添加
+    *(Sophon-221208) 连接器配置管理
+    *(Sophon-221209) 重新实现实时连接下游数据同步功能
+    *(Sophon-221210) gradle升级至7.5.1及构建的优化
+    *(Sophon-221211) 同步器配置的优化
+    *(Sophon-221212) 所有的自动配置类统一存放到org.Sophon.autoconfigure包下
+    *(Sophon-221213) 连接器日志查询优化
+    *(Sophon-221214) 加强产品的对外合作和推广
+    *(Sophon-221215) 解决3.5.6 docker初始化数据库数据的问题(#I5ROWK)
+    *(Sophon-221216) 删除springboot的spring.factories配置文件
+    *(Sophon-221217) 统一http请求内容类型配置到org.Sophon.constants.ContentType
+    *(Sophon-221218) 组织更改上级组织增加树形控件，用户可直接选择对应父级组织
+    *(Sophon-221219) SAML新增或者编辑时添加证书数据或者元数据文件时，编辑窗口关闭问题修复(#I5RRGX)
+    *(Sophon-221220) 新增或者编辑用户信息时，用户所属的机构增加树形控件
+    *(Sophon-221221) 依赖项引用、更新和升级
         spring                  5.3.23
         springBoot              2.7.3
         springcloud             3.1.4
@@ -710,56 +710,56 @@ MaxKey v 3.5.7 GA 2022/09/23
         passay                  1.6.2
         ip2region               2.6.5
     
-MaxKey v 3.5.6 GA 2022/09/07
-    *(MAXKEY-221101) 解决springcloud JAR包冲突问题
-    *(MAXKEY-221102) CAS 未注册URL登录错误提示优化CAS service ${errorMessage!} not registered .
-    *(MAXKEY-221103) 同步代码优化org.maxkey.persistence -->org.maxkey.provision
-    *(MAXKEY-221104) 优化对象转换类ObjectTransformer
-    *(MAXKEY-221105) 数据同步的对象经过序列化后存储到数据库,下一版本在后台系统定义同步线程实现数据同步
-    *(MAXKEY-221106) 优化HMAC512签名的代码
-    *(MAXKEY-221107) 腾讯企业邮箱登录优化
-    *(MAXKEY-221108) 开源之夏SDK的提交
-    *(MAXKEY-221109) 压缩images包下面的图片尺寸
-    *(MAXKEY-221110) 添加知识星球扫码连接
-    *(MAXKEY-221111) 默认组织根节点不可删除，隐藏删除按钮
-    *(MAXKEY-221112) 默认角色组不可删除，隐藏删除按钮
-    *(MAXKEY-221113) 移除KAFKA支持
-    *(MAXKEY-221114) 移除RocketMQ支持
-    *(MAXKEY-221115) 移除非必须的监控模块maxkey-monitor，该模块建议开发者自行部署
-    *(MAXKEY-221116) 依赖项引用、更新和升级
+Sophon v 3.5.6 GA 2022/09/07
+    *(Sophon-221101) 解决springcloud JAR包冲突问题
+    *(Sophon-221102) CAS 未注册URL登录错误提示优化CAS service ${errorMessage!} not registered .
+    *(Sophon-221103) 同步代码优化org.Sophon.persistence -->org.Sophon.provision
+    *(Sophon-221104) 优化对象转换类ObjectTransformer
+    *(Sophon-221105) 数据同步的对象经过序列化后存储到数据库,下一版本在后台系统定义同步线程实现数据同步
+    *(Sophon-221106) 优化HMAC512签名的代码
+    *(Sophon-221107) 腾讯企业邮箱登录优化
+    *(Sophon-221108) 开源之夏SDK的提交
+    *(Sophon-221109) 压缩images包下面的图片尺寸
+    *(Sophon-221110) 添加知识星球扫码连接
+    *(Sophon-221111) 默认组织根节点不可删除，隐藏删除按钮
+    *(Sophon-221112) 默认角色组不可删除，隐藏删除按钮
+    *(Sophon-221113) 移除KAFKA支持
+    *(Sophon-221114) 移除RocketMQ支持
+    *(Sophon-221115) 移除非必须的监控模块Sophon-monitor，该模块建议开发者自行部署
+    *(Sophon-221116) 依赖项引用、更新和升级
         springcloudalibabacspl  1.8.5
         jbosslogging            3.4.3.Final
         hibernate        6.2.4.Final
     
-MaxKey v 3.5.5 GA 2022/08/23
-    *(MAXKEY-221001) 前端token刷新问题修复
-    *(MAXKEY-221002) CAS单点注销问题，在登录时存储ticket
-    *(MAXKEY-221003) cookie为空时，清空认证信息
-    *(MAXKEY-221004) session监听的日志打印空指针异常修复
-    *(MAXKEY-221005) 登录异常会话清除，值为正常完成状态
-    *(MAXKEY-221006) 组织根节点定义,根节点id=租户id、根节点id=0、根节点id=-1或者根节点id=父节点id
-    *(MAXKEY-221007) Swagger描述更新 
-    *(MAXKEY-221008) 动态角色定时刷新问题修复，按照有效租户和有效动态角色刷新 
-    *(MAXKEY-221009) 新增角色成员失败修复
-    *(MAXKEY-221010) OAuth2 code修正redis连接不释放 程序运行时间长会出现redis连接超过最大值错误(when <w_zhi_yuan@163.com>)
-    *(MAXKEY-221011) 日志打印信息优化
-    *(MAXKEY-221012) 依赖项引用、更新和升级
+Sophon v 3.5.5 GA 2022/08/23
+    *(Sophon-221001) 前端token刷新问题修复
+    *(Sophon-221002) CAS单点注销问题，在登录时存储ticket
+    *(Sophon-221003) cookie为空时，清空认证信息
+    *(Sophon-221004) session监听的日志打印空指针异常修复
+    *(Sophon-221005) 登录异常会话清除，值为正常完成状态
+    *(Sophon-221006) 组织根节点定义,根节点id=租户id、根节点id=0、根节点id=-1或者根节点id=父节点id
+    *(Sophon-221007) Swagger描述更新 
+    *(Sophon-221008) 动态角色定时刷新问题修复，按照有效租户和有效动态角色刷新 
+    *(Sophon-221009) 新增角色成员失败修复
+    *(Sophon-221010) OAuth2 code修正redis连接不释放 程序运行时间长会出现redis连接超过最大值错误(when <w_zhi_yuan@163.com>)
+    *(Sophon-221011) 日志打印信息优化
+    *(Sophon-221012) 依赖项引用、更新和升级
         springBoot               2.6.11
         springSecurity           5.6.7
         springkafka              2.8.8
         mybatis-jpa-extra        2.8
 
-MaxKey v 3.5.4 GA 2022/08/05
-    *(MAXKEY-220901) 分离出maxkey-authentication-provider，进行代码优化调整
-    *(MAXKEY-220902) 认证端退出登录时，清除相应的cookie，清除服务端会话的调用
-    *(MAXKEY-220903) 认证端支持ip地址和域名两种访问方式
-    *(MAXKEY-220904) 单点登录时，未授权访问界面提示，消除歧义
-    *(MAXKEY-220905) 调整cache的package路径
-    *(MAXKEY-220906) 前端打docker包及上传dockerhub
-    *(MAXKEY-220907) 时间令牌共享密钥4位分组编码显示
-    *(MAXKEY-220908) 移除spring redis相关的依赖
-    *(MAXKEY-220909) 管理端退出服务端会话
-    *(MAXKEY-220910) 依赖项引用、更新和升级
+Sophon v 3.5.4 GA 2022/08/05
+    *(Sophon-220901) 分离出Sophon-authentication-provider，进行代码优化调整
+    *(Sophon-220902) 认证端退出登录时，清除相应的cookie，清除服务端会话的调用
+    *(Sophon-220903) 认证端支持ip地址和域名两种访问方式
+    *(Sophon-220904) 单点登录时，未授权访问界面提示，消除歧义
+    *(Sophon-220905) 调整cache的package路径
+    *(Sophon-220906) 前端打docker包及上传dockerhub
+    *(Sophon-220907) 时间令牌共享密钥4位分组编码显示
+    *(Sophon-220908) 移除spring redis相关的依赖
+    *(Sophon-220909) 管理端退出服务端会话
+    *(Sophon-220910) 依赖项引用、更新和升级
         httpcore                 4.4.15
         httpasyncclient          4.1.5
         rocketmqclient           4.9.4
@@ -792,51 +792,51 @@ MaxKey v 3.5.4 GA 2022/08/05
         jsoup                    1.15.2
         reflections              0.10.2
         
-MaxKey v 3.5.3 GA 2022/07/23
-    *(MAXKEY-220801) formbase用户初始化跳转问题修复
-    *(MAXKEY-220802) OAuth2 select多选保存问题
-    *(MAXKEY-220803) OAuth2密码保存不一致修复
-    *(MAXKEY-220804) HttpSessionListenerAdapter中userinfo空指针异常
-    *(MAXKEY-220805) 增加LDAP登录认证的参数配置
-    *(MAXKEY-220806) 组织增加公司、分支机构、部门、组四种类型
-    *(MAXKEY-220807) REDIS的key统一MXK_开头
-    *(MAXKEY-220808) HttpRequestAdapter增加REST方法
-    *(MAXKEY-220809) 新增应用时增加初始化默认值
-    *(MAXKEY-220810) Ldap认证配置的判断
-    *(MAXKEY-220811) 前端refresh_token报错问题，Header可为空，在程序中进行判断
-    *(MAXKEY-220812) 新增或者编辑图片无法上传的问题
-    *(MAXKEY-220813) JWT增加GET方式
-    *(MAXKEY-220814) 验证码字段调整
-    *(MAXKEY-220815) 账号管理中应用选择未显示问题
-    *(MAXKEY-220816) 删除打jar包时maxkey-web-resources依赖问题
-    *(MAXKEY-220817) 依赖项引用、更新和升级
+Sophon v 3.5.3 GA 2022/07/23
+    *(Sophon-220801) formbase用户初始化跳转问题修复
+    *(Sophon-220802) OAuth2 select多选保存问题
+    *(Sophon-220803) OAuth2密码保存不一致修复
+    *(Sophon-220804) HttpSessionListenerAdapter中userinfo空指针异常
+    *(Sophon-220805) 增加LDAP登录认证的参数配置
+    *(Sophon-220806) 组织增加公司、分支机构、部门、组四种类型
+    *(Sophon-220807) REDIS的key统一ZE_开头
+    *(Sophon-220808) HttpRequestAdapter增加REST方法
+    *(Sophon-220809) 新增应用时增加初始化默认值
+    *(Sophon-220810) Ldap认证配置的判断
+    *(Sophon-220811) 前端refresh_token报错问题，Header可为空，在程序中进行判断
+    *(Sophon-220812) 新增或者编辑图片无法上传的问题
+    *(Sophon-220813) JWT增加GET方式
+    *(Sophon-220814) 验证码字段调整
+    *(Sophon-220815) 账号管理中应用选择未显示问题
+    *(Sophon-220816) 删除打jar包时Sophon-web-resources依赖问题
+    *(Sophon-220817) 依赖项引用、更新和升级
         log4j                   2.18.0
         tomcat                  9.0.64
         druid                   1.2.11
         druidspringboot         1.2.11
         
-MaxKey v 3.5.2 GA 2022/07/15
-    *(MAXKEY-220701) 网站界面图片更新
-    *(MAXKEY-220702) 注销问题修复
-    *(MAXKEY-220703) 单点注销功能增强
-    *(MAXKEY-220704) JWT单点登录参数丢失的修复
-    *(MAXKEY-220705) 跳转功能优化
-    *(MAXKEY-220706) 组织类型虚拟和实体组织
-    *(MAXKEY-220707) 应用管理 第三个页签下适配选项保存后无法显示 #I5DWS3
-    *(MAXKEY-220708) 删除系统的keystore，系统在NGINX中配置
-    *(MAXKEY-220709) 角色地址无法访问#I5E717
-    *(MAXKEY-220710) 角色新增的问题修复
-    *(MAXKEY-220711) token刷新问题修复
-    *(MAXKEY-220712) remove select apps protocol,机构管理 ->机构配置,groupName->roleName
-    *(MAXKEY-220713) 新增用户无法输入手机号和工号 #68
-    *(MAXKEY-220714) 角色名称和应用名称字段修改
-    *(MAXKEY-220715) 登录错误提示信息
-    *(MAXKEY-220716) OAuth2自动提交认证
-    *(MAXKEY-220717) nacos bootstrap升级和优化
-    *(MAXKEY-220718) formbase用户初始化跳转问题修复
-    *(MAXKEY-220719) 返回前端message优化
-    *(MAXKEY-220720) 删除spring-data-redis依赖
-    *(MAXKEY-220721) 依赖项引用、更新和升级
+Sophon v 3.5.2 GA 2022/07/15
+    *(Sophon-220701) 网站界面图片更新
+    *(Sophon-220702) 注销问题修复
+    *(Sophon-220703) 单点注销功能增强
+    *(Sophon-220704) JWT单点登录参数丢失的修复
+    *(Sophon-220705) 跳转功能优化
+    *(Sophon-220706) 组织类型虚拟和实体组织
+    *(Sophon-220707) 应用管理 第三个页签下适配选项保存后无法显示 #I5DWS3
+    *(Sophon-220708) 删除系统的keystore，系统在NGINX中配置
+    *(Sophon-220709) 角色地址无法访问#I5E717
+    *(Sophon-220710) 角色新增的问题修复
+    *(Sophon-220711) token刷新问题修复
+    *(Sophon-220712) remove select apps protocol,机构管理 ->机构配置,groupName->roleName
+    *(Sophon-220713) 新增用户无法输入手机号和工号 #68
+    *(Sophon-220714) 角色名称和应用名称字段修改
+    *(Sophon-220715) 登录错误提示信息
+    *(Sophon-220716) OAuth2自动提交认证
+    *(Sophon-220717) nacos bootstrap升级和优化
+    *(Sophon-220718) formbase用户初始化跳转问题修复
+    *(Sophon-220719) 返回前端message优化
+    *(Sophon-220720) 删除spring-data-redis依赖
+    *(Sophon-220721) 依赖项引用、更新和升级
         springcloud             3.1.3
         nacosclient             2.0.4
         jedis                   4.2.3
@@ -845,41 +845,41 @@ MaxKey v 3.5.2 GA 2022/07/15
         springSecurity          5.6.6
         
         
-MaxKey v 3.5.1 GA 2022/06/09
-    *(MAXKEY-220601) session会话增加二级缓存
-    *(MAXKEY-220602) session会话超时及token刷新的问题
-    *(MAXKEY-220603) 认证界面优化，支持账号登录和扫码登录
-    *(MAXKEY-220604) 用户管理增加启用、禁用、锁定等功能
-    *(MAXKEY-220605) 用户管理增加角色、用户组、账号管理和密码修改功能
-    *(MAXKEY-220606) 繁体中文支持
-    *(MAXKEY-220607) 认证端菜单靠左对齐
-    *(MAXKEY-220608) 单点登录应用跳转错误问题(woshiwangjijun@qq.com)
-    *(MAXKEY-220609) 管理端界面问题调整
-    *(MAXKEY-220610) 前端界面多租户knowHost及自定义
-    *(MAXKEY-220611) 社交账号登录问题
-    *(MAXKEY-220612) 第三方JWT登录支持
-    *(MAXKEY-220613) 管理端选择框映射值问题
-    *(MAXKEY-220614) 鉴于监管问题，QQ群禁言，未来以信息发布为主
-    *(MAXKEY-220615) 变更支持邮箱support@maxsso.net
-    *(MAXKEY-220616) 管理日志记录
-    *(MAXKEY-220617) ZyXEL网络设备Portal登录支持
-    *(MAXKEY-220618) 动态组和动态角色优化，删除固定配置
-    *(MAXKEY-220619) 动态组和动态角色的成员管理显示所属组或者角色
-    *(MAXKEY-220620) 管理端列表按钮样式整体调整，删除primary
-    *(MAXKEY-220621) 零信任标准工作组连接
-    *(MAXKEY-220622) 角色、用户组、账号策略部门选择改用TreeSelect组件
-    *(MAXKEY-220623) 增加控制台域名配置
-    *(MAXKEY-220624) 资源表增加权限标识字段
-    *(MAXKEY-220625) 开关控件控制的优化
-    *(MAXKEY-220626) 提示信息国际化优化
-    *(MAXKEY-220627) NGINX转发头添加proxy_set_header host
-    *(MAXKEY-220628) 简化权限控制，合并角色+用户组-->角色
-    *(MAXKEY-220629) 简化账号管理功能
-    *(MAXKEY-220630) 优化管理端UI功能
-    *(MAXKEY-220631) 社交账号登录跳转问题
-    *(MAXKEY-220632) 字段名称的调整
-    *(MAXKEY-220633) 图片上传问题修复
-    *(MAXKEY-220634) 依赖项引用、更新和升级
+Sophon v 3.5.1 GA 2022/06/09
+    *(Sophon-220601) session会话增加二级缓存
+    *(Sophon-220602) session会话超时及token刷新的问题
+    *(Sophon-220603) 认证界面优化，支持账号登录和扫码登录
+    *(Sophon-220604) 用户管理增加启用、禁用、锁定等功能
+    *(Sophon-220605) 用户管理增加角色、用户组、账号管理和密码修改功能
+    *(Sophon-220606) 繁体中文支持
+    *(Sophon-220607) 认证端菜单靠左对齐
+    *(Sophon-220608) 单点登录应用跳转错误问题(woshiwangjijun@qq.com)
+    *(Sophon-220609) 管理端界面问题调整
+    *(Sophon-220610) 前端界面多租户knowHost及自定义
+    *(Sophon-220611) 社交账号登录问题
+    *(Sophon-220612) 第三方JWT登录支持
+    *(Sophon-220613) 管理端选择框映射值问题
+    *(Sophon-220614) 鉴于监管问题，QQ群禁言，未来以信息发布为主
+    *(Sophon-220615) 变更支持邮箱support@maxsso.net
+    *(Sophon-220616) 管理日志记录
+    *(Sophon-220617) ZyXEL网络设备Portal登录支持
+    *(Sophon-220618) 动态组和动态角色优化，删除固定配置
+    *(Sophon-220619) 动态组和动态角色的成员管理显示所属组或者角色
+    *(Sophon-220620) 管理端列表按钮样式整体调整，删除primary
+    *(Sophon-220621) 零信任标准工作组连接
+    *(Sophon-220622) 角色、用户组、账号策略部门选择改用TreeSelect组件
+    *(Sophon-220623) 增加控制台域名配置
+    *(Sophon-220624) 资源表增加权限标识字段
+    *(Sophon-220625) 开关控件控制的优化
+    *(Sophon-220626) 提示信息国际化优化
+    *(Sophon-220627) NGINX转发头添加proxy_set_header host
+    *(Sophon-220628) 简化权限控制，合并角色+用户组-->角色
+    *(Sophon-220629) 简化账号管理功能
+    *(Sophon-220630) 优化管理端UI功能
+    *(Sophon-220631) 社交账号登录跳转问题
+    *(Sophon-220632) 字段名称的调整
+    *(Sophon-220633) 图片上传问题修复
+    *(Sophon-220634) 依赖项引用、更新和升级
         spring                   5.3.20
         springBoot               2.6.8
         springSecurity           5.6.5
@@ -896,46 +896,46 @@ MaxKey v 3.5.1 GA 2022/06/09
         jodatime                 2.10.14
         passay                   1.6.1
     
-MaxKey v 3.5.0 GA 2022/05/10 
-    *(MAXKEY-220501) 前后端分离改造，Angular和TypeScript支持
-    *(MAXKEY-220502) Ant Design of Angular前端
-    *(MAXKEY-220503) remeber me功能优化
-    *(MAXKEY-220504) 图片显示功能优化
-    *(MAXKEY-220505) token和refresh_token前端优化支持
-    *(MAXKEY-220506) 日志打印优化
-    *(MAXKEY-220507) 验证码功能优化
-    *(MAXKEY-220508) 单点登录功能优化
-    *(MAXKEY-220509) 元数据提供优化
-    *(MAXKEY-220510) 会话功能调整优化
-    *(MAXKEY-220511) 依赖项引用、更新和升级
+Sophon v 3.5.0 GA 2022/05/10 
+    *(Sophon-220501) 前后端分离改造，Angular和TypeScript支持
+    *(Sophon-220502) Ant Design of Angular前端
+    *(Sophon-220503) remeber me功能优化
+    *(Sophon-220504) 图片显示功能优化
+    *(Sophon-220505) token和refresh_token前端优化支持
+    *(Sophon-220506) 日志打印优化
+    *(Sophon-220507) 验证码功能优化
+    *(Sophon-220508) 单点登录功能优化
+    *(Sophon-220509) 元数据提供优化
+    *(Sophon-220510) 会话功能调整优化
+    *(Sophon-220511) 依赖项引用、更新和升级
         spring                   5.3.19
         springBoot               2.6.6
         springbootadmin          2.6.6
 
-MaxKey v 3.3.3 GA 2022/03/03 
-    *(MAXKEY-220401) 网易企业邮箱单点登录支持
-    *(MAXKEY-220402) Active Directory域控组织、账号同步优化
-    *(MAXKEY-220403) OAuth及OIDC兼容 Authorization/authorization的bearer #I4VFYD(无双的英雄peerless_hero)
-    *(MAXKEY-220404) 优化实时同步，增加RocketMQ支持
-    *(MAXKEY-220405) IP地址转换为行政区域，后续增加异地登录风险通知
-    *(MAXKEY-220406) 官方网站内容优化和完善
-    *(MAXKEY-220407) 图片验证码可配置调整；支持数字和算术计算；长度80，高度40
-    *(MAXKEY-220408) RSAUtils优化增加签名和验证功能，优化PEM生成器功能
-    *(MAXKEY-220409) 管理端登录验证码高度不一致调整
-    *(MAXKEY-220410) docker配置文件中DATABASE_HOST改为localhost
-    *(MAXKEY-220411) 注册默认租户ID设置为1
-    *(MAXKEY-220412) 增加LDAP账号映射功能，登录账号和LDAP账号可进行映射
-    *(MAXKEY-220413) 日志功能优化
-    *(MAXKEY-220414) 配置管理默认登录后地址
-    *(MAXKEY-220415) 服务端删除对maxkey-client-sdk依赖
-    *(MAXKEY-220416) 产品简短说明，添加badges标志，产品功能说明优化
-    *(MAXKEY-220417) 增加用户、机构等表默认值
-    *(MAXKEY-220418) Metadatas功能优化
-    *(MAXKEY-220419) 头像保存出错BUG修复 #I4VQDD(无双的英雄peerless_hero)
-    *(MAXKEY-220420) 用户资料空值问题修复 #I4VNPO(无双的英雄peerless_hero)
-    *(MAXKEY-220421) 增加SERVER_PROFILES，SERVER_PORT，SERVER_SESSION_TIMEOUT的环境参数
-    *(MAXKEY-220422) 认证缓存的优化
-    *(MAXKEY-220423) 依赖项引用、更新和升级
+Sophon v 3.3.3 GA 2022/03/03 
+    *(Sophon-220401) 网易企业邮箱单点登录支持
+    *(Sophon-220402) Active Directory域控组织、账号同步优化
+    *(Sophon-220403) OAuth及OIDC兼容 Authorization/authorization的bearer #I4VFYD(无双的英雄peerless_hero)
+    *(Sophon-220404) 优化实时同步，增加RocketMQ支持
+    *(Sophon-220405) IP地址转换为行政区域，后续增加异地登录风险通知
+    *(Sophon-220406) 官方网站内容优化和完善
+    *(Sophon-220407) 图片验证码可配置调整；支持数字和算术计算；长度80，高度40
+    *(Sophon-220408) RSAUtils优化增加签名和验证功能，优化PEM生成器功能
+    *(Sophon-220409) 管理端登录验证码高度不一致调整
+    *(Sophon-220410) docker配置文件中DATABASE_HOST改为localhost
+    *(Sophon-220411) 注册默认租户ID设置为1
+    *(Sophon-220412) 增加LDAP账号映射功能，登录账号和LDAP账号可进行映射
+    *(Sophon-220413) 日志功能优化
+    *(Sophon-220414) 配置管理默认登录后地址
+    *(Sophon-220415) 服务端删除对Sophon-client-sdk依赖
+    *(Sophon-220416) 产品简短说明，添加badges标志，产品功能说明优化
+    *(Sophon-220417) 增加用户、机构等表默认值
+    *(Sophon-220418) Metadatas功能优化
+    *(Sophon-220419) 头像保存出错BUG修复 #I4VQDD(无双的英雄peerless_hero)
+    *(Sophon-220420) 用户资料空值问题修复 #I4VNPO(无双的英雄peerless_hero)
+    *(Sophon-220421) 增加SERVER_PROFILES，SERVER_PORT，SERVER_SESSION_TIMEOUT的环境参数
+    *(Sophon-220422) 认证缓存的优化
+    *(Sophon-220423) 依赖项引用、更新和升级
         spring                   5.3.16
         springBoot               2.6.4
         springSecurity           5.6.2
@@ -947,47 +947,47 @@ MaxKey v 3.3.3 GA 2022/03/03
         RocketmMQspringboot      2.2.1
         jsoup                    1.14.3
         
-MaxKey v 3.3.2 GA 2022/02/17
-    *(MAXKEY-220301) 统一界面色调
-    *(MAXKEY-220302) 增加飞书扫码登录，更新最新飞书图标
-    *(MAXKEY-220303) appList GRID界面优化，增加边框和阴影背景
-    *(MAXKEY-220304) appList TABLE界面统一文字对齐，鼠标移动提示背景
-    *(MAXKEY-220305) metadata(JWT,OIDC,SAML)调整优化
-    *(MAXKEY-220306) 应用管理基本信息折叠效果
-    *(MAXKEY-220307) formbased优化，多种密码hash支持
-    *(MAXKEY-220308) JWT支持JWK配置
-    *(MAXKEY-220309) OAuth支持JWK配置
-    *(MAXKEY-220310) CAS,JWT,OIDC,TOKENBASE可配置用户映射
-    *(MAXKEY-220311) 应用的过期时间、有效时间统一为Seconds秒
-    *(MAXKEY-220312) appList的style调整到css文件中
-    *(MAXKEY-220313) 组织管理界面优化
-    *(MAXKEY-220314) 用户状态文字调整
-    *(MAXKEY-220315) OIDC配置优化，简化配置参数
-    *(MAXKEY-220316) JWT 增加jwtName参数
-    *(MAXKEY-220317) 适配器优化和调整
-    *(MAXKEY-220318) 修复FORMBASE写入用户关联问题
-    *(MAXKEY-220319) AD域同步优化，空字段值用默认值替代
-    *(MAXKEY-220320) LDAP连接时日志打印密码问题
-    *(MAXKEY-220321) 依赖jar引用、更新和升级
+Sophon v 3.3.2 GA 2022/02/17
+    *(Sophon-220301) 统一界面色调
+    *(Sophon-220302) 增加飞书扫码登录，更新最新飞书图标
+    *(Sophon-220303) appList GRID界面优化，增加边框和阴影背景
+    *(Sophon-220304) appList TABLE界面统一文字对齐，鼠标移动提示背景
+    *(Sophon-220305) metadata(JWT,OIDC,SAML)调整优化
+    *(Sophon-220306) 应用管理基本信息折叠效果
+    *(Sophon-220307) formbased优化，多种密码hash支持
+    *(Sophon-220308) JWT支持JWK配置
+    *(Sophon-220309) OAuth支持JWK配置
+    *(Sophon-220310) CAS,JWT,OIDC,TOKENBASE可配置用户映射
+    *(Sophon-220311) 应用的过期时间、有效时间统一为Seconds秒
+    *(Sophon-220312) appList的style调整到css文件中
+    *(Sophon-220313) 组织管理界面优化
+    *(Sophon-220314) 用户状态文字调整
+    *(Sophon-220315) OIDC配置优化，简化配置参数
+    *(Sophon-220316) JWT 增加jwtName参数
+    *(Sophon-220317) 适配器优化和调整
+    *(Sophon-220318) 修复FORMBASE写入用户关联问题
+    *(Sophon-220319) AD域同步优化，空字段值用默认值替代
+    *(Sophon-220320) LDAP连接时日志打印密码问题
+    *(Sophon-220321) 依赖jar引用、更新和升级
         postgresql              42.3.3
 
-MaxKey v 3.3.1 GA 2022/02/10
-    *(MAXKEY-220201) 同步器拆分，统一组织在maxkey-synchronizers目录下
-    *(MAXKEY-220202) Active Directory同步器优化
-    *(MAXKEY-220203) LDAP同步器优化
-    *(MAXKEY-220204) 钉钉同步器多组织读取BUG修复
-    *(MAXKEY-220205) 新增飞书的同步器
-    *(MAXKEY-220206) 修复权限管理的保存错误问题
-    *(MAXKEY-220207) 应用扩展属性英文逗号(,)使用ISO8859_1的(#44;)替换，修复多值BUG
-    *(MAXKEY-220208) WebXss新增属性过滤，优化URL的过滤
-    *(MAXKEY-220209) 修复动态角色、动态组、账号策略显示机构名称的无分隔符问题，统一用逗号分隔
-    *(MAXKEY-220210) 删除LDAP连接时日志打印密码问题
-    *(MAXKEY-220211) LDAP获取条目的字段的详情信息
-    *(MAXKEY-220212) 短信验证码SMS发送优化
-    *(MAXKEY-220213) 注册地址改为signup
-    *(MAXKEY-220214) 界面风格色调统一
-    *(MAXKEY-220215) 登录界面样式的优化
-    *(MAXKEY-220216) 依赖jar引用、更新和升级
+Sophon v 3.3.1 GA 2022/02/10
+    *(Sophon-220201) 同步器拆分，统一组织在Sophon-synchronizers目录下
+    *(Sophon-220202) Active Directory同步器优化
+    *(Sophon-220203) LDAP同步器优化
+    *(Sophon-220204) 钉钉同步器多组织读取BUG修复
+    *(Sophon-220205) 新增飞书的同步器
+    *(Sophon-220206) 修复权限管理的保存错误问题
+    *(Sophon-220207) 应用扩展属性英文逗号(,)使用ISO8859_1的(#44;)替换，修复多值BUG
+    *(Sophon-220208) WebXss新增属性过滤，优化URL的过滤
+    *(Sophon-220209) 修复动态角色、动态组、账号策略显示机构名称的无分隔符问题，统一用逗号分隔
+    *(Sophon-220210) 删除LDAP连接时日志打印密码问题
+    *(Sophon-220211) LDAP获取条目的字段的详情信息
+    *(Sophon-220212) 短信验证码SMS发送优化
+    *(Sophon-220213) 注册地址改为signup
+    *(Sophon-220214) 界面风格色调统一
+    *(Sophon-220215) 登录界面样式的优化
+    *(Sophon-220216) 依赖jar引用、更新和升级
         tomcat                   9.0.58
         springBoot               2.6.3
         springSecurity           5.6.1
@@ -1003,37 +1003,37 @@ MaxKey v 3.3.1 GA 2022/02/10
         nimbusjosejwt            9.16.1
         JustAuth                 1.16.5
 
-MaxKey v 3.3.0 GA 2022/01/21
-    *(MAXKEY-220101) 机构管理配置管理
-    *(MAXKEY-220102) 应用系统名称后台配置及国际化支持
-    *(MAXKEY-220103) 初步实现国际化存储在数据库
-    *(MAXKEY-220104) 租户管理邮箱地址
-    *(MAXKEY-220105) 租户管理短信网关
-    *(MAXKEY-220106) 租户管理LDAP配置
-    *(MAXKEY-220107) 官方网站增加Dromara标识
-    *(MAXKEY-220108) LDAP认证从租户读取配置
-    *(MAXKEY-220109) 租户管理社交账号
-    *(MAXKEY-220110) 社交账号自动识别http,https
-    *(MAXKEY-220111) 增加prometheus支持
-    *(MAXKEY-220112) 增加find和findOne的方法，可根据where的过滤条件查询数据
-    *(MAXKEY-220113) log4j日志pattern调整 
-    *(MAXKEY-220114) 数据库方法统一命名
-    *(MAXKEY-220115) 修复新增应用oauth2协议 多租户新增bug
-    *(MAXKEY-220116) Logger统一使用slf4j
-    *(MAXKEY-220117) maxkey-synchronizers-dingding改为maxkey-synchronizers-dingtalk
-    *(MAXKEY-220118) org.maxkey.persistence.db调整为org.maxkey.persistence.repository
-    *(MAXKEY-220119) org.maxkey.constants下的类统一以Consts开头
-    *(MAXKEY-220120) 认证协议返回的数据统一增加机构institution
-    *(MAXKEY-220121) 机构institution，使用instid作为租户标识，对应instance(实例)
-    *(MAXKEY-220122) 增加mxk_inst cookie，代表当前登录的租户编号
-    *(MAXKEY-220123) 修复钉钉同步器bug
-    *(MAXKEY-220124) 修复LDAP同步器bug
-    *(MAXKEY-220125) 修复企业微信同步器bug
-    *(MAXKEY-220126) 增加在线集成指南
-    *(MAXKEY-220127) 官方网站更新和优化
-    *(MAXKEY-220128) opensaml的jar存放在本地，加速构建的效率
-    *(MAXKEY-220129) readme完善
-    *(MAXKEY-220130) 依赖jar引用、更新和升级
+Sophon v 3.3.0 GA 2022/01/21
+    *(Sophon-220101) 机构管理配置管理
+    *(Sophon-220102) 应用系统名称后台配置及国际化支持
+    *(Sophon-220103) 初步实现国际化存储在数据库
+    *(Sophon-220104) 租户管理邮箱地址
+    *(Sophon-220105) 租户管理短信网关
+    *(Sophon-220106) 租户管理LDAP配置
+    *(Sophon-220107) 官方网站增加Dromara标识
+    *(Sophon-220108) LDAP认证从租户读取配置
+    *(Sophon-220109) 租户管理社交账号
+    *(Sophon-220110) 社交账号自动识别http,https
+    *(Sophon-220111) 增加prometheus支持
+    *(Sophon-220112) 增加find和findOne的方法，可根据where的过滤条件查询数据
+    *(Sophon-220113) log4j日志pattern调整 
+    *(Sophon-220114) 数据库方法统一命名
+    *(Sophon-220115) 修复新增应用oauth2协议 多租户新增bug
+    *(Sophon-220116) Logger统一使用slf4j
+    *(Sophon-220117) Sophon-synchronizers-dingding改为Sophon-synchronizers-dingtalk
+    *(Sophon-220118) org.Sophon.persistence.db调整为org.Sophon.persistence.repository
+    *(Sophon-220119) org.Sophon.constants下的类统一以Consts开头
+    *(Sophon-220120) 认证协议返回的数据统一增加机构institution
+    *(Sophon-220121) 机构institution，使用instid作为租户标识，对应instance(实例)
+    *(Sophon-220122) 增加ze_inst cookie，代表当前登录的租户编号
+    *(Sophon-220123) 修复钉钉同步器bug
+    *(Sophon-220124) 修复LDAP同步器bug
+    *(Sophon-220125) 修复企业微信同步器bug
+    *(Sophon-220126) 增加在线集成指南
+    *(Sophon-220127) 官方网站更新和优化
+    *(Sophon-220128) opensaml的jar存放在本地，加速构建的效率
+    *(Sophon-220129) readme完善
+    *(Sophon-220130) 依赖jar引用、更新和升级
         log4j           2.17.1
         spring          5.3.15
         springBoot      2.6.1
@@ -1044,16 +1044,16 @@ MaxKey v 3.3.0 GA 2022/01/21
         mybatis         3.5.9
         mybatis-jpa-extra 2.7
         
-MaxKey v 3.2.0 GA 2021/12/21
-    *(MAXKEY-211001) 实现多租户基本功能
-    *(MAXKEY-211002) Apache log4j漏洞升级到2.17.0
-    *(MAXKEY-211004) 修改对称加密算法，
-    *(MAXKEY-211005) OAuth 2.*增加departmentId用户返回属性
-    *(MAXKEY-211006) 删除springfox,swagger依赖，增加springdoc依赖
-    *(MAXKEY-211007) 删除eclipsePluginApply.bat脚本
-    *(MAXKEY-211008) 同步器凭证加密
-    *(MAXKEY-211009) 社交账号提供商client_secret加密
-    *(MAXKEY-211010) 依赖jar引用、更新和升级
+Sophon v 3.2.0 GA 2021/12/21
+    *(Sophon-211001) 实现多租户基本功能
+    *(Sophon-211002) Apache log4j漏洞升级到2.17.0
+    *(Sophon-211004) 修改对称加密算法，
+    *(Sophon-211005) OAuth 2.*增加departmentId用户返回属性
+    *(Sophon-211006) 删除springfox,swagger依赖，增加springdoc依赖
+    *(Sophon-211007) 删除eclipsePluginApply.bat脚本
+    *(Sophon-211008) 同步器凭证加密
+    *(Sophon-211009) 社交账号提供商client_secret加密
+    *(Sophon-211010) 依赖jar引用、更新和升级
         log4j           2.17.0
         tomcat          9.0.56
         spring          5.3.14
@@ -1071,28 +1071,28 @@ MaxKey v 3.2.0 GA 2021/12/21
         jedis           3.7.1
         mybatis         3.5.8
     
-MaxKey v 3.1.1 GA 2021/11/30
-    *(MAXKEY-210901) 腾讯iOA零信任产品适配
-    *(MAXKEY-210902) docker部署完善和文档优化
-    *(MAXKEY-210903) docker-compose支持和文档
-    *(MAXKEY-210904) SCIM2优化
-    *(MAXKEY-210905) 机构和用户Excel导入优化
-    *(MAXKEY-210906) 认证服务下拉菜单bug修复
-    *(MAXKEY-210907) 增加账号策略的功能
-    *(MAXKEY-210908) 状态检查management.health.mail.enabled=false
-    *(MAXKEY-210909) 图片验证码分离
-    *(MAXKEY-210910) 缓存功能优化
-    *(MAXKEY-210911) 独立任务MaxKeyMgtJobs
-    *(MAXKEY-210912) 管理端左侧菜单问题修复
-    *(MAXKEY-210913) 修改WebContext.getBean方法，返回类对象
-    *(MAXKEY-210914) 认证失败超过最大次数锁定时间问题修复
-    *(MAXKEY-210915) platform.common.js优化
-    *(MAXKEY-210916) CAS单点登录符号问题调整
-    *(MAXKEY-210917) 接口调用认证拦截优化
-    *(MAXKEY-210918) APP加载空问题修复
-    *(MAXKEY-210919) OAuth2 token支持GET方法
-    *(MAXKEY-210920) OAuth2 client_credentials模式优化
-    *(MAXKEY-210921) 依赖jar引用、更新和升级
+Sophon v 3.1.1 GA 2021/11/30
+    *(Sophon-210901) 腾讯iOA零信任产品适配
+    *(Sophon-210902) docker部署完善和文档优化
+    *(Sophon-210903) docker-compose支持和文档
+    *(Sophon-210904) SCIM2优化
+    *(Sophon-210905) 机构和用户Excel导入优化
+    *(Sophon-210906) 认证服务下拉菜单bug修复
+    *(Sophon-210907) 增加账号策略的功能
+    *(Sophon-210908) 状态检查management.health.mail.enabled=false
+    *(Sophon-210909) 图片验证码分离
+    *(Sophon-210910) 缓存功能优化
+    *(Sophon-210911) 独立任务SophonMgtJobs
+    *(Sophon-210912) 管理端左侧菜单问题修复
+    *(Sophon-210913) 修改WebContext.getBean方法，返回类对象
+    *(Sophon-210914) 认证失败超过最大次数锁定时间问题修复
+    *(Sophon-210915) platform.common.js优化
+    *(Sophon-210916) CAS单点登录符号问题调整
+    *(Sophon-210917) 接口调用认证拦截优化
+    *(Sophon-210918) APP加载空问题修复
+    *(Sophon-210919) OAuth2 token支持GET方法
+    *(Sophon-210920) OAuth2 client_credentials模式优化
+    *(Sophon-210921) 依赖jar引用、更新和升级
          spring              5.3.13
          springData          2.5.7
          springkafka         2.7.8
@@ -1100,40 +1100,40 @@ MaxKey v 3.1.1 GA 2021/11/30
          jodatime            2.10.13
          mybatis-jpa-extra   2.6.1
     
-MaxKey v 3.1.0 GA 2021/11/03
-    *(MAXKEY-210801) OAuth 2.1及PKCE支持
-    *(MAXKEY-210802) bootstrap升级到5.1.2
-    *(MAXKEY-210803) 缓存切换成Caffeine
-    *(MAXKEY-210804) 代码初步兼容JDK 17
-    *(MAXKEY-210805) 配置文件参数的整合
-    *(MAXKEY-210806) SDK 客户端代码优化
-    *(MAXKEY-210807) 官方网站优化
-    *(MAXKEY-210808) 界面UI优化
-    *(MAXKEY-210809) 下拉菜单优化
-    *(MAXKEY-210810) 日志优化
-    *(MAXKEY-210811) 密码修改问题修复
-    *(MAXKEY-210812) 环境变量参数优化
-    *(MAXKEY-210813) 管理端图标显示修复
-    *(MAXKEY-210814) 认证系统菜单项调整
-    *(MAXKEY-210815) OAuth的数据库加载增加本地缓存
-    *(MAXKEY-210816) 社交账号登录改为存储在数据库中，方便用户更改
-    *(MAXKEY-210817) 账号策略管理及动态适配
-    *(MAXKEY-210818) 社交账号登录过程优化
-    *(MAXKEY-210819) 调整了机构显示树的样式
-    *(MAXKEY-210820) 企业微信扫码登录js更新wwLogin-1.2.4.js
-    *(MAXKEY-210821) 中文切换调整为下拉菜单
-    *(MAXKEY-210822) 移除原有的缓存方案
-    *(MAXKEY-210823) 应用管理OAuth适配器显示问题修复
-    *(MAXKEY-210824) 图片验证码优化，增加随机颜色的字符生成实现，干扰线优化
-    *(MAXKEY-210825) 菜单名称的调整
-    *(MAXKEY-210826) JS脚本整合优化
-    *(MAXKEY-210827) 机构关系映射
-    *(MAXKEY-210828) 登录失败信息提示优化
-    *(MAXKEY-210829) 机构namepath重组
-    *(MAXKEY-210830) HttpRequestAdapter支持JSON
-    *(MAXKEY-210831) OAuth2 从客户端引导空指针修复
-    *(MAXKEY-210832) Demo问题修复
-    *(MAXKEY-210833) 依赖jar引用、更新和升级
+Sophon v 3.1.0 GA 2021/11/03
+    *(Sophon-210801) OAuth 2.1及PKCE支持
+    *(Sophon-210802) bootstrap升级到5.1.2
+    *(Sophon-210803) 缓存切换成Caffeine
+    *(Sophon-210804) 代码初步兼容JDK 17
+    *(Sophon-210805) 配置文件参数的整合
+    *(Sophon-210806) SDK 客户端代码优化
+    *(Sophon-210807) 官方网站优化
+    *(Sophon-210808) 界面UI优化
+    *(Sophon-210809) 下拉菜单优化
+    *(Sophon-210810) 日志优化
+    *(Sophon-210811) 密码修改问题修复
+    *(Sophon-210812) 环境变量参数优化
+    *(Sophon-210813) 管理端图标显示修复
+    *(Sophon-210814) 认证系统菜单项调整
+    *(Sophon-210815) OAuth的数据库加载增加本地缓存
+    *(Sophon-210816) 社交账号登录改为存储在数据库中，方便用户更改
+    *(Sophon-210817) 账号策略管理及动态适配
+    *(Sophon-210818) 社交账号登录过程优化
+    *(Sophon-210819) 调整了机构显示树的样式
+    *(Sophon-210820) 企业微信扫码登录js更新wwLogin-1.2.4.js
+    *(Sophon-210821) 中文切换调整为下拉菜单
+    *(Sophon-210822) 移除原有的缓存方案
+    *(Sophon-210823) 应用管理OAuth适配器显示问题修复
+    *(Sophon-210824) 图片验证码优化，增加随机颜色的字符生成实现，干扰线优化
+    *(Sophon-210825) 菜单名称的调整
+    *(Sophon-210826) JS脚本整合优化
+    *(Sophon-210827) 机构关系映射
+    *(Sophon-210828) 登录失败信息提示优化
+    *(Sophon-210829) 机构namepath重组
+    *(Sophon-210830) HttpRequestAdapter支持JSON
+    *(Sophon-210831) OAuth2 从客户端引导空指针修复
+    *(Sophon-210832) Demo问题修复
+    *(Sophon-210833) 依赖jar引用、更新和升级
          spring              5.3.12
          springboot          2.5.6
          tomcat              9.0.54
@@ -1147,36 +1147,36 @@ MaxKey v 3.1.0 GA 2021/11/03
          jaxbimpl            3.0.2
          jaxbxjc             3.0.2
 
-MaxKey v 3.0.0 GA 2021/09/29
-    *(MAXKEY-210701) 好雨科技Rainbond适配，实现基于Rainbond应用商店的快速部署
-    *(MAXKEY-210702) 制定MaxKey技术路线图
-    *(MAXKEY-210703) CHINER元数建模构建MaxKEY ER模型完善，数据库字段说明完善
-    *(MAXKEY-210704) Nacos配置中心支持，可选支持本地和Nacos配置中心配置，配置更加灵活
-    *(MAXKEY-210705) springcloud &springcloud alibaba微服务支持
-    *(MAXKEY-210706) spring cloud gateway支持
-    *(MAXKEY-210707) application.properties参数调整和优化，支持外部Docker及环境变量的配置
-    *(MAXKEY-210708) 同步器定时任务功能优化
-    *(MAXKEY-210709) mgt增加会话管理功能
-    *(MAXKEY-210710) mgt报表功能优化
-    *(MAXKEY-210711) SAML ID调整为MXK_开头，修复类型匹配的bug，增加常用的用户字段
-    *(MAXKEY-210712) JWT单点登录的权限控制，修复bug
-    *(MAXKEY-210713) Gradle升级7.2
-    *(MAXKEY-210714) Gradle 标准、JAR、Docker编译打包脚本优化
-    *(MAXKEY-210715) Shell启动脚本优化
-    *(MAXKEY-210716) 新增MySql Docker支持及初始化脚本
-    *(MAXKEY-210717) Readme优化，增加MaxKey Docker的仓库地址
-    *(MAXKEY-210718) 产品介绍pdf的优化
-    *(MAXKEY-210719) mgt批量删除的优化
-    *(MAXKEY-210720) Jira SAML集成指南
-    *(MAXKEY-210721) 官方网站内容的优化，增加同类产品的比较，用户构建指南，完善集成应用列表
-    *(MAXKEY-210722) 日志信息的完善，包括登录过程日志，初始化日志，单点登录日志等
-    *(MAXKEY-210723) mgt登录错误提示信息
-    *(MAXKEY-210724) 警告提示信息修复
-    *(MAXKEY-210725) 工具类增强和优化
-    *(MAXKEY-210726) 登录认证优化，增加密码策略应用和验证
-    *(MAXKEY-210727) CAS登录中参数回传的修复，增加'#'停止符的优化
-    *(MAXKEY-210728) StringUtils优化，直接继承org.apache.commons.lang3.StringUtils，增加自有逻辑
-    *(MAXKEY-210729) 依赖jar引用、更新和升级
+Sophon v 3.0.0 GA 2021/09/29
+    *(Sophon-210701) 好雨科技Rainbond适配，实现基于Rainbond应用商店的快速部署
+    *(Sophon-210702) 制定Sophon技术路线图
+    *(Sophon-210703) CHINER元数建模构建Sophon ER模型完善，数据库字段说明完善
+    *(Sophon-210704) Nacos配置中心支持，可选支持本地和Nacos配置中心配置，配置更加灵活
+    *(Sophon-210705) springcloud &springcloud alibaba微服务支持
+    *(Sophon-210706) spring cloud gateway支持
+    *(Sophon-210707) application.properties参数调整和优化，支持外部Docker及环境变量的配置
+    *(Sophon-210708) 同步器定时任务功能优化
+    *(Sophon-210709) mgt增加会话管理功能
+    *(Sophon-210710) mgt报表功能优化
+    *(Sophon-210711) SAML ID调整为ZE_开头，修复类型匹配的bug，增加常用的用户字段
+    *(Sophon-210712) JWT单点登录的权限控制，修复bug
+    *(Sophon-210713) Gradle升级7.2
+    *(Sophon-210714) Gradle 标准、JAR、Docker编译打包脚本优化
+    *(Sophon-210715) Shell启动脚本优化
+    *(Sophon-210716) 新增MySql Docker支持及初始化脚本
+    *(Sophon-210717) Readme优化，增加Sophon Docker的仓库地址
+    *(Sophon-210718) 产品介绍pdf的优化
+    *(Sophon-210719) mgt批量删除的优化
+    *(Sophon-210720) Jira SAML集成指南
+    *(Sophon-210721) 官方网站内容的优化，增加同类产品的比较，用户构建指南，完善集成应用列表
+    *(Sophon-210722) 日志信息的完善，包括登录过程日志，初始化日志，单点登录日志等
+    *(Sophon-210723) mgt登录错误提示信息
+    *(Sophon-210724) 警告提示信息修复
+    *(Sophon-210725) 工具类增强和优化
+    *(Sophon-210726) 登录认证优化，增加密码策略应用和验证
+    *(Sophon-210727) CAS登录中参数回传的修复，增加'#'停止符的优化
+    *(Sophon-210728) StringUtils优化，直接继承org.apache.commons.lang3.StringUtils，增加自有逻辑
+    *(Sophon-210729) 依赖jar引用、更新和升级
         spring              5.3.10
         springBoot          2.5.5
         springkafka         2.7.7
@@ -1196,51 +1196,51 @@ MaxKey v 3.0.0 GA 2021/09/29
         bouncycastle        1.69
         JustAuth            1.16.4
     
-MaxKey v 2.9.0 GA 2021/08/24
-    *(MAXKEY-210601) 企业微信扫描登录
-    *(MAXKEY-210602) 钉钉扫描登录
-    *(MAXKEY-210603) 第三方登录异常问题修复
-    *(MAXKEY-210604) 新建maxkey-webs目录，包含maxkey-web-maxkey、maxkey-web-mgt、maxkey-web-resources、maxkey-boot-monitor
-    *(MAXKEY-210605) 静态文件的合并到maxkey-web-resources
-    *(MAXKEY-210606) 腾讯企业邮箱适配器优化
-    *(MAXKEY-210607) 移除*.xml的spring配置文件
-    *(MAXKEY-210608) 后台管理员自动生成密码的问题修复
-    *(MAXKEY-210609) 密码重置接口的优化
-    *(MAXKEY-210610) KAFKA数据同步接口优化，重新定义同步TOPIC
-    *(MAXKEY-210611) LDAP及ActiveDirectory属性和连接的优化
-    *(MAXKEY-210612) Synchronizers同步器的模块化，分成activedirectory、ldap、dingding、workweixin
-    *(MAXKEY-210613) Synchronizers增加定时同步功能
-    *(MAXKEY-210614) 后台用户和机构查询排序优化
-    *(MAXKEY-210615) 增加连接器日志查询
-    *(MAXKEY-210616) 增加同步器日志查询
-    *(MAXKEY-210617) 应用配置适配器不生效修复
-    *(MAXKEY-210618) FormBased认证功能的优化
-    *(MAXKEY-210619) FormBased密码首次初始化问题修复
-    *(MAXKEY-210620) 重新登录地址优化
-    *(MAXKEY-210621) 实体类型的ID全部调整为雪花ID
-    *(MAXKEY-210622) 后台报表优化
-    *(MAXKEY-210623) 底层数据库mybatis-jpa-extra优化及问题修复
-    *(MAXKEY-210624) 登录模块的模块化
-    *(MAXKEY-210625) LDAP登录成功，密码自动同步到MaxKey
-    *(MAXKEY-210626) 社交账号企业微信LOGO
-    *(MAXKEY-210627) 找回密码时密码不匹配问题修复
-    *(MAXKEY-210628) SHELL脚本优化
-    *(MAXKEY-210629) 官方网站优化
-    *(MAXKEY-210630) 标准构建优化
-    *(MAXKEY-210631) maxkey-web-mgt配置文件分离，方便后续不同环境的切换
-    *(MAXKEY-210632) 密码过期，当密码错误时，跳转到密码过期页面错误问题，流程：密码验证正确，然后跳转密码过期界面
-    *(MAXKEY-210633) 登录密码错误n次,n小于设定的次数，后一次登录密码正确，设置密码错误次数为0
-    *(MAXKEY-210634) CAS参数优化及认证参数bug修复
-    *(MAXKEY-210635) Redis集群时OAUTH2登录Approval空值bug修复
-    *(MAXKEY-210636) maxkey-boot-monitor Spring Boot Admin服务监控 
-    *(MAXKEY-210637) 用户会话管理及优化
-    *(MAXKEY-210638) 会话结束事件监听控制管理
-    *(MAXKEY-210639) 定时任务功能优化
-    *(MAXKEY-210640) 登录时间，注销时间等相关时间不一致修复
-    *(MAXKEY-210641) 统一用户在线会话ID和在线令牌
-    *(MAXKEY-210642) 字段uid统一改为userid
-    *(MAXKEY-210643) CHINER元数建模ER模型设计
-    *(MAXKEY-210644) 依赖jar引用、更新和升级
+Sophon v 2.9.0 GA 2021/08/24
+    *(Sophon-210601) 企业微信扫描登录
+    *(Sophon-210602) 钉钉扫描登录
+    *(Sophon-210603) 第三方登录异常问题修复
+    *(Sophon-210604) 新建Sophon-webs目录，包含Sophon-web-Sophon、Sophon-web-mgt、Sophon-web-resources、Sophon-boot-monitor
+    *(Sophon-210605) 静态文件的合并到Sophon-web-resources
+    *(Sophon-210606) 腾讯企业邮箱适配器优化
+    *(Sophon-210607) 移除*.xml的spring配置文件
+    *(Sophon-210608) 后台管理员自动生成密码的问题修复
+    *(Sophon-210609) 密码重置接口的优化
+    *(Sophon-210610) KAFKA数据同步接口优化，重新定义同步TOPIC
+    *(Sophon-210611) LDAP及ActiveDirectory属性和连接的优化
+    *(Sophon-210612) Synchronizers同步器的模块化，分成activedirectory、ldap、dingding、workweixin
+    *(Sophon-210613) Synchronizers增加定时同步功能
+    *(Sophon-210614) 后台用户和机构查询排序优化
+    *(Sophon-210615) 增加连接器日志查询
+    *(Sophon-210616) 增加同步器日志查询
+    *(Sophon-210617) 应用配置适配器不生效修复
+    *(Sophon-210618) FormBased认证功能的优化
+    *(Sophon-210619) FormBased密码首次初始化问题修复
+    *(Sophon-210620) 重新登录地址优化
+    *(Sophon-210621) 实体类型的ID全部调整为雪花ID
+    *(Sophon-210622) 后台报表优化
+    *(Sophon-210623) 底层数据库mybatis-jpa-extra优化及问题修复
+    *(Sophon-210624) 登录模块的模块化
+    *(Sophon-210625) LDAP登录成功，密码自动同步到Sophon
+    *(Sophon-210626) 社交账号企业微信LOGO
+    *(Sophon-210627) 找回密码时密码不匹配问题修复
+    *(Sophon-210628) SHELL脚本优化
+    *(Sophon-210629) 官方网站优化
+    *(Sophon-210630) 标准构建优化
+    *(Sophon-210631) Sophon-web-mgt配置文件分离，方便后续不同环境的切换
+    *(Sophon-210632) 密码过期，当密码错误时，跳转到密码过期页面错误问题，流程：密码验证正确，然后跳转密码过期界面
+    *(Sophon-210633) 登录密码错误n次,n小于设定的次数，后一次登录密码正确，设置密码错误次数为0
+    *(Sophon-210634) CAS参数优化及认证参数bug修复
+    *(Sophon-210635) Redis集群时OAUTH2登录Approval空值bug修复
+    *(Sophon-210636) Sophon-boot-monitor Spring Boot Admin服务监控 
+    *(Sophon-210637) 用户会话管理及优化
+    *(Sophon-210638) 会话结束事件监听控制管理
+    *(Sophon-210639) 定时任务功能优化
+    *(Sophon-210640) 登录时间，注销时间等相关时间不一致修复
+    *(Sophon-210641) 统一用户在线会话ID和在线令牌
+    *(Sophon-210642) 字段uid统一改为userid
+    *(Sophon-210643) CHINER元数建模ER模型设计
+    *(Sophon-210644) 依赖jar引用、更新和升级
         spring              5.3.9
         springBoot          2.5.4
         springSession       2.5.2
@@ -1266,43 +1266,43 @@ MaxKey v 2.9.0 GA 2021/08/24
         mybatis-jpa-extra   2.4
         
         
-MaxKey v 2.8.1 GA 2021/06/25
-    *(MAXKEY-210501) 官方网站内容优化
-    *(MAXKEY-210502) 修复同步器LDAP保存保存问题
-    *(MAXKEY-210503) ReadMe内容优化
-    *(MAXKEY-210504) 依赖jar引用、更新和升级
+Sophon v 2.8.1 GA 2021/06/25
+    *(Sophon-210501) 官方网站内容优化
+    *(Sophon-210502) 修复同步器LDAP保存保存问题
+    *(Sophon-210503) ReadMe内容优化
+    *(Sophon-210504) 依赖jar引用、更新和升级
         spring          5.3.8
         springBoot      2.5.1
         springSecurity  5.5.1
         JustAuth        1.16.1
 
-MaxKey v 2.8.0 GA 2021/06/18
-    *(MAXKEY-210401) 国产数据库瀚高DB的适配
-    *(MAXKEY-210402) 增加手机登录功能，用户可获取手机验证码完成登录
-    *(MAXKEY-210403) 同步器支持，定义标准的机构和用户接口，方便其他系统同步机构和用户信息
-    *(MAXKEY-210404) Microsoft Active Directory 机构和用户同步支持
-    *(MAXKEY-210405) 标准LDAP协议服务器机构和用户同步支持
-    *(MAXKEY-210406) Gradle 7支持
-    *(MAXKEY-210407) 数据库底层适配优化支持，id采用雪花算法
-    *(MAXKEY-210408) 用户注册功能优化，修复脚本错误
-    *(MAXKEY-210409) 登录界面优化及调整
-    *(MAXKEY-210410) 单点登录认证页面及脚本整合及优化
-    *(MAXKEY-210411) 登录超时退出优化
-    *(MAXKEY-210412) org.maxkey.domain调整为org.maxkey.entity
-    *(MAXKEY-210413) 数据查询SQL语句改成小写
-    *(MAXKEY-210414) OAuth2.0单点登录确认界面配置优化
-    *(MAXKEY-210415) 应用配置保存时logoutUrl和logoutType丢失修复
-    *(MAXKEY-210416) 同步器历史同步日志审计功能
-    *(MAXKEY-210417) 删除json2form插件，优化CSS，整合javacript脚本
-    *(MAXKEY-210418) 增加用户状态USERSTATE的属性（在职、退休、离职等），status用做活动/锁定/禁用等状态
-    *(MAXKEY-210419) 分离角色权限管理模块，未来和其他系统集成适配，实现权限的统一管理
-    *(MAXKEY-210420) 模板布局优化及段落注释说明
-    *(MAXKEY-210421) 优化启动脚本，解决长度过长问题
-    *(MAXKEY-210422) 构建时依赖问题修复
-    *(MAXKEY-210423) 官方网站优化，修复有误内容
-    *(MAXKEY-210424) 项目使用jars的版本及协议的更新
-    *(MAXKEY-210425) 依赖jar的版本统一配置gradle.properties
-    *(MAXKEY-210426) 依赖jar引用、更新和升级
+Sophon v 2.8.0 GA 2021/06/18
+    *(Sophon-210401) 国产数据库瀚高DB的适配
+    *(Sophon-210402) 增加手机登录功能，用户可获取手机验证码完成登录
+    *(Sophon-210403) 同步器支持，定义标准的机构和用户接口，方便其他系统同步机构和用户信息
+    *(Sophon-210404) Microsoft Active Directory 机构和用户同步支持
+    *(Sophon-210405) 标准LDAP协议服务器机构和用户同步支持
+    *(Sophon-210406) Gradle 7支持
+    *(Sophon-210407) 数据库底层适配优化支持，id采用雪花算法
+    *(Sophon-210408) 用户注册功能优化，修复脚本错误
+    *(Sophon-210409) 登录界面优化及调整
+    *(Sophon-210410) 单点登录认证页面及脚本整合及优化
+    *(Sophon-210411) 登录超时退出优化
+    *(Sophon-210412) org.Sophon.domain调整为org.Sophon.entity
+    *(Sophon-210413) 数据查询SQL语句改成小写
+    *(Sophon-210414) OAuth2.0单点登录确认界面配置优化
+    *(Sophon-210415) 应用配置保存时logoutUrl和logoutType丢失修复
+    *(Sophon-210416) 同步器历史同步日志审计功能
+    *(Sophon-210417) 删除json2form插件，优化CSS，整合javacript脚本
+    *(Sophon-210418) 增加用户状态USERSTATE的属性（在职、退休、离职等），status用做活动/锁定/禁用等状态
+    *(Sophon-210419) 分离角色权限管理模块，未来和其他系统集成适配，实现权限的统一管理
+    *(Sophon-210420) 模板布局优化及段落注释说明
+    *(Sophon-210421) 优化启动脚本，解决长度过长问题
+    *(Sophon-210422) 构建时依赖问题修复
+    *(Sophon-210423) 官方网站优化，修复有误内容
+    *(Sophon-210424) 项目使用jars的版本及协议的更新
+    *(Sophon-210425) 依赖jar的版本统一配置gradle.properties
+    *(Sophon-210426) 依赖jar引用、更新和升级
         spring 5.3.8
         springBoot 2.5.1
         springSecurity 5.5.0
@@ -1314,31 +1314,31 @@ MaxKey v 2.8.0 GA 2021/06/18
         jedis 3.6.0
         mybatis 3.5.7
 
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿MaxKey v 2.8.0 RC1  2021/06/01
-    *(MAXKEY-210401)  国产数据库瀚高DB的适配
-    *(MAXKEY-210402)  增加手机登录功能，用户可获取手机验证码完成登录
-    *(MAXKEY-210403)  同步器支持，定义标准的机构和用户接口，方便其他系统同步机构和用户信息
-    *(MAXKEY-210404)  Microsoft Active Directory 机构和用户同步支持
-    *(MAXKEY-210405)  标准LDAP协议服务器机构和用户同步支持
-    *(MAXKEY-210406)  Gradle 7支持
-    *(MAXKEY-210407)  数据库底层适配优化支持，id采用雪花算法
-    *(MAXKEY-210408)  用户注册功能优化，修复脚本错误
-    *(MAXKEY-210409)  登录界面优化及调整
-    *(MAXKEY-210410)  单点登录认证页面及脚本整合及优化
-    *(MAXKEY-210411)  登录超时退出优化
-    *(MAXKEY-210412)  org.maxkey.domain调整为org.maxkey.entity
-    *(MAXKEY-210413)  数据查询SQL语句改成小写
-    *(MAXKEY-210414)  OAuth2.0单点登录确认界面配置优化
-    *(MAXKEY-210415)  应用配置保存时logoutUrl和logoutType丢失修复
-    *(MAXKEY-210416)  同步器历史同步日志审计功能
-    *(MAXKEY-210417)  删除json2form插件，优化CSS，整合javacript脚本
-    *(MAXKEY-210418)  增加用户状态USERSTATE的属性（在职、退休、离职等），status用做活动/锁定/禁用等状态
-    *(MAXKEY-210419)  分离角色权限管理模块，未来和其他系统集成适配，实现权限的统一管理
-    *(MAXKEY-210420)  模板布局优化及段落注释说明
-    *(MAXKEY-210421)  优化启动脚本，解决长度过长问题
-    *(MAXKEY-210422)  构建时依赖问题修复
-    *(MAXKEY-210423)  依赖jar的版本统一配置gradle.properties
-    *(MAXKEY-210424)  依赖jar引用、更新和升级
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿Sophon v 2.8.0 RC1  2021/06/01
+    *(Sophon-210401)  国产数据库瀚高DB的适配
+    *(Sophon-210402)  增加手机登录功能，用户可获取手机验证码完成登录
+    *(Sophon-210403)  同步器支持，定义标准的机构和用户接口，方便其他系统同步机构和用户信息
+    *(Sophon-210404)  Microsoft Active Directory 机构和用户同步支持
+    *(Sophon-210405)  标准LDAP协议服务器机构和用户同步支持
+    *(Sophon-210406)  Gradle 7支持
+    *(Sophon-210407)  数据库底层适配优化支持，id采用雪花算法
+    *(Sophon-210408)  用户注册功能优化，修复脚本错误
+    *(Sophon-210409)  登录界面优化及调整
+    *(Sophon-210410)  单点登录认证页面及脚本整合及优化
+    *(Sophon-210411)  登录超时退出优化
+    *(Sophon-210412)  org.Sophon.domain调整为org.Sophon.entity
+    *(Sophon-210413)  数据查询SQL语句改成小写
+    *(Sophon-210414)  OAuth2.0单点登录确认界面配置优化
+    *(Sophon-210415)  应用配置保存时logoutUrl和logoutType丢失修复
+    *(Sophon-210416)  同步器历史同步日志审计功能
+    *(Sophon-210417)  删除json2form插件，优化CSS，整合javacript脚本
+    *(Sophon-210418)  增加用户状态USERSTATE的属性（在职、退休、离职等），status用做活动/锁定/禁用等状态
+    *(Sophon-210419)  分离角色权限管理模块，未来和其他系统集成适配，实现权限的统一管理
+    *(Sophon-210420)  模板布局优化及段落注释说明
+    *(Sophon-210421)  优化启动脚本，解决长度过长问题
+    *(Sophon-210422)  构建时依赖问题修复
+    *(Sophon-210423)  依赖jar的版本统一配置gradle.properties
+    *(Sophon-210424)  依赖jar引用、更新和升级
         spring          5.3.7
         springBoot      2.4.5
         springSecurity  5.5.0
@@ -1350,67 +1350,67 @@ MaxKey v 2.8.0 GA 2021/06/18
         jedis           3.6.0
         mybatis         3.5.7
 
-MaxKey v 2.7.0 GA   2021/04/15
-    *(MAXKEY-210301)  加入Dromara开源组织，官方网站的优化，文档优化
-    *(MAXKEY-210302)  BootJar，Docker，Standard三种打包方式的配置优化
-    *(MAXKEY-210303)  openldap,activedirectory密码验证支持
-    *(MAXKEY-210304)  数据库访问注释由@Service改为@Repository
-    *(MAXKEY-210305)  cas logout优化支持
-    *(MAXKEY-210306)  CAS单点注销及返回数据类型适配器的优化
-    *(MAXKEY-210307)  CAS返回数据类重构
-    *(MAXKEY-210308)  CAS地址优化统一配置到常量类CasConstants
-    *(MAXKEY-210309)  注销空指针异常BUG
-    *(MAXKEY-210310)  OAuth2地址优化统一配置常量类OAuth2Constants
-    *(MAXKEY-210311)  OAuth2 Token多次调用时认证转换的BUG
-    *(MAXKEY-210312)  ExtendApi标准优化
-    *(MAXKEY-210313)  增加基于时间签名的ExtendApi适配器
-    *(MAXKEY-210314)  返回数据Constants整合
-    *(MAXKEY-210315)  扩展数据配置优化
-    *(MAXKEY-210316)  LDAP和MS AD固定属性Constants
-    *(MAXKEY-210317)  SpringSecurity OAuth 2客户端登录适配
-    *(MAXKEY-210318)  移除Desktop的支持，后续可以开发FormBase的适配器定制
-    *(MAXKEY-210319)  application.properties profiles的优化，不同环境启动更加简单
-    *(MAXKEY-210320)  删除maxkey.properties，配置整合到 application.properties
-    *(MAXKEY-210321)  增加适配器注册功能，在配置应用时只需选择对应的适配器
-    *(MAXKEY-210322)  增加Synchronizer接口同步的功能
-    *(MAXKEY-210323)  增加TimeBased OTP接口支持
-    *(MAXKEY-210324)  XSS安全防护功能
-    *(MAXKEY-210325)  禅道项目管理系统单点登录适配
-    *(MAXKEY-210326)  GitLab单点登录适配
-    *(MAXKEY-210327)  云速邮箱单点登录适配
-    *(MAXKEY-210328)  JumpServer开源堡垒机单点登录适配
-    *(MAXKEY-210329)  华为云单点登录适配
-    *(MAXKEY-210330)  Jenkins单点登录适配
-    *(MAXKEY-210331)  通知公告简单功能实现
-    *(MAXKEY-210332)  查询参数优化
-    *(MAXKEY-210333)  SDK优化
-    *(MAXKEY-210334)  依赖jar引用、更新和升级
+Sophon v 2.7.0 GA   2021/04/15
+    *(Sophon-210301)  加入Dromara开源组织，官方网站的优化，文档优化
+    *(Sophon-210302)  BootJar，Docker，Standard三种打包方式的配置优化
+    *(Sophon-210303)  openldap,activedirectory密码验证支持
+    *(Sophon-210304)  数据库访问注释由@Service改为@Repository
+    *(Sophon-210305)  cas logout优化支持
+    *(Sophon-210306)  CAS单点注销及返回数据类型适配器的优化
+    *(Sophon-210307)  CAS返回数据类重构
+    *(Sophon-210308)  CAS地址优化统一配置到常量类CasConstants
+    *(Sophon-210309)  注销空指针异常BUG
+    *(Sophon-210310)  OAuth2地址优化统一配置常量类OAuth2Constants
+    *(Sophon-210311)  OAuth2 Token多次调用时认证转换的BUG
+    *(Sophon-210312)  ExtendApi标准优化
+    *(Sophon-210313)  增加基于时间签名的ExtendApi适配器
+    *(Sophon-210314)  返回数据Constants整合
+    *(Sophon-210315)  扩展数据配置优化
+    *(Sophon-210316)  LDAP和MS AD固定属性Constants
+    *(Sophon-210317)  SpringSecurity OAuth 2客户端登录适配
+    *(Sophon-210318)  移除Desktop的支持，后续可以开发FormBase的适配器定制
+    *(Sophon-210319)  application.properties profiles的优化，不同环境启动更加简单
+    *(Sophon-210320)  删除Sophon.properties，配置整合到 application.properties
+    *(Sophon-210321)  增加适配器注册功能，在配置应用时只需选择对应的适配器
+    *(Sophon-210322)  增加Synchronizer接口同步的功能
+    *(Sophon-210323)  增加TimeBased OTP接口支持
+    *(Sophon-210324)  XSS安全防护功能
+    *(Sophon-210325)  禅道项目管理系统单点登录适配
+    *(Sophon-210326)  GitLab单点登录适配
+    *(Sophon-210327)  云速邮箱单点登录适配
+    *(Sophon-210328)  JumpServer开源堡垒机单点登录适配
+    *(Sophon-210329)  华为云单点登录适配
+    *(Sophon-210330)  Jenkins单点登录适配
+    *(Sophon-210331)  通知公告简单功能实现
+    *(Sophon-210332)  查询参数优化
+    *(Sophon-210333)  SDK优化
+    *(Sophon-210334)  依赖jar引用、更新和升级
         log4j       2.14.1
         spring      5.3.6
         springBoot  2.4.4
         springSecurity 5.4.6
         tomcat      9.0.44
     
-MaxKey v 2.6.0 GA   2021/03/05
-    *(MAXKEY-210201)  官方网站的优化
-    *(MAXKEY-210202)  CAS代理模式实现的优化，完成demo的测试
-    *(MAXKEY-210203)  CAS代理模式Demo开发和实现
-    *(MAXKEY-210204)  LINUX版安装指南优化，升级MySQL到8.0
-    *(MAXKEY-210205)  构建优化，实现自动打包到Build Release
-    *(MAXKEY-210206)  springboot-actuator优化
-    *(MAXKEY-210207)  登录模式的拆分和整合
-    *(MAXKEY-210208)  模块的重组和优化，拆分出通用模块maxkey-common，captcha，otp，social等
-    *(MAXKEY-210209)  REST API优化,增加密码修改功能
-    *(MAXKEY-210210)  session及cookie参数的优化
-    *(MAXKEY-210211)  kafka供应服务移动到org.maxkey.persistence.kafka
-    *(MAXKEY-210212)  用户注册功能优化
-    *(MAXKEY-210213)  日志信息输出优化
-    *(MAXKEY-210214)  简化MaxKey banner输出
-    *(MAXKEY-210215)  token工厂模式的实现Factorys
-    *(MAXKEY-210216)  OTP的优化
-    *(MAXKEY-210217)  MapperScan重复优化
-    *(MAXKEY-210218)  maxkey-mgt端口号调整9527,wiki端口号调整9521
-    *(MAXKEY-210219)  依赖jar引用、更新和升级
+Sophon v 2.6.0 GA   2021/03/05
+    *(Sophon-210201)  官方网站的优化
+    *(Sophon-210202)  CAS代理模式实现的优化，完成demo的测试
+    *(Sophon-210203)  CAS代理模式Demo开发和实现
+    *(Sophon-210204)  LINUX版安装指南优化，升级MySQL到8.0
+    *(Sophon-210205)  构建优化，实现自动打包到Build Release
+    *(Sophon-210206)  springboot-actuator优化
+    *(Sophon-210207)  登录模式的拆分和整合
+    *(Sophon-210208)  模块的重组和优化，拆分出通用模块Sophon-common，captcha，otp，social等
+    *(Sophon-210209)  REST API优化,增加密码修改功能
+    *(Sophon-210210)  session及cookie参数的优化
+    *(Sophon-210211)  kafka供应服务移动到org.Sophon.persistence.kafka
+    *(Sophon-210212)  用户注册功能优化
+    *(Sophon-210213)  日志信息输出优化
+    *(Sophon-210214)  简化Sophon banner输出
+    *(Sophon-210215)  token工厂模式的实现Factorys
+    *(Sophon-210216)  OTP的优化
+    *(Sophon-210217)  MapperScan重复优化
+    *(Sophon-210218)  Sophon-mgt端口号调整9527,wiki端口号调整9521
+    *(Sophon-210219)  依赖jar引用、更新和升级
         spring           5.3.4
         springBoot       2.4.3
         springSecurity   5.4.5
@@ -1424,20 +1424,20 @@ MaxKey v 2.6.0 GA   2021/03/05
         druid            1.2.5
         
 
-MaxKey v 2.5.0 GA   2021/02/05
-    *(MAXKEY-210101)  动态用户组实现优化，增加时间段控制
-    *(MAXKEY-210102)  官方网站优化，取消加载动态图表；增加统计功能
-    *(MAXKEY-210103)  优化社交登录的图标
-    *(MAXKEY-210104)  社交账号支持Gitee和微信
-    *(MAXKEY-210105)  社交账号绑定列表化，显示绑定时间和最近登录时间，绑定的操作，支持多个OAuth第三方，参见JustAuth
-    *(MAXKEY-210106)  语言选择位置调整
-    *(MAXKEY-210107)  短信验证码存储Redis修复
-    *(MAXKEY-210108)  OAuthDetail修复Visible
-    *(MAXKEY-210109)   镜像加速gradle默认使用阿里云aliyun 
-    *(MAXKEY-210110)  Swagger文档支持 maxkey/swagger-ui/index.html#/
-    *(MAXKEY-210111)  knife4j文档支持 maxkey/doc.html
-    *(MAXKEY-210112)  登录界面加密处理
-    *(MAXKEY-210113)   依赖jar引用、更新和升级
+Sophon v 2.5.0 GA   2021/02/05
+    *(Sophon-210101)  动态用户组实现优化，增加时间段控制
+    *(Sophon-210102)  官方网站优化，取消加载动态图表；增加统计功能
+    *(Sophon-210103)  优化社交登录的图标
+    *(Sophon-210104)  社交账号支持Gitee和微信
+    *(Sophon-210105)  社交账号绑定列表化，显示绑定时间和最近登录时间，绑定的操作，支持多个OAuth第三方，参见JustAuth
+    *(Sophon-210106)  语言选择位置调整
+    *(Sophon-210107)  短信验证码存储Redis修复
+    *(Sophon-210108)  OAuthDetail修复Visible
+    *(Sophon-210109)   镜像加速gradle默认使用阿里云aliyun 
+    *(Sophon-210110)  Swagger文档支持 Sophon/swagger-ui/index.html#/
+    *(Sophon-210111)  knife4j文档支持 Sophon/doc.html
+    *(Sophon-210112)  登录界面加密处理
+    *(Sophon-210113)   依赖jar引用、更新和升级
         spring      5.3.3
         springBoot  2.4.2
         jedis       3.4.1
@@ -1458,32 +1458,32 @@ MaxKey v 2.5.0 GA   2021/02/05
         springfox   3.0.0
         knife4j     3.0.2
     
-MaxKey v 2.4.0 GA   2021/01/01
-    *(MAXKEY-201001)  动态用户组实现(基于用户属性或机构)
-    *(MAXKEY-201002)  任职机构和兼职机构
-    *(MAXKEY-201003)  登录会话切换的优化
-    *(MAXKEY-201004)  我的应用界面隐藏visible = 0的应用
-    *(MAXKEY-201005)  构建脚本的优化和更新
-    *(MAXKEY-201006)  全新的版本号定义，正式版本jar不再添加 RELEASE 后缀声明，author由shimingxy改为maxkeyTop
-    *(MAXKEY-201007)  SAML2.0 SP登录引导的优化
-    *(MAXKEY-201008)  SAML2.0 SP DEMO,案例参见 https://github.com/MaxKeyTop/spring-boot-security-saml-sample
-    *(MAXKEY-201009)  docker支持的优化
-    *(MAXKEY-201010)  源代码增加LICENSE声明
-    *(MAXKEY-201011)  JWT的分离成protocols下子项目
-    *(MAXKEY-201012)  密码策略提示参数问题修复
-    *(MAXKEY-201013)  SAML 2.0 Metadata优化
-    *(MAXKEY-201014)  HandlerInterceptorAdapter@deprecated  调整为 AsyncHandlerInterceptor 
-    *(MAXKEY-201015)  mybatis-jpa升级，添加@Entity和@Transient支持，优化update时字段为null的处理，SQL代码优化 
-    *(MAXKEY-201016)  README更新及中文和英文支持
-    *(MAXKEY-201017)  认证失败时，authentication 空指针异常
-    *(MAXKEY-201018)  SAML Metadata URL配置读取
-    *(MAXKEY-201019)  添加组和角色时按登录名查询成员
-    *(MAXKEY-201020)  firefox点击验证码无更新修复
-    *(MAXKEY-201021)  官网内容更新
-    *(MAXKEY-201022)  管理MGT样式调整优化
-    *(MAXKEY-201023)  OAuth2.0 password认证失败是返回异常问题
-    *(MAXKEY-201024)  OAuth2.0 password获取用户信息，类型无法转换错误
-    *(MAXKEY-201025)  依赖jar引用、更新和升级
+Sophon v 2.4.0 GA   2021/01/01
+    *(Sophon-201001)  动态用户组实现(基于用户属性或机构)
+    *(Sophon-201002)  任职机构和兼职机构
+    *(Sophon-201003)  登录会话切换的优化
+    *(Sophon-201004)  我的应用界面隐藏visible = 0的应用
+    *(Sophon-201005)  构建脚本的优化和更新
+    *(Sophon-201006)  全新的版本号定义，正式版本jar不再添加 RELEASE 后缀声明，author由shimingxy改为SophonTop
+    *(Sophon-201007)  SAML2.0 SP登录引导的优化
+    *(Sophon-201008)  SAML2.0 SP DEMO,案例参见 https://github.com/SophonTop/spring-boot-security-saml-sample
+    *(Sophon-201009)  docker支持的优化
+    *(Sophon-201010)  源代码增加LICENSE声明
+    *(Sophon-201011)  JWT的分离成protocols下子项目
+    *(Sophon-201012)  密码策略提示参数问题修复
+    *(Sophon-201013)  SAML 2.0 Metadata优化
+    *(Sophon-201014)  HandlerInterceptorAdapter@deprecated  调整为 AsyncHandlerInterceptor 
+    *(Sophon-201015)  mybatis-jpa升级，添加@Entity和@Transient支持，优化update时字段为null的处理，SQL代码优化 
+    *(Sophon-201016)  README更新及中文和英文支持
+    *(Sophon-201017)  认证失败时，authentication 空指针异常
+    *(Sophon-201018)  SAML Metadata URL配置读取
+    *(Sophon-201019)  添加组和角色时按登录名查询成员
+    *(Sophon-201020)  firefox点击验证码无更新修复
+    *(Sophon-201021)  官网内容更新
+    *(Sophon-201022)  管理MGT样式调整优化
+    *(Sophon-201023)  OAuth2.0 password认证失败是返回异常问题
+    *(Sophon-201024)  OAuth2.0 password获取用户信息，类型无法转换错误
+    *(Sophon-201025)  依赖jar引用、更新和升级
         not-yet-commons-ssl 0.3.9
         log4j               2.14.0
         spring              5.3.2
@@ -1495,30 +1495,30 @@ MaxKey v 2.4.0 GA   2021/01/01
         opensaml            2.6.6
         
 
-MaxKey v 2.3.0 GA   2020/11/12
-    *(MAXKEY-200901)  基于spring session的集群会话共享功能 
-    *(MAXKEY-200902) 单点注销功能，应用可以配置为NONE/BACK_CHANNEL/FRONT_CHANNEL三种方式，支持CAS/SAML/Default
-    *(MAXKEY-200903)  用户在线实时更新功能
-    *(MAXKEY-200904)  定制用户模板，实现批量Excel用户导入功能
-    *(MAXKEY-200905)   定制机构模板，实现批量Excel机构导入功能
-    *(MAXKEY-200906)  用户注册功能
-    *(MAXKEY-200907)  用户状态修改
-    *(MAXKEY-200908)  用户详情显示问题
-    *(MAXKEY-200909)  应用修改时数字大于4为长度格式化问题
-    *(MAXKEY-200910)  注销后，点击重新登陆跳转问题
-    *(MAXKEY-200911)  增加SP登录跳转功能，支持knox的认证
-    *(MAXKEY-200912)  构建脚本的优化和更新
-    *(MAXKEY-200913)  管理员权限控制 RoleAdministrators 
-    *(MAXKEY-200914)  社交账号登录优化
-    *(MAXKEY-200915)  列表界面中未”选择“情况下，弹出界面错误
-    *(MAXKEY-200916) jib(docker) 支持 ，感谢https://github.com/alanland
-    *(MAXKEY-200917)  登录过程的优化
-    *(MAXKEY-200918)  认证的优化，支持@Principal的注入
-    *(MAXKEY-200919) 应用单点登录时，用户访问权限控制
-    *(MAXKEY-200920) maxkey-mgt 项目配置文件的验证码启用不启用配置未生效
-    *(MAXKEY-200921) 登录图标改进
-    *(MAXKEY-200922)  官方网站的优化
-    *(MAXKEY-200923)  依赖jar引用、更新和升级
+Sophon v 2.3.0 GA   2020/11/12
+    *(Sophon-200901)  基于spring session的集群会话共享功能 
+    *(Sophon-200902) 单点注销功能，应用可以配置为NONE/BACK_CHANNEL/FRONT_CHANNEL三种方式，支持CAS/SAML/Default
+    *(Sophon-200903)  用户在线实时更新功能
+    *(Sophon-200904)  定制用户模板，实现批量Excel用户导入功能
+    *(Sophon-200905)   定制机构模板，实现批量Excel机构导入功能
+    *(Sophon-200906)  用户注册功能
+    *(Sophon-200907)  用户状态修改
+    *(Sophon-200908)  用户详情显示问题
+    *(Sophon-200909)  应用修改时数字大于4为长度格式化问题
+    *(Sophon-200910)  注销后，点击重新登陆跳转问题
+    *(Sophon-200911)  增加SP登录跳转功能，支持knox的认证
+    *(Sophon-200912)  构建脚本的优化和更新
+    *(Sophon-200913)  管理员权限控制 RoleAdministrators 
+    *(Sophon-200914)  社交账号登录优化
+    *(Sophon-200915)  列表界面中未”选择“情况下，弹出界面错误
+    *(Sophon-200916) jib(docker) 支持 ，感谢https://github.com/alanland
+    *(Sophon-200917)  登录过程的优化
+    *(Sophon-200918)  认证的优化，支持@Principal的注入
+    *(Sophon-200919) 应用单点登录时，用户访问权限控制
+    *(Sophon-200920) Sophon-mgt 项目配置文件的验证码启用不启用配置未生效
+    *(Sophon-200921) 登录图标改进
+    *(Sophon-200922)  官方网站的优化
+    *(Sophon-200923)  依赖jar引用、更新和升级
         druid 1.2.1
         JustAuth 1.15.8
         simple-http 1.0.3
@@ -1529,43 +1529,43 @@ MaxKey v 2.3.0 GA   2020/11/12
         poi 4.1.2
         commons-collections4 4.4
  
-MaxKey v 2.2.0 GA   2020/09/24
-    *(MAXKEY-200801)  官方网站内容调整，初步增加英文版支持，增加新闻、合作伙伴及与CAS等开源产品对比
-    *(MAXKEY-200802)  国际化I18N内容优化
-    *(MAXKEY-200803)  使用Passay增强密码策略，分离静态密码策略和动态密码策略
-    *(MAXKEY-200804)  修复登录失败的提示消息，支持国际化
-    *(MAXKEY-200805)  密码@Deprecated从spring移到maxkey并去掉@Deprecated
-    *(MAXKEY-200806)  默认管理员登录名和密码admin/maxkey
-    *(MAXKEY-200807)  优化密码修改的过程，增加密码策略匹配及提示消息
-    *(MAXKEY-200808)  密码错误次数大于6次后，超过设定时间自动解锁
-    *(MAXKEY-200809)  修复初始化密码和密码过期修改后错误问题
-    *(MAXKEY-200810)  修复SHAREDSECRET为空令牌显示报错
-    *(MAXKEY-200811)  登录代码优化与整合
-    *(MAXKEY-200812)  优化开发集成指南
-    *(MAXKEY-200813)  删除冗余的文件和文件夹
-    *(MAXKEY-200814)  优化应用适配器支持
-    *(MAXKEY-200815)  Maven版本支持
-    *(MAXKEY-200816)  CAS REST-Protocol支持及客户端demo
-    *(MAXKEY-200817)  修复CAS返回参数为空时BASE64编码报错
-    *(MAXKEY-200818)  修复CAS SERVICE参数过长的不一致问题，截取与数据参数等长，然后比较
-    *(MAXKEY-200819)  CAS协议增加自定义参数回传
-    *(MAXKEY-200820)  CAS spring boot demo
-    *(MAXKEY-200821)  MGT管理访问找不到页面修复
-    *(MAXKEY-200822)  MGT管理密码修改增加自动密码生成
-    *(MAXKEY-200823)  优化TOKENBASED令牌内容的配置
-    *(MAXKEY-200824)  修复OAuth 2.0管理端的跳过确认提示不能修改
-    *(MAXKEY-200825)  应用管理修改时关闭修正
-    *(MAXKEY-200826)  MGT管理首页统计优化
-    *(MAXKEY-200827)  审计查询功能优化
-    *(MAXKEY-200828)  修复日期控件显示问题
-    *(MAXKEY-200829)  SCIM 2服务端功能优化
-    *(MAXKEY-200830)  注销时的跳转修复
-    *(MAXKEY-200831)  MySQL时间问题，参见https://dev.mysql.com/doc/refman/8.0/en/time-zone-support.html
-    *(MAXKEY-200832)  OAuth2 Password模式修复
-    *(MAXKEY-200833)  MGT管理SAML上传问题、IDP元数据链接优化、主键生成修复、元数据参数配置调整
-    *(MAXKEY-200834)  SAML 2添加多种NameId的支持，支持后缀的配置，NameId支持大小写转换
-    *(MAXKEY-200835)  MGT管理TOKENBASED令牌主键生成修复
-    *(MAXKEY-200836)  依赖jar升级
+Sophon v 2.2.0 GA   2020/09/24
+    *(Sophon-200801)  官方网站内容调整，初步增加英文版支持，增加新闻、合作伙伴及与CAS等开源产品对比
+    *(Sophon-200802)  国际化I18N内容优化
+    *(Sophon-200803)  使用Passay增强密码策略，分离静态密码策略和动态密码策略
+    *(Sophon-200804)  修复登录失败的提示消息，支持国际化
+    *(Sophon-200805)  密码@Deprecated从spring移到Sophon并去掉@Deprecated
+    *(Sophon-200806)  默认管理员登录名和密码admin/Sophon
+    *(Sophon-200807)  优化密码修改的过程，增加密码策略匹配及提示消息
+    *(Sophon-200808)  密码错误次数大于6次后，超过设定时间自动解锁
+    *(Sophon-200809)  修复初始化密码和密码过期修改后错误问题
+    *(Sophon-200810)  修复SHAREDSECRET为空令牌显示报错
+    *(Sophon-200811)  登录代码优化与整合
+    *(Sophon-200812)  优化开发集成指南
+    *(Sophon-200813)  删除冗余的文件和文件夹
+    *(Sophon-200814)  优化应用适配器支持
+    *(Sophon-200815)  Maven版本支持
+    *(Sophon-200816)  CAS REST-Protocol支持及客户端demo
+    *(Sophon-200817)  修复CAS返回参数为空时BASE64编码报错
+    *(Sophon-200818)  修复CAS SERVICE参数过长的不一致问题，截取与数据参数等长，然后比较
+    *(Sophon-200819)  CAS协议增加自定义参数回传
+    *(Sophon-200820)  CAS spring boot demo
+    *(Sophon-200821)  MGT管理访问找不到页面修复
+    *(Sophon-200822)  MGT管理密码修改增加自动密码生成
+    *(Sophon-200823)  优化TOKENBASED令牌内容的配置
+    *(Sophon-200824)  修复OAuth 2.0管理端的跳过确认提示不能修改
+    *(Sophon-200825)  应用管理修改时关闭修正
+    *(Sophon-200826)  MGT管理首页统计优化
+    *(Sophon-200827)  审计查询功能优化
+    *(Sophon-200828)  修复日期控件显示问题
+    *(Sophon-200829)  SCIM 2服务端功能优化
+    *(Sophon-200830)  注销时的跳转修复
+    *(Sophon-200831)  MySQL时间问题，参见https://dev.mysql.com/doc/refman/8.0/en/time-zone-support.html
+    *(Sophon-200832)  OAuth2 Password模式修复
+    *(Sophon-200833)  MGT管理SAML上传问题、IDP元数据链接优化、主键生成修复、元数据参数配置调整
+    *(Sophon-200834)  SAML 2添加多种NameId的支持，支持后缀的配置，NameId支持大小写转换
+    *(Sophon-200835)  MGT管理TOKENBASED令牌主键生成修复
+    *(Sophon-200836)  依赖jar升级
                         tomcat 9.0.38
                         passay 1.6.0
                         springBoot  2.3.4.RELEASE
@@ -1587,46 +1587,46 @@ MaxKey v 2.2.0 GA   2020/09/24
                         multiple-select-1.5.2
     
     
-MaxKey v 2.1.0 GA   2020/08/01
-    *(MAXKEY-200701)  官方网站升级，清晰简洁的界面，全新的页面导航
-    *(MAXKEY-200702) Mysql升级到8.0.21GA
-    *(MAXKEY-200703) MaxKey认证服务手机支持
-    *(MAXKEY-200704)   取消MaxKey认证系统双端口的启动，解决登录时session不一致问题
-    *(MAXKEY-200705)   强化密码验证的功能，适配多种密码结构
-    *(MAXKEY-200706) RBAC权限功能增强，支持多种资源类型
-    *(MAXKEY-200707) Connector连接器从主项目分离，专注与KAFKA的适配
-    *(MAXKEY-200708) SDK主项目分离，增加用户管理API适配功能
-    *(MAXKEY-200709)  依赖jar升级,消除非必要依赖
+Sophon v 2.1.0 GA   2020/08/01
+    *(Sophon-200701)  官方网站升级，清晰简洁的界面，全新的页面导航
+    *(Sophon-200702) Mysql升级到8.0.21GA
+    *(Sophon-200703) Sophon认证服务手机支持
+    *(Sophon-200704)   取消Sophon认证系统双端口的启动，解决登录时session不一致问题
+    *(Sophon-200705)   强化密码验证的功能，适配多种密码结构
+    *(Sophon-200706) RBAC权限功能增强，支持多种资源类型
+    *(Sophon-200707) Connector连接器从主项目分离，专注与KAFKA的适配
+    *(Sophon-200708) SDK主项目分离，增加用户管理API适配功能
+    *(Sophon-200709)  依赖jar升级,消除非必要依赖
                     spring 5.2.8.RELEASE
                     springBoot 2.3.2.RELEASE
                     MySql  8.0.21GA
                     
                     
-MaxKey v 2.0.0 GA   2020/07/13 
-    *(MAXKEY-200601) RBAC 基于角色的访问控制(Role-Based Access Control)支持
-    *(MAXKEY-200602) xml配置改为Spring annotation，提升模块间的组件化
-    *(MAXKEY-200603) 管理MGT界面优化及增加菜单图标，认证Maxkey主题切换支持-黑色经典|薄荷清新|激情紫荆
-    *(MAXKEY-200604) 修复用户组访问权限删除问题
-    *(MAXKEY-200605) Javascript验证及AJAX提交优化
-    *(MAXKEY-200606) DAO层整合
-    *(MAXKEY-200607) 社交账号关联调整及优化
-    *(MAXKEY-200608) 数据库表字段的注释修复
-    *(MAXKEY-200609) 官方网站优化
-    *(MAXKEY-200610) properties优化
-    *(MAXKEY-200611) 访问控制修复，访问重定向的问题修复
-    *(MAXKEY-200612) String类型数据转换JSON修复
-    *(MAXKEY-200613) OAuth2授权页面优化，显示目标系统图标和相关授权提示
-    *(MAXKEY-200614) OAuth2 secret修改后登陆错误修复
-    *(MAXKEY-200615) CAS单点登陆后进行验证空指针的异常处理，原因权限调整
-    *(MAXKEY-200616) LINUX操作系统支持
-    *(MAXKEY-200617) 修改测试域名为sso.maxkey.top
-    *(MAXKEY-200618) 修复更新应用时状态问题
-    *(MAXKEY-200619) REST API 机构和用户接口实现
-    *(MAXKEY-200620) 代码优化及命名调整
-    *(MAXKEY-200621) CAS协议增强
-    *(MAXKEY-200622) 机构变更时JSON序列化错误修复
-    *(MAXKEY-200623) 官方网站、SDK、连接器Connectors分离成独立项目
-    *(MAXKEY-200624) 依赖jar升级,消除非必要依赖
+Sophon v 2.0.0 GA   2020/07/13 
+    *(Sophon-200601) RBAC 基于角色的访问控制(Role-Based Access Control)支持
+    *(Sophon-200602) xml配置改为Spring annotation，提升模块间的组件化
+    *(Sophon-200603) 管理MGT界面优化及增加菜单图标，认证Sophon主题切换支持-黑色经典|薄荷清新|激情紫荆
+    *(Sophon-200604) 修复用户组访问权限删除问题
+    *(Sophon-200605) Javascript验证及AJAX提交优化
+    *(Sophon-200606) DAO层整合
+    *(Sophon-200607) 社交账号关联调整及优化
+    *(Sophon-200608) 数据库表字段的注释修复
+    *(Sophon-200609) 官方网站优化
+    *(Sophon-200610) properties优化
+    *(Sophon-200611) 访问控制修复，访问重定向的问题修复
+    *(Sophon-200612) String类型数据转换JSON修复
+    *(Sophon-200613) OAuth2授权页面优化，显示目标系统图标和相关授权提示
+    *(Sophon-200614) OAuth2 secret修改后登陆错误修复
+    *(Sophon-200615) CAS单点登陆后进行验证空指针的异常处理，原因权限调整
+    *(Sophon-200616) LINUX操作系统支持
+    *(Sophon-200617) 修改测试域名为sso.Sophon.top
+    *(Sophon-200618) 修复更新应用时状态问题
+    *(Sophon-200619) REST API 机构和用户接口实现
+    *(Sophon-200620) 代码优化及命名调整
+    *(Sophon-200621) CAS协议增强
+    *(Sophon-200622) 机构变更时JSON序列化错误修复
+    *(Sophon-200623) 官方网站、SDK、连接器Connectors分离成独立项目
+    *(Sophon-200624) 依赖jar升级,消除非必要依赖
                     spring 5.2.7.RELEASE
                     springBoot 2.3.1.RELEASE
                     springSecurity 5.3.2.RELEASE
@@ -1640,28 +1640,28 @@ MaxKey v 2.0.0 GA   2020/07/13
                     simple-http 1.0.2
                     JustAuth  1.15.6
     
-MaxKey v 1.4.0 GA   2020/05/01  
-    *(MAXKEY-200501) 登录错误修复
-    *(MAXKEY-200502) 登录无验证码登录
-    *(MAXKEY-200503) 短信验证码SMS
+Sophon v 1.4.0 GA   2020/05/01  
+    *(Sophon-200501) 登录错误修复
+    *(Sophon-200502) 登录无验证码登录
+    *(Sophon-200503) 短信验证码SMS
                         腾讯云短信验证码
                         阿里云短信验证码
                         网易云信验证码
-    *(MAXKEY-200504) 找回密码，支持邮件找回和短信找回
-    *(MAXKEY-200505) 验证增强，增加算术验证码支持
+    *(Sophon-200504) 找回密码，支持邮件找回和短信找回
+    *(Sophon-200505) 验证增强，增加算术验证码支持
                         config/applicationConfig.properties
                         #text字符验证码,arithmetic算术验证码
                         config.login.captcha.type=text
-    *(MAXKEY-200506) 修复新增用户时错误
-    *(MAXKEY-200507) 修复操作日志错误
-    *(MAXKEY-200508) 修改应用添加错误，增加不为空验证功能
-    *(MAXKEY-200509) 用户组增加不为空验证功能
-    *(MAXKEY-200510) 机构增加不为空验证功能,排序显示
-    *(MAXKEY-200511) 国际化操作提示
-    *(MAXKEY-200512) SAML2.0增加签名和摘要配置
-    *(MAXKEY-200513) 优化界面，强化提交表单验证功能
-    *(MAXKEY-200514) 官方地址域名解析www.maxkey.top
-    *(MAXKEY-200515) 组件版本升级
+    *(Sophon-200506) 修复新增用户时错误
+    *(Sophon-200507) 修复操作日志错误
+    *(Sophon-200508) 修改应用添加错误，增加不为空验证功能
+    *(Sophon-200509) 用户组增加不为空验证功能
+    *(Sophon-200510) 机构增加不为空验证功能,排序显示
+    *(Sophon-200511) 国际化操作提示
+    *(Sophon-200512) SAML2.0增加签名和摘要配置
+    *(Sophon-200513) 优化界面，强化提交表单验证功能
+    *(Sophon-200514) 官方地址域名解析www.sophon.console
+    *(Sophon-200515) 组件版本升级
                         mybatis-jpa-extra v2.0
                         JustAuth 1.15.1
                         log4j 2.13.2
@@ -1669,39 +1669,40 @@ MaxKey v 1.4.0 GA   2020/05/01
                         bootstrap-table v1.16.0
                         jquery 3.5.0
 
-MaxKey v 1.3.0 GA   2020/04/04  
-    *(MAXKEY-200401) 记住登录修复，RememberMe fix
-    *(MAXKEY-200402) 应用账号配置修复
-    *(MAXKEY-200403) 内部缓存使用改用ehcache，同时支持redis
-    *(MAXKEY-200404) 社交账号登录使用JustAuth 1.14.0，支持更多的第三方社交集成
-    *(MAXKEY-200405) 代码使用checkstyle
-    *(MAXKEY-200406) 完善gradle编译脚本，并升级到gradle-6.0
-    *(MAXKEY-200407) 依赖jar升级,消除非必要依赖
+Sophon v 1.3.0 GA   2020/04/04  
+    *(Sophon-200401) 记住登录修复，RememberMe fix
+    *(Sophon-200402) 应用账号配置修复
+    *(Sophon-200403) 内部缓存使用改用ehcache，同时支持redis
+    *(Sophon-200404) 社交账号登录使用JustAuth 1.14.0，支持更多的第三方社交集成
+    *(Sophon-200405) 代码使用checkstyle
+    *(Sophon-200406) 完善gradle编译脚本，并升级到gradle-6.0
+    *(Sophon-200407) 依赖jar升级,消除非必要依赖
                         spring->5.2.5.RELEASE,
                         springBoot->2.2.6.RELEASE
                         mybatis->3.5.4
                         log4j->2.13.1
                         httpcomponents->4.5.12
-    *(MAXKEY-200408) 其他漏洞修正
+    *(Sophon-200408) 其他漏洞修正
 
-MaxKey v 1.2.1 GA   2020/02/29   
-    *(MAXKEY-200201) SAML 2.0 optimization,support 阿里云、腾讯云 SSO
-    *(MAXKEY-200202) maxkey-mgt main report
-    *(MAXKEY-200203) APPS ExtraAttr
-    *(MAXKEY-200204) fix ui bugs
-    *(MAXKEY-200205) remove maxkey-jose-jwt
-    *(MAXKEY-200206) dep com.nimbusds nimbus-jose-jwt
-    *(MAXKEY-200207) dep net.jcip jcip-annotations
-    *(MAXKEY-200208) dep net.minidev json-smart
-    *(MAXKEY-200209) dep net.minidev asm 
+Sophon v 1.2.1 GA   2020/02/29   
+    *(Sophon-200201) SAML 2.0 optimization,support 阿里云、腾讯云 SSO
+    *(Sophon-200202) Sophon-mgt main report
+    *(Sophon-200203) APPS ExtraAttr
+    *(Sophon-200204) fix ui bugs
+    *(Sophon-200205) remove Sophon-jose-jwt
+    *(Sophon-200206) dep com.nimbusds nimbus-jose-jwt
+    *(Sophon-200207) dep net.jcip jcip-annotations
+    *(Sophon-200208) dep net.minidev json-smart
+    *(Sophon-200209) dep net.minidev asm 
     
-MaxKey v 1.2.0 GA   2020/01/18 
-    *(MAXKEY-200101) 升级到bootstrap-4.3.1
-    *(MAXKEY-200102) 升级表格为Bootstrap Table 1.14.2
-    *(MAXKEY-200103) 升级js树插件到zTree-v3.5.40
-    *(MAXKEY-200104) 菜单组件升级为metisMenu-v3.0.4
-    *(MAXKEY-200105) 修复系统错误
-    *(MAXKEY-200105) 修复日志的输出
+Sophon v 1.2.0 GA   2020/01/18 
+    *(Sophon-200101) 升级到bootstrap-4.3.1
+    *(Sophon-200102) 升级表格为Bootstrap Table 1.14.2
+    *(Sophon-200103) 升级js树插件到zTree-v3.5.40
+    *(Sophon-200104) 菜单组件升级为metisMenu-v3.0.4
+    *(Sophon-200105) 修复系统错误
+    *(Sophon-200105) 修复日志的输出
     
-MaxKey v 1.0 GA     2019/12/06  
-    *(MAXKEY-191201) 基于SpringBoot重新构建1.0 GA 
+Sophon v 1.0 GA     2019/12/06  
+    *(Sophon-191201) 基于SpringBoot重新构建1.0 GA 
+

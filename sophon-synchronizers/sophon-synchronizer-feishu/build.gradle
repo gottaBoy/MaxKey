@@ -1,0 +1,17 @@
+description = "sophon-synchronizer-feishu"
+
+apply plugin: 'java'
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/*/', include: '*.jar')
+	
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-commons:sophon-core")
+	
+	implementation project(":sophon-entity")
+	implementation project(":sophon-persistence")
+	
+	implementation project(":sophon-synchronizers:sophon-synchronizer")
+   
+}

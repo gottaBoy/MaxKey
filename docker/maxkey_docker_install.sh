@@ -1,28 +1,28 @@
 echo "network create "
 
-docker network create maxkey.top
+docker network create sophon.console
 
 mysql_version=8.4.2
 #MySQL
 docker pull mysql:$mysql_version
-docker image tag mysql:$mysql_version maxkeytop/mysql
+docker image tag mysql:$mysql_version sophon-edge/mysql
 
-#maxkey
-docker pull maxkeytop/maxkey:latest
+#sophon
+docker pull sophon-edge/sophon:latest
 
-#maxkey-mgt
-docker pull maxkeytop/maxkey-mgt:latest
+#sophon-mgt
+docker pull sophon-edge/sophon-mgt:latest
 
-#maxkey-frontend
-docker pull maxkeytop/maxkey-frontend:latest
+#sophon-frontend
+docker pull sophon-edge/sophon-frontend:latest
 
-#maxkey-mgt-frontend
-docker pull maxkeytop/maxkey-mgt-frontend:latest
+#sophon-mgt-frontend
+docker pull sophon-edge/sophon-mgt-frontend:latest
 
-#maxkey-nginx proxy
+#sophon-nginx proxy
 cd docker-nginx
 
-docker build -f Dockerfile -t maxkeytop/maxkey-nginx .
+docker build -f Dockerfile -t sophon-edge/sophon-nginx .
 
 cd ..
 

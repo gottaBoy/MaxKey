@@ -1,0 +1,12 @@
+
+description = "sophon-starter-ip2location"
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/', include: '*/*.jar')
+	
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-entity")
+   
+}

@@ -14,7 +14,7 @@ export interface SynchronizerLog {
 
 class SynchronizerLogService extends BaseService<SynchronizerLog> {
   constructor() {
-    super('/maxkey-mgt-api/historys/synchronizerHistory');
+    super('/sophon-mgt-api/historys/synchronizerHistory');
   }
 }
 

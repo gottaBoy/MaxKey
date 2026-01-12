@@ -1,0 +1,3 @@
+org.zeron.sophon.autoconfigure.Oauth20AutoConfiguration
+org.zeron.sophon.autoconfigure.SophonMvcConfig
+org.zeron.sophon.autoconfigure.SophonConfig

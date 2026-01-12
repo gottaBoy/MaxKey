@@ -1,7 +1,7 @@
-# [MaxKey APP客户端Flutter开发项目](https://summer-ospp.ac.cn/org/prodetail/24f420154?lang=zh&list=pro)
+# [Sophon APP瀹㈡埛绔疐lutter寮€鍙戦」鐩甝(https://summer-ospp.ac.cn/org/prodetail/24f420154?lang=zh&list=pro)
 
-中间由于误操作使用了 Gitee 的强制同步远程仓库，提交记录被覆盖了。我通过 Gitee API 还原了部分提交记录，在 [changelog.md](./changelog.md)。
+涓棿鐢变簬璇搷浣滀娇鐢ㄤ簡 Gitee 鐨勫己鍒跺悓姝ヨ繙绋嬩粨搴擄紝鎻愪氦璁板綍琚鐩栦簡銆傛垜閫氳繃 Gitee API 杩樺師浜嗛儴鍒嗘彁浜よ褰曪紝鍦?[changelog.md](./changelog.md)銆?
 
-开发文档：[maxkey_flutter/README.md](./maxkey_flutter/README.md)
+寮€鍙戞枃妗ｏ細[Sophon_flutter/README.md](./Sophon_flutter/README.md)
 
-操作使用手册：[MaxKey APP 使用手册](./MaxKey-APP-user-guide.pdf)
+鎿嶄綔浣跨敤鎵嬪唽锛歔Sophon APP 浣跨敤鎵嬪唽](./Sophon-APP-user-guide.pdf)

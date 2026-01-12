@@ -3,7 +3,7 @@ import { Permission } from '@/types/entity';
 import { PageParams, PageResponse } from '@/utils/request';
 
 class PermissionsService {
-  private baseUrl = '/maxkey-mgt-api/permissions';
+  private baseUrl = '/sophon-mgt-api/permissions';
 
   /**
    * 分页查询权限

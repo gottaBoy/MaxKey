@@ -14,7 +14,7 @@ export interface AccessLog {
 
 class AccessLogService extends BaseService<AccessLog> {
   constructor() {
-    super('/maxkey-mgt-api/historys/loginAppsHistory');
+    super('/sophon-mgt-api/historys/loginAppsHistory');
   }
 }
 

@@ -4,7 +4,7 @@ import { UserInfo } from '@/types/entity';
 
 class UsersService extends BaseService<UserInfo> {
   constructor() {
-    super('/maxkey-mgt-api/users');
+    super('/sophon-mgt-api/users');
   }
 
   /**

@@ -13,7 +13,7 @@ export interface SystemLog {
 
 class SystemLogService extends BaseService<SystemLog> {
   constructor() {
-    super('/maxkey-mgt-api/historys/systemLogs');
+    super('/sophon-mgt-api/historys/systemLogs');
   }
 }
 

@@ -1,78 +1,59 @@
-/*
- * Copyright [2024] [MaxKey of copyright http://www.maxkey.top]
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-/*
- * project name and include subprojects 
- */
- 
-rootProject.name = 'MaxKey'
+rootProject.name = 'sophon'
 
 //Commons
-include ('maxkey-commons:maxkey-cache')
-include ('maxkey-commons:maxkey-common')
-include ('maxkey-commons:maxkey-core')
-include ('maxkey-commons:maxkey-crypto')
-include ('maxkey-commons:maxkey-ldap')
+include ('sophon-commons:sophon-cache')
+include ('sophon-commons:sophon-common')
+include ('sophon-commons:sophon-core')
+include ('sophon-commons:sophon-crypto')
+include ('sophon-commons:sophon-ldap')
 
-include ('maxkey-entity')
-include ('maxkey-persistence')
+include ('sophon-entity')
+include ('sophon-persistence')
 
-//maxkey-starter
-include ('maxkey-starter:maxkey-starter-captcha')
-include ('maxkey-starter:maxkey-starter-ip2location')
-include ('maxkey-starter:maxkey-starter-otp')
-include ('maxkey-starter:maxkey-starter-sms')
-include ('maxkey-starter:maxkey-starter-social')
-include ('maxkey-starter:maxkey-starter-web')
-include ('maxkey-starter:maxkey-starter-passkey')
+//sophon-starter
+include ('sophon-starter:sophon-starter-captcha')
+include ('sophon-starter:sophon-starter-ip2location')
+include ('sophon-starter:sophon-starter-otp')
+include ('sophon-starter:sophon-starter-sms')
+include ('sophon-starter:sophon-starter-social')
+include ('sophon-starter:sophon-starter-web')
+include ('sophon-starter:sophon-starter-passkey')
 
 //authentications
-include ('maxkey-authentications:maxkey-authentication-core')
-include ('maxkey-authentications:maxkey-authentication-provider')
-include ('maxkey-authentications:maxkey-authentication-provider-mgt')
+include ('sophon-authentications:sophon-authentication-core')
+include ('sophon-authentications:sophon-authentication-provider')
+include ('sophon-authentications:sophon-authentication-provider-mgt')
 
 //rest apis
-include ('maxkey-web-apis:maxkey-web-api-rest')
-include ('maxkey-web-apis:maxkey-web-api-scim')
+include ('sophon-web-apis:sophon-web-api-rest')
+include ('sophon-web-apis:sophon-web-api-scim')
 
 //synchronizers
-include ('maxkey-synchronizers:maxkey-synchronizer')
-include ('maxkey-synchronizers:maxkey-synchronizer-activedirectory')
-include ('maxkey-synchronizers:maxkey-synchronizer-dingtalk')
-include ('maxkey-synchronizers:maxkey-synchronizer-feishu')
-include ('maxkey-synchronizers:maxkey-synchronizer-jdbc')
-include ('maxkey-synchronizers:maxkey-synchronizer-ldap')
-include ('maxkey-synchronizers:maxkey-synchronizer-workweixin')
+include ('sophon-synchronizers:sophon-synchronizer')
+include ('sophon-synchronizers:sophon-synchronizer-activedirectory')
+include ('sophon-synchronizers:sophon-synchronizer-dingtalk')
+include ('sophon-synchronizers:sophon-synchronizer-feishu')
+include ('sophon-synchronizers:sophon-synchronizer-jdbc')
+include ('sophon-synchronizers:sophon-synchronizer-ldap')
+include ('sophon-synchronizers:sophon-synchronizer-workweixin')
 
 //Protocol
-include ('maxkey-protocols:maxkey-protocol-authorize')
-include ('maxkey-protocols:maxkey-protocol-cas')
-include ('maxkey-protocols:maxkey-protocol-extendapi')
-include ('maxkey-protocols:maxkey-protocol-formbased')
-include ('maxkey-protocols:maxkey-protocol-jwt')
-include ('maxkey-protocols:maxkey-protocol-oauth-2.0')
-include ('maxkey-protocols:maxkey-protocol-saml-2.0')
-include ('maxkey-protocols:maxkey-protocol-tokenbased')
+include ('sophon-protocols:sophon-protocol-authorize')
+include ('sophon-protocols:sophon-protocol-cas')
+include ('sophon-protocols:sophon-protocol-extendapi')
+include ('sophon-protocols:sophon-protocol-formbased')
+include ('sophon-protocols:sophon-protocol-jwt')
+include ('sophon-protocols:sophon-protocol-oauth-2.0')
+include ('sophon-protocols:sophon-protocol-saml-2.0')
+include ('sophon-protocols:sophon-protocol-tokenbased')
 
 //webs
-//maxkey(sign)
-include ('maxkey-webs:maxkey-web-maxkey')
+//sophon(sign)
+include ('sophon-webs:sophon-web-sophon')
 //management(mgt)
-include ('maxkey-webs:maxkey-web-mgt')
+include ('sophon-webs:sophon-web-mgt')
 //openapi(open)
-include ('maxkey-webs:maxkey-web-openapi')
+include ('sophon-webs:sophon-web-openapi')
 //gataway
-include ('maxkey-webs:maxkey-gataway')
+include ('sophon-webs:sophon-gataway')
+

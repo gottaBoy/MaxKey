@@ -463,7 +463,7 @@ const UserList: React.FC = () => {
         message.error('网络错误');
       });
 
-      xhr.open('POST', '/maxkey-mgt-api/file/upload/');
+      xhr.open('POST', '/sophon-mgt-api/file/upload/');
       if (token) {
         xhr.setRequestHeader('Authorization', `Bearer ${token}`);
       }

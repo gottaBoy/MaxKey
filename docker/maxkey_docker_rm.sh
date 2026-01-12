@@ -1,23 +1,23 @@
-echo "rm MaxKey ... "
+echo "rm Sophon ... "
 
-./maxkey_docker_stop.sh
+./Sophon_docker_stop.sh
 
-#maxkey-nginx proxy
-docker rm maxkey-nginx
+#Sophon-nginx proxy
+docker rm Sophon-nginx
 
-#maxkey-frontend
-docker rm maxkey-frontend
+#Sophon-frontend
+docker rm Sophon-frontend
 
-#maxkey-mgt-frontend
-docker rm maxkey-mgt-frontend
+#Sophon-mgt-frontend
+docker rm Sophon-mgt-frontend
 
-#maxkey
-docker rm maxkey  
+#Sophon
+docker rm Sophon  
 
-#maxkey-mgt
-docker rm maxkey-mgt  
+#Sophon-mgt
+docker rm Sophon-mgt  
 
 #MySQL
-docker rm maxkey-mysql  
+docker rm Sophon-mysql  
 
 echo "rm done."

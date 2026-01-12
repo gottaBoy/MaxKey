@@ -4,7 +4,7 @@ import { Resource, TreeNode } from '@/types/entity';
 
 class ResourcesService extends BaseService<Resource> {
   constructor() {
-    super('/maxkey-mgt-api/permissions/resources');
+    super('/sophon-mgt-api/permissions/resources');
   }
 
   /**

@@ -43,7 +43,7 @@ public class TestController {
     }
 
     /**
-     * 不走cas认证，无法获取登录信息
+     * 不走cas认证，无法获取登录信??
      * @param request
      * @return
      */
@@ -56,6 +56,6 @@ public class TestController {
 //        String username=     assertion.getPrincipal().getName();
 //        System.out.println(username);
 
-        return "cas 未拦截";
+        return "cas 未拦??;
     }
 }

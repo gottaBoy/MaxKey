@@ -1,0 +1,9 @@
+description = "sophon-crypto"
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/', include: '*/*.jar')
+
+
+}
+

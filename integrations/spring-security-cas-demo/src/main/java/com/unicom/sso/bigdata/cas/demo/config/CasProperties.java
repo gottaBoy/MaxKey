@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * CAS的配置参数
+ * CAS的配置参??
  */
 @Component
 public class CasProperties {

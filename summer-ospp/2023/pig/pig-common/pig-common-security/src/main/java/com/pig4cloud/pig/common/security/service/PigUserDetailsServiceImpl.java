@@ -48,9 +48,9 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService, Authent
     private final CacheManager cacheManager;
 
     /**
-     * 用户名密码登录
+     * 用户名密码登??
      *
-     * @param username 用户名
+     * @param username 用户??
      * @return
      */
     @Override

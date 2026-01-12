@@ -1,21 +1,21 @@
-echo "stop MaxKey ... "
+echo "stop Sophon ... "
 
-#maxkey-nginx proxy
-docker stop maxkey-nginx
+#Sophon-nginx proxy
+docker stop Sophon-nginx
 
-#maxkey-frontend
-docker stop maxkey-frontend
+#Sophon-frontend
+docker stop Sophon-frontend
 
-#maxkey-mgt-frontend
-docker stop maxkey-mgt-frontend
+#Sophon-mgt-frontend
+docker stop Sophon-mgt-frontend
 
-#maxkey
-docker stop maxkey  
+#Sophon
+docker stop Sophon  
 
-#maxkey-mgt
-docker stop maxkey-mgt  
+#Sophon-mgt
+docker stop Sophon-mgt  
 
 #MySQL
-docker stop maxkey-mysql  
+docker stop Sophon-mysql  
 
 echo "stoped done."

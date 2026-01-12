@@ -3,7 +3,7 @@ import { PageResponse } from '@/utils/request';
 import type { Application } from '@/types/entity';
 
 class AccessService {
-  private baseUrl = '/maxkey-mgt-api/access/access';
+  private baseUrl = '/sophon-mgt-api/access/access';
 
   /**
    * 查询用户组可以访问的应用列表（appsInGroup接口）

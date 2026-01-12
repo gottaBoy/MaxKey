@@ -1,0 +1,18 @@
+
+description = "sophon-protocol-tokenbased"
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/*/', include: '*.jar')
+	
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-commons:sophon-core")
+	implementation project(":sophon-commons:sophon-crypto")
+	
+	implementation project(":sophon-entity")
+	implementation project(":sophon-persistence")
+   	implementation project(":sophon-protocols:sophon-protocol-authorize")
+   	implementation project(":sophon-authentications:sophon-authentication-core")
+   
+}

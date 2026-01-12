@@ -1,0 +1,3 @@
+org.zeron.sophon.autoconfigure.MvcCurrentUserAutoConfiguration
+org.zeron.sophon.autoconfigure.SessionAutoConfiguration
+org.zeron.sophon.autoconfigure.TokenAutoConfiguration

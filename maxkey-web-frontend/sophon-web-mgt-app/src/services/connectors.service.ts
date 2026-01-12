@@ -11,7 +11,7 @@ export interface Connector {
 
 class ConnectorsService extends BaseService<Connector> {
   constructor() {
-    super('/maxkey-mgt-api/config/connectors');
+    super('/sophon-mgt-api/config/connectors');
   }
 }
 

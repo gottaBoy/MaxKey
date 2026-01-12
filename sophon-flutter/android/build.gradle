@@ -1,11 +1,11 @@
 allprojects {
     repositories {
-        // 优先使用阿里云镜像
+        // 濞村吋锚閸樻稒鎷呯捄銊︽殢闂傚啫娼￠崳閿嬬閹达附娈旈柛?
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        // 备用官方源（某些依赖如 j2objc-annotations 需要从这些源获取）
+        // 濠㈣泛娲ㄩ弫銈団偓瑙勆戦弻鐔封攦閹板墎绀勯柡灞惧姃缁ㄧ儤绗熷┑濠勵洬濠?j2objc-annotations 闂傚洠鍋撻悷鏇氭缁姵娼诲▎搴ｆ槀婵犙勫姌楠炲繘宕ｉ弽鐢电
         google()
         mavenCentral()
     }

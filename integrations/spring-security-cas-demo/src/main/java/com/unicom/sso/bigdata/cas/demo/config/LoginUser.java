@@ -48,7 +48,7 @@ public class LoginUser implements UserDetails
     private String loginLocation;
 
     /**
-     * 浏览器类型
+     * 浏览器类??
      */
     private String browser;
 
@@ -99,7 +99,7 @@ public class LoginUser implements UserDetails
 
 
     /**
-     * 账户是否未过期,过期无法验证
+     * 账户是否未过??过期无法验证
      */
     @JsonIgnore
     @Override
@@ -109,7 +109,7 @@ public class LoginUser implements UserDetails
     }
 
     /**
-     * 指定用户是否解锁,锁定的用户无法进行身份验证
+     * 指定用户是否解锁,锁定的用户无法进行身份验??
      *
      * @return
      */
@@ -121,7 +121,7 @@ public class LoginUser implements UserDetails
     }
 
     /**
-     * 指示是否已过期的用户的凭据(密码),过期的凭据防止认证
+     * 指示是否已过期的用户的凭??密码),过期的凭据防止认??
      *
      * @return
      */
@@ -133,7 +133,7 @@ public class LoginUser implements UserDetails
     }
 
     /**
-     * 是否可用 ,禁用的用户不能身份验证
+     * 是否可用 ,禁用的用户不能身份验??
      *
      * @return
      */

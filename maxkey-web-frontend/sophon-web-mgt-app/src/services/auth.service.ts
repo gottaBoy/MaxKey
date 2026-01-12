@@ -38,7 +38,7 @@ export interface AuthJwt {
 }
 
 class AuthService {
-  private baseUrl = '/maxkey-mgt-api';
+  private baseUrl = '/sophon-mgt-api';
 
   // 获取登录配置（包括是否需要验证码、机构信息等）
   async getLoginConfig(): Promise<LoginConfig> {
@@ -47,7 +47,7 @@ class AuthService {
 
   // 获取验证码图片
   async getCaptcha(captchaType: string, state: string): Promise<CaptchaData> {
-    // 统一使用 /maxkey-mgt-api 路径
+    // 统一使用 /sophon-mgt-api 路径
     // 直接使用axios避免request拦截器显示错误消息
     try {
       const response = await axios.get(`${this.baseUrl}/captcha?_allow_anonymous=true`, {

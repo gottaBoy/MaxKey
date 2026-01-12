@@ -1,0 +1,3 @@
+org.zeron.sophon.autoconfigure.SophonMgtConfig
+org.zeron.sophon.autoconfigure.SophonMgtMvcConfig
+org.zeron.sophon.autoconfigure.SophonMgtListenerConfig

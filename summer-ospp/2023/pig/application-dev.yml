@@ -1,11 +1,11 @@
-# 配置文件加密根密码
+# 閰嶇疆鏂囦欢鍔犲瘑鏍瑰瘑�?
 jasypt:
   encryptor:
     password: pig
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
     
-# Spring 相关
+# Spring 鐩稿�?
 spring:
   cache:
     type: redis
@@ -17,7 +17,7 @@ spring:
       transport:
         dashboard: pig-sentinel:5003
 
-# 暴露监控端点
+# 鏆撮湶鐩戞帶绔�?
 management:
   endpoints:
     web:
@@ -28,7 +28,7 @@ management:
       show-details: ALWAYS
 
 
-# feign 配置
+# feign 閰嶇�?
 feign:
   sentinel:
     enabled: true
@@ -47,7 +47,7 @@ feign:
     response:
       enabled: true
 
-# mybaits-plus配置
+# mybaits-plus閰嶇�?
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   global-config:
@@ -60,7 +60,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 
-# swagger 配置
+# swagger 閰嶇�?
 swagger:
   enabled: true
   title: Pig Swagger API
@@ -70,24 +70,24 @@ swagger:
   services:
     pig-upms-biz: admin
     pig-codegen: gen
-#cas配置
+#cas閰嶇�?
 cas:
-  #秘钥
+  #绉橀�?
   key: n0c9MTcwMjIwMjMxNzE2NDMwOTAskV
   server:
     host:
-      grant_url: http://sso.maxkey.top/sign/authz/cas
-      #cas服务端地址 这是我的cas服务端地址 需要修改成你们的cas服务端地址
-      url: http://sso.maxkey.top/maxkey/authz/cas
-      #cas服务端登录地址
-      login_url: http://sso.maxkey.top/maxkey/#/passport/login?redirect_uri=aHR0cDovL3Nzby5tYXhrZXkudG9wL3NpZ24vYXV0aHovY2FzLzQxMDY1ZmUzLWFlNjctNDE3Mi1hNDYwLWZkMDA3OWU4ODI5NA
-      #cas服务端登出地址 service参数后面跟就是需要跳转的页面/接口 这里指定的是cas客户端登录接口
+      grant_url: http://sso.Sophon.top/sign/authz/cas
+      #cas鏈嶅姟绔湴鍧€ 杩欐槸鎴戠殑cas鏈嶅姟绔湴鍧€ 闇€瑕佷慨鏀规垚浣犱滑鐨刢as鏈嶅姟绔湴鍧€
+      url: http://sso.Sophon.top/Sophon/authz/cas
+      #cas鏈嶅姟绔櫥褰曞湴鍧�?
+      login_url: http://sso.Sophon.top/Sophon/#/passport/login?redirect_uri=aHR0cDovL3Nzby5tYXhrZXkudG9wL3NpZ24vYXV0aHovY2FzLzQxMDY1ZmUzLWFlNjctNDE3Mi1hNDYwLWZkMDA3OWU4ODI5NA
+      #cas鏈嶅姟绔櫥鍑哄湴鍧�?service鍙傛暟鍚庨潰璺熷氨鏄渶瑕佽烦杞殑椤甸�?鎺ュ�?杩欓噷鎸囧畾鐨勬槸cas瀹㈡埛绔櫥褰曟帴鍙?
       logout_url: ${cas.server.host.url}/logout?service=${cas.service.host.url}${cas.service.host.login_url}
   service:
     host:
-      #cas客户端地址
+      #cas瀹㈡埛绔湴鍧€
       url: http://localhost:8080
-      #cas客户端地址登录地址
+      #cas瀹㈡埛绔湴鍧€鐧诲綍鍦板潃
       login_url: /login
-      #cas客户端地址登出地址
+      #cas瀹㈡埛绔湴鍧€鐧诲嚭鍦板潃
       logout_url: /logout    

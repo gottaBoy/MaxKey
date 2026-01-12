@@ -1,0 +1,17 @@
+description = "sophon-web-api-rest"
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/*/', include: '*.jar')
+	
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-entity")
+	implementation project(":sophon-persistence")
+	
+	implementation project(":sophon-authentications:sophon-authentication-core")
+   
+}

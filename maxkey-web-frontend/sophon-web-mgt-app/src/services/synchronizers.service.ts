@@ -12,7 +12,7 @@ export interface Synchronizer {
 
 class SynchronizersService extends BaseService<Synchronizer> {
   constructor() {
-    super('/maxkey-mgt-api/config/synchronizers');
+    super('/sophon-mgt-api/config/synchronizers');
   }
 
   /**

@@ -1,0 +1,14 @@
+
+description = "sophon-starter-captcha"
+
+
+dependencies {
+	implementation project(":sophon-commons:sophon-cache")
+    implementation project(":sophon-commons:sophon-common")
+    implementation project(":sophon-commons:sophon-crypto")
+    
+    implementation project(":sophon-entity")
+    implementation project(":sophon-authentications:sophon-authentication-core")
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/', include: '*/*.jar')   
+}

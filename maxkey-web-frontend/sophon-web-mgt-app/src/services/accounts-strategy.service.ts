@@ -16,7 +16,7 @@ export interface AccountsStrategy {
 
 class AccountsStrategyService extends BaseService<AccountsStrategy> {
   constructor() {
-    super('/maxkey-mgt-api/config/accountsstrategy');
+    super('/sophon-mgt-api/config/accountsstrategy');
   }
 
   /**

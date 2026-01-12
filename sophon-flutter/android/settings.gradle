@@ -10,12 +10,12 @@ pluginManagement {
     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
     repositories {
-        // 优先使用阿里云镜像
+        // 濞村吋锚閸樻稒鎷呯捄銊︽殢闂傚啫娼￠崳閿嬬閹达附娈旈柛?
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        // 备用官方源（Kotlin 插件需要从这些源获取）
+        // 濠㈣泛娲ㄩ弫銈団偓瑙勆戦弻鐔封攦閹板墎绀凨otlin 闁圭粯甯婂▎銏ゆ閳ь剛鎲版担椋庣煠閺夆晜鐟ょ花鍝勨攦閹邦垰绠柛娆愮壄缁?
         gradlePluginPortal()
         google()
         mavenCentral()

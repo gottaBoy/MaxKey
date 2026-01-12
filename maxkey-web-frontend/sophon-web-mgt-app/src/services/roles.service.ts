@@ -4,7 +4,7 @@ import { Role } from '@/types/entity';
 
 class RolesService extends BaseService<Role> {
   constructor() {
-    super('/maxkey-mgt-api/permissions/roles');
+    super('/sophon-mgt-api/permissions/roles');
   }
 
   /**

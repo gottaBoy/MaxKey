@@ -4,7 +4,7 @@ import request from '@/utils/request';
 
 class AccountsService extends BaseService<Accounts> {
   constructor() {
-    super('/maxkey-mgt-api/accounts');
+    super('/sophon-mgt-api/accounts');
   }
 
   /**

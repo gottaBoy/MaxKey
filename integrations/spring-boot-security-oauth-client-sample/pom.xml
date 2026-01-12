@@ -9,7 +9,7 @@
 		<version>2.3.6.RELEASE</version>
 		<relativePath /> 
 	</parent>
-	<groupId>org.maxkey.oauthclient</groupId>
+	<groupId>org.Sophon.oauthclient</groupId>
 	<artifactId>spring-boot-security-oauth-client-sample</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>boot-oauth-client</name>
@@ -81,3 +81,4 @@
 	</build>
 
 </project>
+

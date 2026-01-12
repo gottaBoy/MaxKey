@@ -20,7 +20,7 @@ export const environment = {
   production: true,
   useHash: true,
   api: {
-    baseUrl: '/maxkey-mgt-api',
+    baseUrl: '/sophon-mgt-api',
     refreshTokenEnabled: true,
     refreshTokenType: 're-request'
   }

@@ -14,7 +14,7 @@ export interface ConnectorLog {
 
 class ConnectorLogService extends BaseService<ConnectorLog> {
   constructor() {
-    super('/maxkey-mgt-api/historys/connectorHistory');
+    super('/sophon-mgt-api/historys/connectorHistory');
   }
 }
 

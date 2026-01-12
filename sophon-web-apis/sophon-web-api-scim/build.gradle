@@ -1,0 +1,13 @@
+description = "sophon-web-api-scim"
+
+apply plugin: 'java'
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/*/', include: '*.jar')
+	
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-entity")
+	implementation project(":sophon-persistence")
+   
+}

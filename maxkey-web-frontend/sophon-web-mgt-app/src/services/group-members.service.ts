@@ -3,7 +3,7 @@ import { GroupMember } from '@/types/entity';
 import { PageParams, PageResponse } from '@/utils/request';
 
 class GroupMembersService {
-  private baseUrl = '/maxkey-mgt-api/access/groupmembers';
+  private baseUrl = '/sophon-mgt-api/access/groupmembers';
 
   /**
    * 分页查询组成员（已加入组的成员）

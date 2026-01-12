@@ -4,7 +4,7 @@ import { Organization, TreeNode } from '@/types/entity';
 
 class OrganizationsService extends BaseService<Organization> {
   constructor() {
-    super('/maxkey-mgt-api');
+    super('/sophon-mgt-api');
   }
 
   /**

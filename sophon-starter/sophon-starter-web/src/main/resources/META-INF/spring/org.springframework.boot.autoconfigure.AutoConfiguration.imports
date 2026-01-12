@@ -1,0 +1,5 @@
+org.zeron.sophon.autoconfigure.ApplicationAutoConfiguration
+org.zeron.sophon.autoconfigure.MvcAutoConfiguration
+org.zeron.sophon.autoconfigure.MvcResourceAutoConfiguration
+org.zeron.sophon.autoconfigure.RedisAutoConfiguration
+org.zeron.sophon.autoconfigure.SwaggerAutoConfiguration

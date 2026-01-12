@@ -27,7 +27,7 @@
     <artifactId>pig-auth</artifactId>
     <packaging>jar</packaging>
 
-    <description>pig 认证授权中心，基于 spring security oAuth2</description>
+    <description>pig 认证授权中心，基�?spring security oAuth2</description>
 
     <dependencies>
 		<dependency>
@@ -35,17 +35,17 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.7.0</version>
 		</dependency>
-        <!--注册中心客户端-->
+        <!--注册中心客户�?->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!--配置中心客户端-->
+        <!--配置中心客户�?->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!--断路器依赖-->
+        <!--断路器依�?->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-feign</artifactId>

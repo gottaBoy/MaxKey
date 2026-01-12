@@ -1,0 +1,58 @@
+buildscript {
+	dependencies {
+		//springboot jar
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springbootpluginVersion}")
+	}
+}
+
+plugins {
+	id 'java' //add support for Java
+	id 'org.springframework.boot' version "${springbootpluginVersion}"
+}
+
+description = "sophon-web-openapi"
+
+bootJar {
+	dependsOn jar
+	archiveBaseName = 'sophon-openapi-boot'
+    version = "${project.version}-ga"
+    mainClass = 'org.zeron.sophon.SophonApiApplication'
+	manifest {
+	        attributes(
+                        "Implementation-Title": project.name,
+	                	"Implementation-Vendor": project.vendor,
+	                	"Created-By": project.author,
+	                	"Implementation-Date": java.time.ZonedDateTime.now(),
+	                	"Implementation-Version": project.version
+	           )
+	    }	
+}
+
+dependencies {
+	
+	implementation project(":sophon-commons:sophon-cache")
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-commons:sophon-core")
+	implementation project(":sophon-commons:sophon-crypto")
+	
+	implementation project(":sophon-entity")
+	implementation project(":sophon-persistence")
+	
+	implementation project(":sophon-starter:sophon-starter-captcha")
+   	implementation project(":sophon-starter:sophon-starter-ip2location")
+	implementation project(":sophon-starter:sophon-starter-otp")
+	implementation project(":sophon-starter:sophon-starter-sms")
+	implementation project(":sophon-starter:sophon-starter-web")
+	
+	implementation project(":sophon-authentications:sophon-authentication-core")
+	implementation project(":sophon-authentications:sophon-authentication-provider")
+	
+	implementation project(":sophon-protocols:sophon-protocol-authorize")
+   	implementation project(":sophon-protocols:sophon-protocol-oauth-2.0")
+   	implementation project(":sophon-protocols:sophon-protocol-saml-2.0")   
+   	
+   	//webapis
+   	implementation project(":sophon-web-apis:sophon-web-api-scim")   
+   	implementation project(":sophon-web-apis:sophon-web-api-rest")	
+}
+

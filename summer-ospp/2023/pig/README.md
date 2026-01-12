@@ -1,27 +1,27 @@
-# Pig整合MaxKey流程整理
+# Pig鏁村悎Sophon娴佺▼鏁寸悊
 
-## 主要工作介紹
+## 涓昏宸ヤ綔浠嬬垂
 
-1.pig集成maxkey中CAS的单点登录 
-2.pig集成maxke的组织架构信息等
+1.pig闆嗘垚Sophon涓瑿AS鐨勫崟鐐圭櫥褰?
+2.pig闆嗘垚maxke鐨勭粍缁囨灦鏋勪俊鎭瓑
 
-## pig介绍
+## pig浠嬬粛
 
-### pig版本
+### pig鐗堟湰
 
-#### pig后端版本：3.6
+#### pig鍚庣鐗堟湰锛?.6
 
-gitee地址：https://gitee.com/log4j/pig.git
+gitee鍦板潃锛歨ttps://gitee.com/log4j/pig.git
 
-#### pig前端版本：最新代码
+#### pig鍓嶇鐗堟湰锛氭渶鏂颁唬鐮?
 
-gitee地址：https://gitee.com/log4j/pig-ui.git
+gitee鍦板潃锛歨ttps://gitee.com/log4j/pig-ui.git
 
-## 流程梳理
+## 娴佺▼姊崇悊
 
-### 1.pig-auth模块
+### 1.pig-auth妯″潡
 
-#### 1.pom.xml的更改覆盖了pig的Oauth2的token生成方案
+#### 1.pom.xml鐨勬洿鏀硅鐩栦簡pig鐨凮auth2鐨則oken鐢熸垚鏂规
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -53,7 +53,7 @@ gitee地址：https://gitee.com/log4j/pig-ui.git
     <artifactId>pig-auth</artifactId>
     <packaging>jar</packaging>
 
-    <description>pig 认证授权中心，基于 spring security oAuth2</description>
+    <description>pig 璁よ瘉鎺堟潈涓績锛屽熀浜?spring security oAuth2</description>
 
     <dependencies>
 		<dependency>
@@ -61,22 +61,22 @@ gitee地址：https://gitee.com/log4j/pig-ui.git
 			<artifactId>jjwt</artifactId>
 			<version>0.7.0</version>
 		</dependency>
-        <!--注册中心客户端-->
+        <!--娉ㄥ唽涓績瀹㈡埛绔?->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!--配置中心客户端-->
+        <!--閰嶇疆涓績瀹㈡埛绔?->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!--断路器依赖-->
+        <!--鏂矾鍣ㄤ緷璧?->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-feign</artifactId>
         </dependency>
-        <!--upms api、model 模块-->
+        <!--upms api銆乵odel 妯″潡-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-upms-api</artifactId>
@@ -94,7 +94,7 @@ gitee地址：https://gitee.com/log4j/pig-ui.git
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-        <!--undertow容器-->
+        <!--undertow瀹瑰櫒-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
@@ -123,7 +123,7 @@ gitee地址：https://gitee.com/log4j/pig-ui.git
 
 ```
 
-#### PigTokenEndpoint中新增获取token的方法
+#### PigTokenEndpoint涓柊澧炶幏鍙杢oken鐨勬柟娉?
 
 ```java
 /*
@@ -204,7 +204,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author lengleng
- * @date 2019/2/1 删除token端点
+ * @date 2019/2/1 鍒犻櫎token绔偣
  */
 @Slf4j
 @RestController
@@ -240,10 +240,10 @@ public class PigTokenEndpoint {
 
 
 	/**
-	 * 认证页面
+	 * 璁よ瘉椤甸潰
 	 *
 	 * @param modelAndView
-	 * @param error        表单登录失败处理回调的错误信息
+	 * @param error        琛ㄥ崟鐧诲綍澶辫触澶勭悊鍥炶皟鐨勯敊璇俊鎭?
 	 * @return ModelAndView
 	 */
 	@GetMapping("/login")
@@ -260,7 +260,7 @@ public class PigTokenEndpoint {
 								@RequestParam(OAuth2ParameterNames.STATE) String state) {
 		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
 				.getData()
-				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+				.orElseThrow(() -> new OAuthClientException("clientId 涓嶅悎娉?));
 
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		modelAndView.addObject("clientId", clientId);
@@ -272,7 +272,7 @@ public class PigTokenEndpoint {
 	}
 
 	/**
-	 * 退出并删除token
+	 * 閫€鍑哄苟鍒犻櫎token
 	 *
 	 * @param authHeader Authorization
 	 */
@@ -295,9 +295,9 @@ public class PigTokenEndpoint {
 	}
 
 	/**
-	 * 校验token
+	 * 鏍￠獙token
 	 *
-	 * @param token 令牌
+	 * @param token 浠ょ墝
 	 */
 	@SneakyThrows
 	@GetMapping("/check_token")
@@ -313,7 +313,7 @@ public class PigTokenEndpoint {
 		}
 		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 
-		// 如果令牌不存在 返回401
+		// 濡傛灉浠ょ墝涓嶅瓨鍦?杩斿洖401
 		if (authorization == null || authorization.getAccessToken() == null) {
 			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
 					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN));
@@ -327,7 +327,7 @@ public class PigTokenEndpoint {
 	}
 
 	/**
-	 * 令牌管理调用
+	 * 浠ょ墝绠＄悊璋冪敤
 	 *
 	 * @param token token
 	 */
@@ -343,26 +343,26 @@ public class PigTokenEndpoint {
 		if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
 			return R.ok();
 		}
-		// 清空用户信息
+		// 娓呯┖鐢ㄦ埛淇℃伅
 		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
-		// 清空access token
+		// 娓呯┖access token
 		authorizationService.remove(authorization);
-		// 处理自定义退出事件，保存相关日志
+		// 澶勭悊鑷畾涔夐€€鍑轰簨浠讹紝淇濆瓨鐩稿叧鏃ュ織
 		SpringContextHolder.publishEvent(new LogoutSuccessEvent(new PreAuthenticatedAuthenticationToken(
 				authorization.getPrincipalName(), authorization.getRegisteredClientId())));
 		return R.ok();
 	}
 
 	/**
-	 * 查询token
+	 * 鏌ヨtoken
 	 *
-	 * @param params 分页参数
+	 * @param params 鍒嗛〉鍙傛暟
 	 * @return
 	 */
 	@Inner
 	@PostMapping("/page")
 	public R<Page> tokenList(@RequestBody Map<String, Object> params) {
-		// 根据分页参数获取对应数据
+		// 鏍规嵁鍒嗛〉鍙傛暟鑾峰彇瀵瑰簲鏁版嵁
 		String key = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
 		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
 		int size = MapUtil.getInt(params, CommonConstants.SIZE);
@@ -421,9 +421,9 @@ public class PigTokenEndpoint {
 
 ```
 
-#### 3.新增utils类
+#### 3.鏂板utils绫?
 
-##### RedisUtils中操作缓存的工具类
+##### RedisUtils涓搷浣滅紦瀛樼殑宸ュ叿绫?
 
 ```java
 package com.pig4cloud.pig.auth.utils;
@@ -452,7 +452,7 @@ public class RedisUtils {
 
 ```
 
-##### TokenMananer工具类
+##### TokenMananer宸ュ叿绫?
 
 ```java
 package com.pig4cloud.pig.auth.utils;
@@ -487,7 +487,7 @@ public class TokenManager {
 	}
 
 	public void removeToken(String token) {
-		//jwttoken无需删除，客户端扔掉即可。
+		//jwttoken鏃犻渶鍒犻櫎锛屽鎴风鎵旀帀鍗冲彲銆?
 	}
 
 }
@@ -496,9 +496,9 @@ public class TokenManager {
 
 ### 2.pig-common
 
-#### pom文件的更改
+#### pom鏂囦欢鐨勬洿鏀?
 
-主要新增 CAS的MAVEN包
+涓昏鏂板 CAS鐨凪AVEN鍖?
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -530,7 +530,7 @@ public class TokenManager {
     <artifactId>pig-common-security</artifactId>
     <packaging>jar</packaging>
 
-    <description>pig 安全工具类</description>
+    <description>pig 瀹夊叏宸ュ叿绫?/description>
 
 
     <dependencies>
@@ -543,7 +543,7 @@ public class TokenManager {
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-cas</artifactId>
 		</dependency>
-        <!--工具类核心包-->
+        <!--宸ュ叿绫绘牳蹇冨寘-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-core</artifactId>
@@ -562,7 +562,7 @@ public class TokenManager {
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-commons</artifactId>
         </dependency>
-        <!--feign 工具类-->
+        <!--feign 宸ュ叿绫?->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -585,9 +585,9 @@ public class TokenManager {
 
 ```
 
-#### annotation包下面
+#### annotation鍖呬笅闈?
 
-更改EnablePigResourceServer
+鏇存敼EnablePigResourceServer
 
 ```java
 /*
@@ -620,7 +620,7 @@ import java.lang.annotation.*;
  * @author lengleng
  * @date 2022-06-04
  * <p>
- * 资源服务注解
+ * 璧勬簮鏈嶅姟娉ㄨВ
  */
 @Documented
 @Inherited
@@ -634,9 +634,9 @@ public @interface EnablePigResourceServer {
 
 ```
 
-#### Config包下
+#### Config鍖呬笅
 
-##### 新增CasProperties主要是CAS得配置信息配置在NACOS中
+##### 鏂板CasProperties涓昏鏄疌AS寰楅厤缃俊鎭厤缃湪NACOS涓?
 
 ```java
 package com.pig4cloud.pig.common.security.config;
@@ -650,49 +650,49 @@ import org.springframework.stereotype.Component;
 public class CasProperties {
 
 	/**
-	 * 秘钥
+	 * 绉橀挜
 	 */
 	@Value("${cas.key}")
 	private String casKey;
 
 	/**
-	 * cas服务端地址
+	 * cas鏈嶅姟绔湴鍧€
 	 */
 	@Value("${cas.server.host.url}")
 	private String casServerUrl;
 
 	/**
-	 * cas服务端地址
+	 * cas鏈嶅姟绔湴鍧€
 	 */
 	@Value("${cas.server.host.grant_url}")
 	private String casGrantingUrl;
 
 	/**
-	 * cas服务端登录地址
+	 * cas鏈嶅姟绔櫥褰曞湴鍧€
 	 */
 	@Value("${cas.server.host.login_url}")
 	private String casServerLoginUrl;
 
 	/**
-	 * cas服务端登出地址 并回跳到制定页面
+	 * cas鏈嶅姟绔櫥鍑哄湴鍧€ 骞跺洖璺冲埌鍒跺畾椤甸潰
 	 */
 	@Value("${cas.server.host.logout_url}")
 	private String casServerLogoutUrl;
 
 	/**
-	 * cas客户端地址
+	 * cas瀹㈡埛绔湴鍧€
 	 */
 	@Value("${cas.service.host.url}")
 	private String casServiceUrl;
 
 	/**
-	 * cas客户端地址登录地址
+	 * cas瀹㈡埛绔湴鍧€鐧诲綍鍦板潃
 	 */
 	@Value("${cas.service.host.login_url}")
 	private String casServiceLoginUrl;
 
 	/**
-	 * cas客户端地址登出地址
+	 * cas瀹㈡埛绔湴鍧€鐧诲嚭鍦板潃
 	 */
 	@Value("${cas.service.host.logout_url}")
 	private String casServiceLogoutUrl;
@@ -701,7 +701,7 @@ public class CasProperties {
 
 ```
 
-##### SecurityConfig类主要是CAS的认证流程并且覆盖原本pig的认证流程
+##### SecurityConfig绫讳富瑕佹槸CAS鐨勮璇佹祦绋嬪苟涓旇鐩栧師鏈琾ig鐨勮璇佹祦绋?
 
 ```java
 package com.pig4cloud.pig.common.security.config;
@@ -733,8 +733,8 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 
 @Slf4j
 @Configuration
-@EnableWebSecurity // 启用web权限
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 启用方法验证
+@EnableWebSecurity // 鍚敤web鏉冮檺
+@EnableGlobalMethodSecurity(prePostEnabled = true) // 鍚敤鏂规硶楠岃瘉
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -748,7 +748,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 	/**
-	 * 定义认证用户信息获取来源，密码校验规则等
+	 * 瀹氫箟璁よ瘉鐢ㄦ埛淇℃伅鑾峰彇鏉ユ簮锛屽瘑鐮佹牎楠岃鍒欑瓑
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -757,16 +757,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * 定义安全策略
+	 * 瀹氫箟瀹夊叏绛栫暐
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()// 配置安全策略
+		http.authorizeRequests()// 閰嶇疆瀹夊叏绛栫暐
 				.antMatchers(ArrayUtil.toArray(permitAllUrl.getUrls(), String.class)).permitAll()
-				.anyRequest().authenticated()// 其余的所有请求都需要验证
-				.and().logout().permitAll()// 定义logout不需要验证
-				.and().formLogin();// 使用form表单登录
+				.anyRequest().authenticated()// 鍏朵綑鐨勬墍鏈夎姹傞兘闇€瑕侀獙璇?
+				.and().logout().permitAll()// 瀹氫箟logout涓嶉渶瑕侀獙璇?
+				.and().formLogin();// 浣跨敤form琛ㄥ崟鐧诲綍
 
 		http.exceptionHandling()
 				.authenticationEntryPoint(casAuthenticationEntryPoint())
@@ -774,15 +774,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilter(casAuthenticationFilter())
 				.addFilterBefore(casLogoutFilter(), LogoutFilter.class)
 				.addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
-		// 取消跨站请求伪造防护
+		// 鍙栨秷璺ㄧ珯璇锋眰浼€犻槻鎶?
 		http.csrf().disable();
-//      // 防止iframe 造成跨域
+//      // 闃叉iframe 閫犳垚璺ㄥ煙
 		http.headers().frameOptions().disable();
-		// http.csrf().disable(); //禁用CSRF
+		// http.csrf().disable(); //绂佺敤CSRF
 	}
 
 	/**
-	 * 认证的入口
+	 * 璁よ瘉鐨勫叆鍙?
 	 */
 	@Bean
 	public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
@@ -793,12 +793,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * 指定service相关信息
+	 * 鎸囧畾service鐩稿叧淇℃伅
 	 */
 	@Bean
 	public ServiceProperties serviceProperties() {
 		ServiceProperties serviceProperties = new ServiceProperties();
-		//设置cas客户端登录完整的url
+		//璁剧疆cas瀹㈡埛绔櫥褰曞畬鏁寸殑url
 		serviceProperties.setService(casProperties.getCasServiceUrl() + casProperties.getCasServiceLoginUrl());
 		serviceProperties.setSendRenew(false);
 		serviceProperties.setAuthenticateAllArtifacts(true);
@@ -806,7 +806,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * CAS认证过滤器
+	 * CAS璁よ瘉杩囨护鍣?
 	 */
 	@Bean
 	public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
@@ -818,13 +818,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * cas 认证 Provider
+	 * cas 璁よ瘉 Provider
 	 */
 	@Bean
 	public CasAuthenticationProvider casAuthenticationProvider() {
 		CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
 		casAuthenticationProvider.setAuthenticationUserDetailsService(casUserDetailService);
-		// //这里只是接口类型，实现的接口不一样，都可以的。
+		// //杩欓噷鍙槸鎺ュ彛绫诲瀷锛屽疄鐜扮殑鎺ュ彛涓嶄竴鏍凤紝閮藉彲浠ョ殑銆?
 		casAuthenticationProvider.setServiceProperties(serviceProperties());
 		casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
 		casAuthenticationProvider.setKey("casAuthenticationProviderKey");
@@ -840,7 +840,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * 单点登出过滤器
+	 * 鍗曠偣鐧诲嚭杩囨护鍣?
 	 */
 	@Bean
 	public SingleSignOutFilter singleSignOutFilter() {
@@ -851,7 +851,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * 请求单点退出过滤器
+	 * 璇锋眰鍗曠偣閫€鍑鸿繃婊ゅ櫒
 	 */
 	@Bean
 	public LogoutFilter casLogoutFilter() {
@@ -863,9 +863,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ```
 
-#### service包
+#### service鍖?
 
-新增PigUserDetailsServiceImpl类主要功能为CAS服务认证成功方法，判断用户是否存在，存在获取用户信息，不存在调用远程接口新增用户并同步组织架构信息
+鏂板PigUserDetailsServiceImpl绫讳富瑕佸姛鑳戒负CAS鏈嶅姟璁よ瘉鎴愬姛鏂规硶锛屽垽鏂敤鎴锋槸鍚﹀瓨鍦紝瀛樺湪鑾峰彇鐢ㄦ埛淇℃伅锛屼笉瀛樺湪璋冪敤杩滅▼鎺ュ彛鏂板鐢ㄦ埛骞跺悓姝ョ粍缁囨灦鏋勪俊鎭?
 
 ```java
 /*
@@ -904,7 +904,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.*;
 
 /**
- * 用户详细信息
+ * 鐢ㄦ埛璇︾粏淇℃伅
  *
  * @author lengleng hccake
  */
@@ -918,9 +918,9 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService, Authent
 	private final CacheManager cacheManager;
 
 	/**
-	 * 用户名密码登录
+	 * 鐢ㄦ埛鍚嶅瘑鐮佺櫥褰?
 	 *
-	 * @param username 用户名
+	 * @param username 鐢ㄦ埛鍚?
 	 * @return
 	 */
 	@Override
@@ -964,11 +964,11 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService, Authent
 
 ```
 
-### pig-upms包
+### pig-upms鍖?
 
-#### pom的更改
+#### pom鐨勬洿鏀?
 
-新增guava工具类
+鏂板guava宸ュ叿绫?
 
 ```java
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1000,7 +1000,7 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService, Authent
     <artifactId>pig-upms-biz</artifactId>
     <packaging>jar</packaging>
 
-    <description>pig 通用用户权限管理系统业务处理模块</description>
+    <description>pig 閫氱敤鐢ㄦ埛鏉冮檺绠＄悊绯荤粺涓氬姟澶勭悊妯″潡</description>
 
     <dependencies>
 		<dependency>
@@ -1008,37 +1008,37 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService, Authent
 			<artifactId>guava</artifactId>
 			<version>29.0-jre</version>
 		</dependency>
-        <!--upms api、model 模块-->
+        <!--upms api銆乵odel 妯″潡-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-upms-api</artifactId>
         </dependency>
-        <!--文件管理-->
+        <!--鏂囦欢绠＄悊-->
         <dependency>
             <groupId>com.pig4cloud.plugin</groupId>
             <artifactId>oss-spring-boot-starter</artifactId>
         </dependency>
-        <!--feign 调用-->
+        <!--feign 璋冪敤-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-feign</artifactId>
         </dependency>
-        <!--安全模块-->
+        <!--瀹夊叏妯″潡-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-security</artifactId>
         </dependency>
-        <!--日志处理-->
+        <!--鏃ュ織澶勭悊-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-log</artifactId>
         </dependency>
-        <!--接口文档-->
+        <!--鎺ュ彛鏂囨。-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-swagger</artifactId>
         </dependency>
-        <!-- orm 模块-->
+        <!-- orm 妯″潡-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -1047,27 +1047,27 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService, Authent
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
-        <!--注册中心客户端-->
+        <!--娉ㄥ唽涓績瀹㈡埛绔?->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!--配置中心客户端-->
+        <!--閰嶇疆涓績瀹㈡埛绔?->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!-- 阿里云短信下发 -->
+        <!-- 闃块噷浜戠煭淇′笅鍙?-->
         <dependency>
             <groupId>io.springboot.sms</groupId>
             <artifactId>aliyun-sms-spring-boot-starter</artifactId>
         </dependency>
-        <!--xss 过滤-->
+        <!--xss 杩囨护-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-xss</artifactId>
         </dependency>
-        <!--undertow容器-->
+        <!--undertow瀹瑰櫒-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
@@ -1109,9 +1109,9 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService, Authent
 
 ```
 
-#### controller包
+#### controller鍖?
 
-在SysUserController中新增方法主要为提供远程调用方法，判断用户是否存在，添加用户信息等
+鍦⊿ysUserController涓柊澧炴柟娉曚富瑕佷负鎻愪緵杩滅▼璋冪敤鏂规硶锛屽垽鏂敤鎴锋槸鍚﹀瓨鍦紝娣诲姞鐢ㄦ埛淇℃伅绛?
 
 ```java
 /*
@@ -1179,16 +1179,16 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@Tag(name = "用户管理模块")
+@Tag(name = "鐢ㄦ埛绠＄悊妯″潡")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysUserController {
 
 	private final SysUserService userService;
 
 	/**
-	 * 获取当前用户全部信息
+	 * 鑾峰彇褰撳墠鐢ㄦ埛鍏ㄩ儴淇℃伅
 	 *
-	 * @return 用户信息
+	 * @return 鐢ㄦ埛淇℃伅
 	 */
 	@GetMapping(value = {"/info"})
 	public R<UserInfoVO> info() {
@@ -1206,9 +1206,9 @@ public class SysUserController {
 	}
 
 	/**
-	 * 获取指定用户全部信息
+	 * 鑾峰彇鎸囧畾鐢ㄦ埛鍏ㄩ儴淇℃伅
 	 *
-	 * @return 用户信息
+	 * @return 鐢ㄦ埛淇℃伅
 	 */
 	@Inner
 	@GetMapping("/info/{username}")
@@ -1224,7 +1224,7 @@ public class SysUserController {
 	@PostMapping("/sso_save")
 	public R<UserInfo> save_sso(@RequestBody Map<String, Object> attributes) {
 		String username = (String) attributes.getOrDefault("username", "pig");
-		// 判断用户名是否存在
+		// 鍒ゆ柇鐢ㄦ埛鍚嶆槸鍚﹀瓨鍦?
 		SysUser sysUser = userService.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
 		if (sysUser == null) {
 			SysUser sysUserByMap = BeanCreator.createSysUserByMap(attributes);
@@ -1234,17 +1234,17 @@ public class SysUserController {
 			userDTO.setPost(Lists.newArrayList(1l));
 			userDTO.setDeptId(6l);
 			userDTO.setRole(Lists.newArrayList(2l));
-			// 添加用户
+			// 娣诲姞鐢ㄦ埛
 			userService.saveUser(userDTO);
 		}
 		return info(username);
 	}
 
 	/**
-	 * 根据部门id，查询对应的用户 id 集合
+	 * 鏍规嵁閮ㄩ棬id锛屾煡璇㈠搴旂殑鐢ㄦ埛 id 闆嗗悎
 	 *
-	 * @param deptIds 部门id 集合
-	 * @return 用户 id 集合
+	 * @param deptIds 閮ㄩ棬id 闆嗗悎
+	 * @return 鐢ㄦ埛 id 闆嗗悎
 	 */
 	@Inner
 	@GetMapping("/ids")
@@ -1253,10 +1253,10 @@ public class SysUserController {
 	}
 
 	/**
-	 * 通过ID查询用户信息
+	 * 閫氳繃ID鏌ヨ鐢ㄦ埛淇℃伅
 	 *
 	 * @param id ID
-	 * @return 用户信息
+	 * @return 鐢ㄦ埛淇℃伅
 	 */
 	@GetMapping("/{id:\\d+}")
 	public R<UserVO> user(@PathVariable Long id) {
@@ -1264,9 +1264,9 @@ public class SysUserController {
 	}
 
 	/**
-	 * 判断用户是否存在
+	 * 鍒ゆ柇鐢ㄦ埛鏄惁瀛樺湪
 	 *
-	 * @param userDTO 查询条件
+	 * @param userDTO 鏌ヨ鏉′欢
 	 * @return
 	 */
 	@Inner(false)
@@ -1280,12 +1280,12 @@ public class SysUserController {
 	}
 
 	/**
-	 * 删除用户信息
+	 * 鍒犻櫎鐢ㄦ埛淇℃伅
 	 *
 	 * @param id ID
 	 * @return R
 	 */
-	@SysLog("删除用户信息")
+	@SysLog("鍒犻櫎鐢ㄦ埛淇℃伅")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	public R<Boolean> userDel(@PathVariable Long id) {
@@ -1294,12 +1294,12 @@ public class SysUserController {
 	}
 
 	/**
-	 * 添加用户
+	 * 娣诲姞鐢ㄦ埛
 	 *
-	 * @param userDto 用户信息
+	 * @param userDto 鐢ㄦ埛淇℃伅
 	 * @return success/false
 	 */
-	@SysLog("添加用户")
+	@SysLog("娣诲姞鐢ㄦ埛")
 	@PostMapping
 	@XssCleanIgnore({"password"})
 	@PreAuthorize("@pms.hasPermission('sys_user_add')")
@@ -1308,12 +1308,12 @@ public class SysUserController {
 	}
 
 	/**
-	 * 管理员更新用户信息
+	 * 绠＄悊鍛樻洿鏂扮敤鎴蜂俊鎭?
 	 *
-	 * @param userDto 用户信息
+	 * @param userDto 鐢ㄦ埛淇℃伅
 	 * @return R
 	 */
-	@SysLog("更新用户信息")
+	@SysLog("鏇存柊鐢ㄦ埛淇℃伅")
 	@PutMapping
 	@XssCleanIgnore({"password"})
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
@@ -1322,11 +1322,11 @@ public class SysUserController {
 	}
 
 	/**
-	 * 分页查询用户
+	 * 鍒嗛〉鏌ヨ鐢ㄦ埛
 	 *
-	 * @param page    参数集
-	 * @param userDTO 查询参数列表
-	 * @return 用户集合
+	 * @param page    鍙傛暟闆?
+	 * @param userDTO 鏌ヨ鍙傛暟鍒楄〃
+	 * @return 鐢ㄦ埛闆嗗悎
 	 */
 	@GetMapping("/page")
 	public R<IPage<UserVO>> getUserPage(Page page, UserDTO userDTO) {
@@ -1334,12 +1334,12 @@ public class SysUserController {
 	}
 
 	/**
-	 * 个人修改个人信息
+	 * 涓汉淇敼涓汉淇℃伅
 	 *
 	 * @param userDto userDto
 	 * @return success/false
 	 */
-	@SysLog("修改个人信息")
+	@SysLog("淇敼涓汉淇℃伅")
 	@PutMapping("/edit")
 	@XssCleanIgnore({"password", "newpassword1"})
 	public R<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
@@ -1348,8 +1348,8 @@ public class SysUserController {
 	}
 
 	/**
-	 * @param username 用户名称
-	 * @return 上级部门用户列表
+	 * @param username 鐢ㄦ埛鍚嶇О
+	 * @return 涓婄骇閮ㄩ棬鐢ㄦ埛鍒楄〃
 	 */
 	@GetMapping("/ancestor/{username}")
 	public R<List<SysUser>> listAncestorUsers(@PathVariable String username) {
@@ -1357,9 +1357,9 @@ public class SysUserController {
 	}
 
 	/**
-	 * 导出excel 表格
+	 * 瀵煎嚭excel 琛ㄦ牸
 	 *
-	 * @param userDTO 查询条件
+	 * @param userDTO 鏌ヨ鏉′欢
 	 * @return
 	 */
 	@ResponseExcel
@@ -1370,10 +1370,10 @@ public class SysUserController {
 	}
 
 	/**
-	 * 导入用户
+	 * 瀵煎叆鐢ㄦ埛
 	 *
-	 * @param excelVOList   用户列表
-	 * @param bindingResult 错误信息列表
+	 * @param excelVOList   鐢ㄦ埛鍒楄〃
+	 * @param bindingResult 閿欒淇℃伅鍒楄〃
 	 * @return R
 	 */
 	@PostMapping("/import")
@@ -1386,9 +1386,9 @@ public class SysUserController {
 
 ```
 
-#### utils包
+#### utils鍖?
 
-新增BeanCreator方法，主要创建SysUser对象工具类
+鏂板BeanCreator鏂规硶锛屼富瑕佸垱寤篠ysUser瀵硅薄宸ュ叿绫?
 
 ```java
 package com.pig4cloud.pig.admin.utils;
@@ -1417,13 +1417,13 @@ public class BeanCreator {
 
 ```
 
-### vue包
+### vue鍖?
 
-主要是对pig前端页面的修改
+涓昏鏄pig鍓嶇椤甸潰鐨勪慨鏀?
 
-#### api包
+#### api鍖?
 
-新增获取token的方法
+鏂板鑾峰彇token鐨勬柟娉?
 
 ```js
 /*
@@ -1458,7 +1458,7 @@ export const loginByUsername = (username, password, code, randomStr) => {
 
   const basicAuth = 'Basic ' + window.btoa(website.formLoginClient)
 
-  // 保存当前选中的 basic 认证信息
+  // 淇濆瓨褰撳墠閫変腑鐨?basic 璁よ瘉淇℃伅
   setStore({
     name: 'basicAuth',
     content: basicAuth,
@@ -1482,7 +1482,7 @@ export const loginByMobile = (smsForm) => {
 
   const basicAuth = 'Basic ' + window.btoa(website.smsLoginClient)
 
-  // 保存当前选中的 basic 认证信息
+  // 淇濆瓨褰撳墠閫変腑鐨?basic 璁よ瘉淇℃伅
   setStore({
     name: 'basicAuth',
     content: basicAuth,
@@ -1510,7 +1510,7 @@ export const ssoLogin = (ticket,service) => {
 
 export const refreshToken = refresh_token => {
   const grant_type = 'refresh_token'
-  // 获取当前选中的 basic 认证信息
+  // 鑾峰彇褰撳墠閫変腑鐨?basic 璁よ瘉淇℃伅
   const basicAuth = getStore({ name: 'basicAuth' })
 
   return request({
@@ -1539,14 +1539,14 @@ export const logout = () => {
 }
 
 /**
- * 校验令牌，若有效期小于半小时自动续期
+ * 鏍￠獙浠ょ墝锛岃嫢鏈夋晥鏈熷皬浜庡崐灏忔椂鑷姩缁湡
  * 
- * 定时任务请求后端接口返回实际的有效时间，不进行本地计算避免 客户端和服务器机器时钟不一致
+ * 瀹氭椂浠诲姟璇锋眰鍚庣鎺ュ彛杩斿洖瀹為檯鐨勬湁鏁堟椂闂达紝涓嶈繘琛屾湰鍦拌绠楅伩鍏?瀹㈡埛绔拰鏈嶅姟鍣ㄦ満鍣ㄦ椂閽熶笉涓€鑷?
  * @param refreshLock
  */
 export const checkToken = (refreshLock, $store) => {
   const token = store.getters.access_token
-  // 获取当前选中的 basic 认证信息
+  // 鑾峰彇褰撳墠閫変腑鐨?basic 璁よ瘉淇℃伅
   const basicAuth = getStore({ name: 'basicAuth' })
 
   if (validatenull(token) || validatenull(basicAuth)) {
@@ -1565,8 +1565,8 @@ export const checkToken = (refreshLock, $store) => {
     const expire = response && response.data && response.data.exp
     if (expire) {
       const expiredPeriod = expire * 1000 - new Date().getTime()
-      console.log('当前token过期时间', expiredPeriod, '毫秒')
-      //小于半小时自动续约
+      console.log('褰撳墠token杩囨湡鏃堕棿', expiredPeriod, '姣')
+      //灏忎簬鍗婂皬鏃惰嚜鍔ㄧ画绾?
       if (expiredPeriod <= website.remainingTime) {
         if (!refreshLock) {
           refreshLock = true
@@ -1584,7 +1584,7 @@ export const checkToken = (refreshLock, $store) => {
 }
 
 /**
- * 注册用户
+ * 娉ㄥ唽鐢ㄦ埛
  */
 export const registerUser = (userInfo) => {
   return request({
@@ -1596,7 +1596,7 @@ export const registerUser = (userInfo) => {
 
 
 /**
- * 发送短信
+ * 鍙戦€佺煭淇?
  */
 export const sendSmsCode = (form) => {
   return request({
@@ -1608,7 +1608,7 @@ export const sendSmsCode = (form) => {
 
 ```
 
-#### userlogin改造
+#### userlogin鏀归€?
 
 ```html
 <template>
@@ -1624,7 +1624,7 @@ export const sendSmsCode = (form) => {
       <el-input
         v-model="loginForm.username"
         auto-complete="off"
-        placeholder="请输入用户名"
+        placeholder="璇疯緭鍏ョ敤鎴峰悕"
         @keyup.enter.native="handleLogin"
       >
         <template #prefix>
@@ -1639,7 +1639,7 @@ export const sendSmsCode = (form) => {
         type="password"
         auto-complete="off"
         show-password
-        placeholder="请输入密码"
+        placeholder="璇疯緭鍏ュ瘑鐮?
         @keyup.enter.native="handleLogin"
       >
         <template #prefix>
@@ -1653,7 +1653,7 @@ export const sendSmsCode = (form) => {
         v-model="loginForm.code"
         :maxlength="code.len"
         auto-complete="off"
-        placeholder="请输入验证码"
+        placeholder="璇疯緭鍏ラ獙璇佺爜"
         @keyup.enter.native="handleLogin"
       >
         <template #prefix>
@@ -1682,7 +1682,7 @@ export const sendSmsCode = (form) => {
         type="primary"
         class="login-submit"
         @click.native.prevent="handleLogin"
-      >登录
+      >鐧诲綍
       </el-button
       >
     </el-form-item>
@@ -1713,14 +1713,14 @@ export default {
       },
       loginRules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { pattern: /^([a-z\u4e00-\u9fa5\d]*?)$/, message: '请输入小写字母', trigger: 'blur' }
+          { required: true, message: '璇疯緭鍏ョ敤鎴峰悕', trigger: 'blur' },
+          { pattern: /^([a-z\u4e00-\u9fa5\d]*?)$/, message: '璇疯緭鍏ュ皬鍐欏瓧姣?, trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '密码长度最少为6位', trigger: 'blur' }
+          { required: true, message: '璇疯緭鍏ュ瘑鐮?, trigger: 'blur' },
+          { min: 6, message: '瀵嗙爜闀垮害鏈€灏戜负6浣?, trigger: 'blur' }
         ],
-        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+        code: [{ required: true, message: '璇疯緭鍏ラ獙璇佺爜', trigger: 'blur' }]
       }
     }
   },
@@ -1783,9 +1783,9 @@ export default {
 
 ```
 
-#### router改造
+#### router鏀归€?
 
-如果没权限返回登录页面
+濡傛灉娌℃潈闄愯繑鍥炵櫥褰曢〉闈?
 
 ```js
 
@@ -1800,18 +1800,18 @@ import store from '@/store'
 import router from '@/router/index.js'
 import { baseUrl } from '@/config/env' // progress bar style
 axios.defaults.timeout = 30000
-// 返回其他状态吗
+// 杩斿洖鍏朵粬鐘舵€佸悧
 axios.defaults.validateStatus = function(status) {
-  return status >= 200 && status <= 500 // 默认的
+  return status >= 200 && status <= 500 // 榛樿鐨?
 }
-// 跨域请求，允许保存cookie
+// 璺ㄥ煙璇锋眰锛屽厑璁镐繚瀛榗ookie
 axios.defaults.withCredentials = true
 // NProgress Configuration
 NProgress.configure({
   showSpinner: false
 })
 
-// HTTPrequest拦截
+// HTTPrequest鎷︽埅
 axios.defaults.baseURL = baseUrl
 axios.interceptors.request.use(config => {
   NProgress.start() // start progress bar
@@ -1822,7 +1822,7 @@ axios.interceptors.request.use(config => {
     config.headers['Authorization'] = 'Bearer ' + token// token
   }
 
-  // headers中配置serialize为true开启序列化
+  // headers涓厤缃畇erialize涓簍rue寮€鍚簭鍒楀寲
   if (config.method === 'post' && config.headers.serialize) {
     config.data = serialize(config.data)
     delete config.data.serialize
@@ -1838,7 +1838,7 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 
-// HTTPresponse拦截
+// HTTPresponse鎷︽埅
 axios.interceptors.response.use(res => {
   NProgress.done()
   const status = Number(res.status) || 200
@@ -1847,16 +1847,16 @@ axios.interceptors.response.use(res => {
     window.open("http://localhost:3000/")
   }
 
-  // 后台定义 424 针对令牌过去的特殊响应码
+  // 鍚庡彴瀹氫箟 424 閽堝浠ょ墝杩囧幓鐨勭壒娈婂搷搴旂爜
   if (status === 424) {
-    ElMessageBox.confirm('令牌状态已过期，请点击重新登录', '系统提示', {
-      confirmButtonText: '重新登录',
-      cancelButtonText: '取消',
+    ElMessageBox.confirm('浠ょ墝鐘舵€佸凡杩囨湡锛岃鐐瑰嚮閲嶆柊鐧诲綍', '绯荤粺鎻愮ず', {
+      confirmButtonText: '閲嶆柊鐧诲綍',
+      cancelButtonText: '鍙栨秷',
       type: 'warning'
     }
     ).then(() => {
       store.dispatch('LogOut').then(() => {
-        // 刷新登录页面，避免多次弹框
+        // 鍒锋柊鐧诲綍椤甸潰锛岄伩鍏嶅娆″脊妗?
         window.location.reload()
       })
     }).catch(() => {
@@ -1874,7 +1874,7 @@ axios.interceptors.response.use(res => {
 
   return res
 }, error => {
-  // 处理 503 网络异常
+  // 澶勭悊 503 缃戠粶寮傚父
   console.log(error)
   if (error.response.status === 503) {
     ElMessage({
@@ -1890,7 +1890,7 @@ export default axios
 
 ```
 
-#### store的user改造
+#### store鐨剈ser鏀归€?
 
 ```js
 import { setToken, setRefreshToken } from '@/util/auth'
@@ -1920,7 +1920,7 @@ const user = {
     }) || ''
   },
   actions: {
-    // SSO单点登陆
+    // SSO鍗曠偣鐧婚檰
     SSOLogin({ commit }, myParam,service) {
       return new Promise((resolve, reject) => {
         ssoLogin(myParam,service).then(response => {
@@ -1935,7 +1935,7 @@ const user = {
         })
       })
     },
-    // 根据用户名登录
+    // 鏍规嵁鐢ㄦ埛鍚嶇櫥褰?
     LoginByUsername({ commit }, userInfo) {
       const user = encryption({
         data: userInfo,
@@ -1954,7 +1954,7 @@ const user = {
         })
       })
     },
-    // 根据手机号登录
+    // 鏍规嵁鎵嬫満鍙风櫥褰?
     LoginByPhone({ commit }, smsForm) {
       return new Promise((resolve, reject) => {
         loginByMobile(smsForm).then(response => {
@@ -1969,7 +1969,7 @@ const user = {
       })
     },
 
-    // 刷新token
+    // 鍒锋柊token
     RefreshToken({ commit, state }) {
       return new Promise((resolve, reject) => {
         refreshToken(state.refresh_token).then(response => {
@@ -1983,7 +1983,7 @@ const user = {
         })
       })
     },
-    // 查询用户信息
+    // 鏌ヨ鐢ㄦ埛淇℃伅
     GetUserInfo({ commit }) {
       return new Promise((resolve, reject) => {
         getUserInfo().then((res) => {
@@ -1997,7 +1997,7 @@ const user = {
         })
       })
     },
-    // 登出
+    // 鐧诲嚭
     LogOut({ commit }) {
       return new Promise((resolve, reject) => {
         logout().then(() => {
@@ -2016,7 +2016,7 @@ const user = {
         })
       })
     },
-    // 注销session
+    // 娉ㄩ攢session
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_MENU', [])
@@ -2031,9 +2031,9 @@ const user = {
         resolve()
       })
     },
-    // 获取系统菜单
+    // 鑾峰彇绯荤粺鑿滃崟
     GetMenu({ commit }, obj = {}) {
-      // 记录用户点击顶部信息，保证刷新的时候不丢失
+      // 璁板綍鐢ㄦ埛鐐瑰嚮椤堕儴淇℃伅锛屼繚璇佸埛鏂扮殑鏃跺€欎笉涓㈠け
       commit('LIKE_TOP_MENUID', obj)
       return new Promise(resolve => {
         getMenu(obj.id).then((res) => {
@@ -2046,7 +2046,7 @@ const user = {
         })
       })
     },
-    //顶部菜单
+    //椤堕儴鑿滃崟
     GetTopMenu() {
       return new Promise(resolve => {
         resolve([])
@@ -2121,19 +2121,19 @@ export default user
 
 ```
 
-### Nacos配置文件新增
+### Nacos閰嶇疆鏂囦欢鏂板
 
-在application-dev.yml新增配置信息
+鍦╝pplication-dev.yml鏂板閰嶇疆淇℃伅
 
 ```yml
-# 配置文件加密根密码
+# 閰嶇疆鏂囦欢鍔犲瘑鏍瑰瘑鐮?
 jasypt:
   encryptor:
     password: pig
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
     
-# Spring 相关
+# Spring 鐩稿叧
 spring:
   cache:
     type: redis
@@ -2145,7 +2145,7 @@ spring:
       transport:
         dashboard: pig-sentinel:5003
 
-# 暴露监控端点
+# 鏆撮湶鐩戞帶绔偣
 management:
   endpoints:
     web:
@@ -2156,7 +2156,7 @@ management:
       show-details: ALWAYS
 
 
-# feign 配置
+# feign 閰嶇疆
 feign:
   sentinel:
     enabled: true
@@ -2175,7 +2175,7 @@ feign:
     response:
       enabled: true
 
-# mybaits-plus配置
+# mybaits-plus閰嶇疆
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   global-config:
@@ -2188,7 +2188,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 
-# swagger 配置
+# swagger 閰嶇疆
 swagger:
   enabled: true
   title: Pig Swagger API
@@ -2198,25 +2198,26 @@ swagger:
   services:
     pig-upms-biz: admin
     pig-codegen: gen
-#cas配置
+#cas閰嶇疆
 cas:
-  #秘钥
+  #绉橀挜
   key: n0c9MTcwMjIwMjMxNzE2NDMwOTAskV
   server:
     host:
-      grant_url: http://sso.maxkey.top/sign/authz/cas
-      #cas服务端地址 这是我的cas服务端地址 需要修改成你们的cas服务端地址
-      url: http://sso.maxkey.top/maxkey/authz/cas
-      #cas服务端登录地址
-      login_url: http://sso.maxkey.top/maxkey/#/passport/login?redirect_uri=aHR0cDovL3Nzby5tYXhrZXkudG9wL3NpZ24vYXV0aHovY2FzLzQxMDY1ZmUzLWFlNjctNDE3Mi1hNDYwLWZkMDA3OWU4ODI5NA
-      #cas服务端登出地址 service参数后面跟就是需要跳转的页面/接口 这里指定的是cas客户端登录接口
+      grant_url: http://sso.Sophon.top/sign/authz/cas
+      #cas鏈嶅姟绔湴鍧€ 杩欐槸鎴戠殑cas鏈嶅姟绔湴鍧€ 闇€瑕佷慨鏀规垚浣犱滑鐨刢as鏈嶅姟绔湴鍧€
+      url: http://sso.Sophon.top/Sophon/authz/cas
+      #cas鏈嶅姟绔櫥褰曞湴鍧€
+      login_url: http://sso.Sophon.top/Sophon/#/passport/login?redirect_uri=aHR0cDovL3Nzby5tYXhrZXkudG9wL3NpZ24vYXV0aHovY2FzLzQxMDY1ZmUzLWFlNjctNDE3Mi1hNDYwLWZkMDA3OWU4ODI5NA
+      #cas鏈嶅姟绔櫥鍑哄湴鍧€ service鍙傛暟鍚庨潰璺熷氨鏄渶瑕佽烦杞殑椤甸潰/鎺ュ彛 杩欓噷鎸囧畾鐨勬槸cas瀹㈡埛绔櫥褰曟帴鍙?
       logout_url: ${cas.server.host.url}/logout?service=${cas.service.host.url}${cas.service.host.login_url}
   service:
     host:
-      #cas客户端地址
+      #cas瀹㈡埛绔湴鍧€
       url: http://localhost:8080
-      #cas客户端地址登录地址
+      #cas瀹㈡埛绔湴鍧€鐧诲綍鍦板潃
       login_url: /login
-      #cas客户端地址登出地址
+      #cas瀹㈡埛绔湴鍧€鐧诲嚭鍦板潃
       logout_url: /logout    
 ```
+

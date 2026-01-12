@@ -9,7 +9,7 @@ export interface LdapContext {
 
 class LdapContextService extends BaseService<LdapContext> {
   constructor() {
-    super('/maxkey-mgt-api/config/ldapcontext');
+    super('/sophon-mgt-api/config/ldapcontext');
   }
 
   /**

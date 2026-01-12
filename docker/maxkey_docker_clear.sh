@@ -1,21 +1,21 @@
-echo "clear REPOSITORY IMAGE MaxKey ... "
+echo "clear REPOSITORY IMAGE sophon ... "
 
-#maxkey-nginx proxy
-docker rmi maxkeytop/maxkey-nginx
+#sophon-nginx proxy
+docker rmi sophon-edge/sophon-nginx
 
-#maxkey-frontend
-docker rmi maxkeytop/maxkey-frontend
+#sophon-frontend
+docker rmi sophon-edge/sophon-frontend
 
-#maxkey-mgt-frontend
-docker rmi maxkeytop/maxkey-mgt-frontend
+#sophon-mgt-frontend
+docker rmi sophon-edge/sophon-mgt-frontend
 
-#maxkey
-docker rmi maxkeytop/maxkey  
+#sophon
+docker rmi sophon-edge/sophon  
 
-#maxkey-mgt
-docker rmi maxkeytop/maxkey-mgt  
+#sophon-mgt
+docker rmi sophon-edge/sophon-mgt  
 
 #MySQL
-docker rmi maxkeytop/mysql  
+docker rmi sophon-edge/mysql  
 
 echo "clear REPOSITORY IMAGE done."

@@ -8,7 +8,7 @@ export interface EmailSenders {
 
 class EmailSendersService extends BaseService<EmailSenders> {
   constructor() {
-    super('/maxkey-mgt-api/config/emailsenders');
+    super('/sophon-mgt-api/config/emailsenders');
   }
 }
 

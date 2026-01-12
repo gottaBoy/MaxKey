@@ -1,0 +1,2 @@
+org.zeron.sophon.autoconfigure.AuthnProviderAutoConfiguration
+org.zeron.sophon.autoconfigure.CasAuthnAutoConfiguration

@@ -1,0 +1,10 @@
+description = "sophon-cache"
+
+dependencies {
+	implementation project(":sophon-commons:sophon-common")
+	implementation project(":sophon-commons:sophon-crypto")
+
+	//local jars
+	implementation fileTree(dir: '../sophon-lib/', include: '*/*.jar')
+	
+}

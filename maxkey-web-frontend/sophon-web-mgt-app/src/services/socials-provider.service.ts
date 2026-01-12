@@ -10,7 +10,7 @@ export interface SocialsProvider {
 
 class SocialsProviderService extends BaseService<SocialsProvider> {
   constructor() {
-    super('/maxkey-mgt-api/config/socialsprovider');
+    super('/sophon-mgt-api/config/socialsprovider');
   }
 }
 

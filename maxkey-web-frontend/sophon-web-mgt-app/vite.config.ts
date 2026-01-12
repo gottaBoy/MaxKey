@@ -15,7 +15,7 @@ export default defineConfig({
     host: true,
     allowedHosts: ['iot.intra.zeron.ai'],
     proxy: {
-      '/maxkey-mgt-api': {
+      '/sophon-mgt-api': {
         target: 'http://localhost:9528',
         changeOrigin: true,
       },

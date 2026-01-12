@@ -1,24 +1,24 @@
 #!/bin/bash
-source ./set_maxkey_env.sh
+source ./set_Sophon_env.sh
 
-JAVA_MARK=MaxKeyBoot
+JAVA_MARK=SophonBoot
 JAVA_OPTS=" -Xms256m "
 JAVA_OPTS="${JAVA_OPTS} -Xmx2048m"
 JAVA_OPTS="${JAVA_OPTS} -Dfile.encoding=UTF-8"
 JAVA_OPTS="${JAVA_OPTS} -DjavaMark=${JAVA_MARK}"
 
-JAVA_CONF=./maxkey
-JAVA_LIBMAXKEYPATH=./maxkey
+JAVA_CONF=./Sophon
+JAVA_LIBSophonPATH=./Sophon
 JAVA_CLASSPATH=./classes:./bin:$JAVA_CONF:
-JAVA_MAINCLASS=org.dromara.maxkey.MaxKeyApplication
+JAVA_MAINCLASS=org.zeron.sophon.SophonApplication
 JAVA_EXEC=$JAVA_HOME/bin/java
 
 export JAVA_CLASSPATH
 export JAVA_LIBPATH
-export JAVA_LIBMAXKEYPATH
+export JAVA_LIBSophonPATH
 
 
-for LL in `ls $JAVA_LIBMAXKEYPATH/*.jar`
+for LL in `ls $JAVA_LIBSophonPATH/*.jar`
         do
                 JAVA_CLASSPATH=$LL
                
@@ -39,6 +39,7 @@ echo ""
 echo "-------------------------------------------------------------------------------"
 echo ""
 
-nohup $JAVA_EXEC -jar $JAVA_OPTS $JAVA_CLASSPATH >./logs/nohup_maxkey.out 2>&1 &
+nohup $JAVA_EXEC -jar $JAVA_OPTS $JAVA_CLASSPATH >./logs/nohup_Sophon.out 2>&1 &
 
-echo MaxKey is starting，you can check the ./logs/nohup_maxkey.out
+echo Sophon is starting锛寉ou can check the ./logs/nohup_Sophon.out
+

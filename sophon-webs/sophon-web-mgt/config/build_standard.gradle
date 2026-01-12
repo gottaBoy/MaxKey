@@ -1,0 +1,69 @@
+buildscript {
+	repositories {
+		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/'}
+	}
+	dependencies {
+		//springboot jar
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version "${springBootVersion}"
+	id "io.spring.dependency-management" version "1.0.11.RELEASE"
+}
+
+description = "sophon-web-mgt"
+
+//springboot jar
+apply plugin: 'io.spring.dependency-management'
+
+//add support for Java
+apply plugin: 'java'
+
+
+
+bootJar {
+	dependsOn jar
+	archiveBaseName = 'sophon-mgt-boot'
+    version = "${project.version}-ga"
+    mainClass = 'org.zeron.sophon.SophonMgtApplication'
+	manifest {
+	        attributes(
+						"Implementation-Title": project.name,
+	                	"Implementation-Vendor": project.vendor,
+	                	"Created-By": project.author,
+	                	"Implementation-Date": java.time.ZonedDateTime.now(),
+	                	"Implementation-Version": project.version
+	           )
+	    }	
+}
+
+dependencies {
+	implementation project(":sophon-common")
+	implementation project(":sophon-core")
+	implementation project(":sophon-persistence")
+	
+	implementation project(":sophon-starter:sophon-starter-captcha")
+   	implementation project(":sophon-starter:sophon-starter-ip2location")
+	implementation project(":sophon-starter:sophon-starter-otp")
+	implementation project(":sophon-starter:sophon-starter-sms")
+	implementation project(":sophon-starter:sophon-starter-web")
+	
+	implementation project(":sophon-authentications:sophon-authentication-core")
+	implementation project(":sophon-authentications:sophon-authentication-provider")
+	
+	implementation project(":sophon-protocols:sophon-protocol-authorize")
+   	implementation project(":sophon-protocols:sophon-protocol-oauth-2.0")
+   	implementation project(":sophon-protocols:sophon-protocol-saml-2.0")   
+	
+	//synchronizers
+   	implementation project(":sophon-synchronizers:sophon-synchronizer")
+   	implementation project(":sophon-synchronizers:sophon-synchronizer-activedirectory")
+   	implementation project(":sophon-synchronizers:sophon-synchronizer-feishu")
+   	implementation project(":sophon-synchronizers:sophon-synchronizer-jdbc")
+   	implementation project(":sophon-synchronizers:sophon-synchronizer-ldap")
+   	implementation project(":sophon-synchronizers:sophon-synchronizer-workweixin")
+   	implementation project(":sophon-synchronizers:sophon-synchronizer-dingtalk")
+}
+

@@ -21,7 +21,7 @@ export interface Institution {
 
 class InstitutionsService extends BaseService<Institution> {
   constructor() {
-    super('/maxkey-mgt-api/config/institutions');
+    super('/sophon-mgt-api/config/institutions');
   }
 
   /**

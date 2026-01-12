@@ -1,5 +1,5 @@
 # This config was automatically generated from your source code
-# Stacks detected: deps:java:.,deps:node:maxkey-web-frontend/maxkey-web-app,tool:gradle:
+# Stacks detected: deps:java:.,deps:node:Sophon-web-frontend/Sophon-web-app,tool:gradle:
 version: 2.1
 orbs:
   node: circleci/node@5
@@ -7,7 +7,7 @@ jobs:
   test-node:
     # Install node dependencies and run tests
     executor: node/default
-    working_directory: ~/project/maxkey-web-frontend/maxkey-web-app
+    working_directory: ~/project/Sophon-web-frontend/Sophon-web-app
     steps:
       - checkout:
           path: ~/project
@@ -19,7 +19,7 @@ jobs:
   build-node:
     # Build node project
     executor: node/default
-    working_directory: ~/project/maxkey-web-frontend/maxkey-web-app
+    working_directory: ~/project/Sophon-web-frontend/Sophon-web-app
     steps:
       - checkout:
           path: ~/project
@@ -80,3 +80,4 @@ workflows:
     # - deploy:
     #     requires:
     #       - build-node
+

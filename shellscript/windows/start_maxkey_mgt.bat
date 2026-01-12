@@ -1,19 +1,19 @@
 @echo off
 
-call set_maxkey_env.bat
+call set_Sophon_env.bat
 
-SET JAVA_MARK=MaxKeyMgtRunner
+SET JAVA_MARK=SophonMgtRunner
 SET JAVA_OPTS= -Xms128m 
 SET JAVA_OPTS=%JAVA_OPTS% -Xmx1024m
 SET JAVA_OPTS=%JAVA_OPTS% -Dfile.encoding=UTF-8
 rem SET JAVA_OPTS="%JAVA_OPTS% -Dfile.encoding=GBK"
 SET JAVA_OPTS=%JAVA_OPTS% -DjavaMark=%JAVA_MARK%
 
-SET JAVA_CONF=./maxkey_mgt
+SET JAVA_CONF=./Sophon_mgt
 SET JAVA_LIBPATH=./lib
-SET JAVA_LIBMAXKEYPATH=./maxkey_mgt
+SET JAVA_LIBSophonPATH=./Sophon_mgt
 SET JAVA_CLASSPATH=./classes;./bin;%JAVA_CONF%
-SET JAVA_MAINCLASS=org.dromara.maxkey.MaxKeyMgtApplication
+SET JAVA_MAINCLASS=org.zeron.sophon.SophonMgtApplication
 SET JAVA_EXEC=%JAVA_HOME%/bin/java
 
 rem mk logs dir
@@ -27,8 +27,8 @@ FOR  %%i IN (%JAVA_LIBPATH%/*.jar) DO (
 CALL setclasspath.bat %JAVA_LIBPATH%/%%i
 )
 
-FOR  %%i IN (%JAVA_LIBMAXKEYPATH%/*.jar) DO (
-CALL setclasspath.bat %JAVA_LIBMAXKEYPATH%/%%i
+FOR  %%i IN (%JAVA_LIBSophonPATH%/*.jar) DO (
+CALL setclasspath.bat %JAVA_LIBSophonPATH%/%%i
 )
 
 SET JAVA_CLASSPATH=%JAVA_CLASSPATH%;%TEMP_CLASSPATH%

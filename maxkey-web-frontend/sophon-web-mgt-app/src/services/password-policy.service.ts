@@ -8,7 +8,7 @@ export interface PasswordPolicy {
 
 class PasswordPolicyService extends BaseService<PasswordPolicy> {
   constructor() {
-    super('/maxkey-mgt-api/config/passwordpolicy');
+    super('/sophon-mgt-api/config/passwordpolicy');
   }
 }
 

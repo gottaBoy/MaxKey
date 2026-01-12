@@ -9,42 +9,43 @@ echo start time %START_TIME%
 
 rem call Set-ExecutionPolicy RemoteSigned -Scope Process
 
-cd ./maxkey-web-frontend/maxkey-web-app
+cd ./Sophon-web-frontend/Sophon-web-app
 
 rem ng build
-call ng     build --base-href /maxkey/
+call ng     build --base-href /Sophon/
 
-call docker build -f Dockerfile -t %MXK_REPOSITORY%/maxkey-frontend  .
+call docker build -f Dockerfile -t %ZE_REPOSITORY%/Sophon-frontend  .
 
-rem maxkey-frontend:latest
+rem Sophon-frontend:latest
 rem push to docker hub
-call docker push %MXK_REPOSITORY%/maxkey-frontend
+call docker push %ZE_REPOSITORY%/Sophon-frontend
 
-rem maxkey-frontend:$version
-call docker tag  %MXK_REPOSITORY%/maxkey-frontend %MXK_REPOSITORY%/maxkey-frontend:%MXK_VERSION%
+rem Sophon-frontend:$version
+call docker tag  %ZE_REPOSITORY%/Sophon-frontend %ZE_REPOSITORY%/Sophon-frontend:%ZE_VERSION%
 rem push to docker hub
-call docker push %MXK_REPOSITORY%/maxkey-frontend:%MXK_VERSION%
+call docker push %ZE_REPOSITORY%/Sophon-frontend:%ZE_VERSION%
 
 cd ../../
 
-cd ./maxkey-web-frontend/maxkey-web-mgt-app
+cd ./Sophon-web-frontend/Sophon-web-mgt-app
 
 rem ng build
-call ng     build --base-href /maxkey-mgt/
+call ng     build --base-href /Sophon-mgt/
 
-call docker build -f Dockerfile -t %MXK_REPOSITORY%/maxkey-mgt-frontend  .
+call docker build -f Dockerfile -t %ZE_REPOSITORY%/Sophon-mgt-frontend  .
 
-rem maxkey-mgt-frontend:latest
+rem Sophon-mgt-frontend:latest
 rem push to docker hub
-call docker push %MXK_REPOSITORY%/maxkey-mgt-frontend
+call docker push %ZE_REPOSITORY%/Sophon-mgt-frontend
 
-rem maxkey-mgt-frontend:$version
-call docker tag %MXK_REPOSITORY%/maxkey-mgt-frontend %MXK_REPOSITORY%/maxkey-mgt-frontend:%MXK_VERSION%
+rem Sophon-mgt-frontend:$version
+call docker tag %ZE_REPOSITORY%/Sophon-mgt-frontend %ZE_REPOSITORY%/Sophon-mgt-frontend:%ZE_VERSION%
 rem push to docker hub
-call docker push %MXK_REPOSITORY%/maxkey-mgt-frontend:%MXK_VERSION%
+call docker push %ZE_REPOSITORY%/Sophon-mgt-frontend:%ZE_VERSION%
 
 set END_TIME="%date:~0,10% %time:~0,2%:%time:~3,5%"
 
 echo Build Release start at %START_TIME%  complete at %END_TIME%.
 
 pause
+

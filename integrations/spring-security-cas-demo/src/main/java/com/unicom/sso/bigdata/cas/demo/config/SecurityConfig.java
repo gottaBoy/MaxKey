@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private UserDetailsService userDetailsService;
 
     /**
-     * 认证失败处理类
+     * 认证失败处理??
      */
     @Autowired
     private AuthenticationEntryPointImpl unauthorizedHandler;
@@ -63,13 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private LogoutSuccessHandlerImpl logoutSuccessHandler;
 
     /**
-     * token认证过滤器
+     * token认证过滤??
      */
     @Autowired
     private JwtAuthenticationTokenFilter authenticationTokenFilter;
 
     /**
-     * 跨域过滤器
+     * 跨域过滤??
      */
     @Autowired
     private CorsFilter corsFilter;
@@ -88,18 +88,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
-     * anyRequest          |   匹配所有请求路径
-     * access              |   SpringEl表达式结果为true时可以访问
+     * anyRequest          |   匹配所有请求路??
+     * access              |   SpringEl表达式结果为true时可以访??
      * anonymous           |   匿名可以访问
      * denyAll             |   用户不能访问
      * fullyAuthenticated  |   用户完全认证可以访问（非remember-me下自动登录）
-     * hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访问
-     * hasAnyRole          |   如果有参数，参数表示角色，则其中任何一个角色可以访问
-     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访问
-     * hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问
-     * hasRole             |   如果有参数，参数表示角色，则其角色可以访问
+     * hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访??
+     * hasAnyRole          |   如果有参数，参数表示角色，则其中任何一个角色可以访??
+     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访??
+     * hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访??
+     * hasRole             |   如果有参数，参数表示角色，则其角色可以访??
      * permitAll           |   用户可以任意访问
-     * rememberMe          |   允许通过remember-me登录的用户访问
+     * rememberMe          |   允许通过remember-me登录的用户访??
      * authenticated       |   用户登录后可访问
      */
     @Override
@@ -132,7 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     .antMatchers("/druid/**").anonymous()
                     .antMatchers("/websocket/**").anonymous()
                     .antMatchers("/magic/web/**").anonymous()
-                    // 除上面外的所有请求全部需要鉴权认证
+                    // 除上面外的所有请求全部需要鉴权认??
                     .anyRequest().authenticated()
                     .and()
                     .headers().frameOptions().disable();
@@ -155,7 +155,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
-     * 强散列哈希加密实现
+     * 强散列哈希加密实??
      */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -176,7 +176,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
 
     /**
-     * 认证的入口
+     * 认证的入??
      */
     @Bean
     public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
@@ -198,7 +198,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
-     * CAS认证过滤器
+     * CAS认证过滤??
      */
     @Bean
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
@@ -228,7 +228,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     /**
-     * 单点登出过滤器
+     * 单点登出过滤??
      */
     @Bean
     public SingleSignOutFilter singleSignOutFilter() {

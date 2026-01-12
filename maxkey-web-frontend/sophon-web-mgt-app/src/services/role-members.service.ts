@@ -3,7 +3,7 @@ import { RoleMember } from '@/types/entity';
 import { PageParams, PageResponse } from '@/utils/request';
 
 class RoleMembersService {
-  private baseUrl = '/maxkey-mgt-api/permissions/rolemembers';
+  private baseUrl = '/sophon-mgt-api/permissions/rolemembers';
 
   /**
    * 分页查询角色成员

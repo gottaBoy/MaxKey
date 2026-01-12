@@ -52,7 +52,7 @@ export interface BrowserStatData {
 }
 
 class DashboardService {
-  private baseUrl = '/maxkey-mgt-api';
+  private baseUrl = '/sophon-mgt-api';
 
   // 获取完整的 Dashboard 数据
   async getDashboard(): Promise<DashboardData> {

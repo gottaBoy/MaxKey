@@ -4,7 +4,7 @@ import { Application } from '@/types/entity';
 
 class AppsService extends BaseService<Application> {
   constructor() {
-    super('/maxkey-mgt-api/apps');
+    super('/sophon-mgt-api/apps');
   }
 
   /**

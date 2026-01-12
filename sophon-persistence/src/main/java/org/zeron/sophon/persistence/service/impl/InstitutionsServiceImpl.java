@@ -1,0 +1,101 @@
+/*
+ * Copyright [2020] [Sophon of copyright http://www.sophon.console]
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+
+package org.zeron.sophon.persistence.service.impl;
+
+import java.util.concurrent.TimeUnit;
+
+import org.zeron.sophon.entity.Institutions;
+import org.zeron.sophon.persistence.mapper.InstitutionsMapper;
+import org.zeron.sophon.persistence.service.InstitutionsService;
+import org.dromara.mybatis.jpa.service.impl.JpaServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
+
+@Repository
+public class InstitutionsServiceImpl  extends JpaServiceImpl<InstitutionsMapper,Institutions> implements InstitutionsService{
+     static final Logger _logger = LoggerFactory.getLogger(InstitutionsServiceImpl.class);
+     
+    private static final String DEFAULT_INSTID = "1";
+
+    protected static final Cache<String, Institutions> institutionsStore =
+            Caffeine.newBuilder()
+                    .expireAfterWrite(60, TimeUnit.MINUTES)
+                    .build();
+    
+     public Institutions findByDomain(String domain) {
+         return getMapper().findByDomain(domain);
+     }
+     
+     public Institutions get(String instIdOrDomain) {
+            _logger.trace(" instId {}" , instIdOrDomain);
+            Institutions inst = getByDomain(instIdOrDomain);
+            if(inst == null) {//use default inst
+                inst = getByDomain(DEFAULT_INSTID);
+                institutionsStore.put(instIdOrDomain, inst);
+            }
+            return inst;
+        }
+
+        private Institutions getByDomain(String instIdOrDomain) {
+            _logger.trace(" instId {}" , instIdOrDomain);
+            Institutions inst = institutionsStore.getIfPresent(instIdOrDomain);
+            if(inst == null) {
+                Institutions institution = findByDomain(instIdOrDomain);
+                if(institution != null ) {
+                    inst = institution;
+                    institutionsStore.put(inst.getDomain(), inst);
+                    institutionsStore.put(inst.getConsoleDomain(), inst);
+                    institutionsStore.put(inst.getId(), inst);
+                }
+            }
+
+            return inst;
+        }
+
+        @Override
+        public void clearInstitutionsCache(String instIdOrDomain) {
+            _logger.debug("clearInstitutionsCache instIdOrDomain: {}", instIdOrDomain);
+
+            // 先尝试从缓存中获??
+            Institutions inst = institutionsStore.getIfPresent(instIdOrDomain);
+
+            // 如果缓存中没有，从数据库查询
+            if(inst == null) {
+                inst = findByDomain(instIdOrDomain);
+            }
+
+            // 清除所有相关的缓存key
+            if(inst != null) {
+                institutionsStore.invalidate(inst.getDomain());
+                institutionsStore.invalidate(inst.getConsoleDomain());
+                institutionsStore.invalidate(inst.getId());
+                _logger.debug("Cleared cache for domain: {}, consoleDomain: {}, id: {}",
+                    inst.getDomain(), inst.getConsoleDomain(), inst.getId());
+            }
+
+            // 同时清除传入的key（可能是别名或其他key??
+            institutionsStore.invalidate(instIdOrDomain);
+        }
+
+}
+
